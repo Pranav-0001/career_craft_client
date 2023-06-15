@@ -1,0 +1,10 @@
+.changeForm{
+    @apply border-2 ms-1 me-2 px-10 text-lg py-1 rounded-full mt-6 border-primary-900
+}
+
+.signupFormInput{
+    @apply w-full h-10 md:h-12 border-primary-200  border-2 outline-primary-500 rounded-md
+}
+.fill-select{
+    @apply bg-primary-900 text-white
+}
