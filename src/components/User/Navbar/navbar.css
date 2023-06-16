@@ -4,3 +4,6 @@ nav{
     background-color: #fff;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
+.nav-item{
+    @apply cursor-pointer font-exo me-6 text-sm md:text-lg
+}

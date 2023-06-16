@@ -1,0 +1,15 @@
+.main-banner{
+    background-image: url('../../../../public/Images/mainB.png');
+    background-position: center;
+    height: 75vh;
+}
+.company-img{
+    overflow-x: scroll;
+    scroll-behavior: smooth;
+}
+.company-img::-webkit-scrollbar{
+    display: none;
+}
+.companies-img-container{
+   min-width: 140px;
+}
