@@ -9,7 +9,7 @@ function Home() {
     <div>
       <main>
         <div className='w-full   class main-banner lg:flex lg:justify-between  ' >
-          <div className='font-bold font-exo text-3xl lg:text-6xl h-full lg:flex lg:items-center lg:ms-12 lg:mx-0 mx-4'>
+          <div className='font-bold font-exo text-3xl lg:text-6xl h-full lg:flex lg:items-center lg:ms-12 lg:mx-0 mx-4 '>
             <div className='mt-4 lg:mt-0'>
               <h1 className='text-center '>To Choose The <span className='text-primary-900'>Right Jobs.</span> </h1>
               <p className='text-sm ms-2 mt-4 font-normal text-center lg:text-left text-gray-400  lg:pb-3'>2400 Peoples are daily search in this portal, 100 user added job portal!</p>
