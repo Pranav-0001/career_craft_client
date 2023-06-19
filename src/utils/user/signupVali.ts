@@ -62,7 +62,6 @@ export const passValidation=(value:string,err:object,setErr:Function,rePass:stri
             setErr({...err,password:`Password filed can't be empty`,cnf:''})
 
         }
-        
     }
     else if(!passRgx.test(value)){
         if(value!==rePass){
@@ -78,7 +77,5 @@ export const passValidation=(value:string,err:object,setErr:Function,rePass:stri
         }else{
             setErr({...err,password:'',cnf:''})
         }
-
     }
-
 }

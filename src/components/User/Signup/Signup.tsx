@@ -19,9 +19,6 @@ function Signup() {
             {
                 employer ?<EmployerForm/>:<CandidateForm/>
             }
-            
-            
-            
         </div>
     )
 }

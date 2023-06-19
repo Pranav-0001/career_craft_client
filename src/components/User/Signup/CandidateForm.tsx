@@ -75,7 +75,7 @@ function CandidateForm() {
         e.preventDefault()
         
         if(otp?.toString()===userOTP){
-            console.log("otp verified");
+            
             const {data}= await api.post('/register',{firstname,lastname,username,email,password},{withCredentials:true})
             
             if(data.user){
