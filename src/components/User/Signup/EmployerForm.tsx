@@ -1,32 +1,33 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 
 
 function EmployerForm() {
+    const [employer,serEmployer]=useState({firstname:'',lastname:'',username:'',email:'',company:'',location:'',password:''}) 
   return (
     <div>
       <form action="">
                 <div className='flex justify-center font-work'>
 
-                    <div className='border-2 bg-white border-primary-400 md:w-1/2 w-96 md:mx-0 mx-3  pt-5   mt-4 rounded-lg px-5 md:px-10 grid grid-cols-1 gap-2 md:grid-cols-2'>
+                    <form className='border-2 mb-8 bg-white border-primary-400 md:w-1/2 w-96 md:mx-0 mx-3  pt-5   mt-4 rounded-lg px-5 md:px-10 grid grid-cols-1 gap-2 md:grid-cols-2'>
 
                         <div className='mt-2 md:mt-4'>
                             <p>First Name</p>
                             <div className='flex justify-center '>
-                                <input className=' signupFormInput' type="text"  />
+                                <input className=' signupFormInput' type="text" name='firstname'  />
                             </div>
                         </div>
                         <div className='mt-2 md:mt-4 '>
                             <p>Last Name</p>
                             <div className='flex justify-center '>
-                                <input className=' signupFormInput' type="text"  />
+                                <input className=' signupFormInput' type="text" name='lastname' />
                             </div>
                         </div>
                         <div className='mt-2 md:mt-4 '>
                             <p>Username</p>
                             <div className='flex justify-center '>
-                                <input className=' signupFormInput' type="text"  />
+                                <input className=' signupFormInput' type="text"  name='user' />
                             </div>
                         </div>
                         <div className='mt-2 md:mt-4'>
@@ -69,7 +70,7 @@ function EmployerForm() {
                         <div className='md:col-span-2 flex justify-center border-2 border-primary-400 mx-8 md:mx-56 rounded-md cursor-pointer mb-4'>
                         <h1> <FontAwesomeIcon icon={faGoogle} className='me-2' />Register with Google </h1>
                         </div>
-                    </div>
+                    </form>
 
                 </div>
             </form>
