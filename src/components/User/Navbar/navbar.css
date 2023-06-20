@@ -7,3 +7,6 @@ nav{
 .nav-item{
     @apply cursor-pointer font-exo me-6 text-sm md:text-lg
 }
+.sideMenuBar{
+    overflow: hidden;
+}

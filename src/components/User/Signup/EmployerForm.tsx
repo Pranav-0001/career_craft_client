@@ -37,16 +37,25 @@ function EmployerForm() {
 
     const verify:React.FormEventHandler<HTMLFormElement>=async(e)=>{
         e.preventDefault()
-
+        try{
         if(otp?.toString()===userOTP){
             setErr({...err,otp:''})
-            api.post("/employer/register",{...employer},{withCredentials:true})
-            navigate('/')
+            api.post("/employer/register",{...employer},{withCredentials:true}).then(()=>{
+                navigate('/')
+            }).catch(Err=>{
+                console.log(Err);
+                setOTP(null)
+                setErr({...err,email:'Email Already Taken'})
+            })
+            
 
         }else{
             setErr({...err,otp:'Invalid OTP. Try again .'})
         }
-
+        }catch(err){
+            console.log(err);
+            
+        }
     }
 
     

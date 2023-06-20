@@ -7,6 +7,7 @@ function Homepage() {
   return (
     <div>
       <MainNav/>
+    
       <Home/>
       <Footer/>
     </div>

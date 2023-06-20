@@ -75,16 +75,22 @@ function CandidateForm() {
         e.preventDefault()
         
         if(otp?.toString()===userOTP){
-            
-            const {data}= await api.post('/register',{firstname,lastname,username,email,password},{withCredentials:true})
-            
+            try{
+                 const {data}= await api.post('/register',{firstname,lastname,username,email,password},{withCredentials:true})
             if(data.user){
             setErr({...err,otp:''})
-
                 navigate('/')
             }else{
                 navigate('/register')
             }
+            }catch(Err){
+
+                console.log(Err);
+                setOTP(null)
+                setErr({...err,email:'Email Already registered .'})
+                
+            }
+           
         }else{
             setErr({...err,otp:'Inavlid OTP. Try again'})
             
