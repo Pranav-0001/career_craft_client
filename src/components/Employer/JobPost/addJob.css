@@ -1,0 +1,9 @@
+.top-text-bg-img{
+    background-image: url('../../../../public/Images/text-bg.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.addjob-text-box{
+    @apply w-full h-10 md:h-12 border-primary-200  border-2 outline-primary-500 rounded-md
+}

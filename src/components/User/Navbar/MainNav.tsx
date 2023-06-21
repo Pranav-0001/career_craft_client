@@ -2,16 +2,31 @@ import React, { useState } from 'react'
 import './navbar.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell, faCircleQuestion, faEdit, faEye, faFile } from '@fortawesome/free-regular-svg-icons'
-import { useSelector } from 'react-redux'
+import { useSelector,useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { faBusinessTime, faGears, faPersonWalkingArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { updateUser } from '../../../redux/user/userSlice'
+import { api } from '../../../services/axios'
 
 
 
 function MainNav() {
     const navigate = useNavigate()
+    const dispatch=useDispatch()
     const [sideMenu,setMenu]=useState(false)
     const { userId, username, image,userEmail } = useSelector((state: any) => state.user);
+    const userLogout=()=>{
+        
+        api.post('/logout',{userId},{withCredentials:true}).then((data)=>{
+            if(data.data.status){
+                setMenu(false)
+                dispatch(updateUser({}))
+                localStorage.removeItem('candidate')
+            }
+            
+        })
+
+    }
     return (
         <>
         
@@ -90,7 +105,7 @@ function MainNav() {
             </div>
             <div className={` h-full bg-gray-100 absolute  right-0 sideMenuBar  duration-700   ${sideMenu?'w-96':'w-0'}`}>
                 <div className="flex items-center ms-5 mt-5 gap-4 border-b-2 border-gray-700 me-4 pb-4">
-                    <img className='w-20' src={image} alt="" />
+                    <img className='h-20' src={image} alt="" />
                     <div>
                         <p className='font-bold text-lg'>{username}</p>
                         <p className='text-sm'>{userEmail}</p>
@@ -104,7 +119,7 @@ function MainNav() {
                     <li className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faEdit} /> Edit Resume</li>
                     <li className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faBusinessTime} /> Applied Jobs</li>
                     <li className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faGears} /> Settings</li>
-                    <li className='border-b-2 ps-4 pb-2 pt-2 shadow-md hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faPersonWalkingArrowRight} /> Logout</li>
+                    <li onClick={userLogout} className='border-b-2 ps-4 pb-2 pt-2 shadow-md hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faPersonWalkingArrowRight} /> Logout</li>
                 </ul>
             </div>
         </>

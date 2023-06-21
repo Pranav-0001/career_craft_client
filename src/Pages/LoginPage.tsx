@@ -11,7 +11,7 @@ function LoginPage() {
     if(candidate){
       navigate('/')
     }else if(employer){
-      console.log("employer");
+      navigate('/employer')
       
     }
   }, [candidate,employer,navigate])
