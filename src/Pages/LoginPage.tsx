@@ -2,19 +2,20 @@ import React, { useEffect } from 'react'
 import Navbar from '../components/User/Navbar/Navbar'
 import Login from '../components/User/Login/login'
 import { useNavigate } from 'react-router-dom'
+import { verifyAuth } from '../utils/auth/authUser'
 
 function LoginPage() {
   const navigate=useNavigate()
-  let candidate=localStorage.getItem('candidate')
-  let employer=localStorage.getItem('employer')
+
+  let user=localStorage.getItem('user')
   useEffect(() => {
-    if(candidate){
-      navigate('/')
-    }else if(employer){
-      navigate('/employer')
-      
+
+    if(user){
+      let role=verifyAuth(user)
+      if(role==='candidate')navigate('/')
+      else if(role==='employer') navigate('/employer')
     }
-  }, [candidate,employer,navigate])
+  }, [navigate])
   
   return (
     <div>

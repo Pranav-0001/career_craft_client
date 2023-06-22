@@ -21,7 +21,7 @@ function MainNav() {
             if(data.data.status){
                 setMenu(false)
                 dispatch(updateUser({}))
-                localStorage.removeItem('candidate')
+                localStorage.removeItem('user')
             }
             
         })

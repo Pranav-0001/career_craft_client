@@ -6,6 +6,7 @@ import { api } from '../../../services/axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateUser } from '../../../redux/user/userSlice';
+import { updateEmp } from '../../../redux/employer/employerSlice';
 
 function Login() {
     const navigate=useNavigate()
@@ -34,18 +35,20 @@ function Login() {
         else {
             const {data}=await api.post('/login',{email,password},{withCredentials:true})
             console.log(data);
-            if(data.user){
+            
+            if(data?.user?.role==='candidate'){
                 const {accessToken,user}=data
-                if(user.role==='candidate'){
-                 localStorage.setItem('candidate',accessToken)
-                }else if(user.role==='employer'){
-                 localStorage.setItem('employer',accessToken)
-
-                }
+                localStorage.setItem('user',accessToken)
                 dispatch(updateUser({userId:user._id,username:user.username,image:user.profileImg,userEmail:user.email}))
                 
                 navigate('/')
-            }else{
+            }else if(data?.user?.role==='employer'){
+                const {accessToken,user}=data
+                localStorage.setItem('user',accessToken)
+                dispatch(updateEmp({EmployerId:user._id,EmpUsername:user.username,EmpImage:user.profileImg,EmpEmail:user.email}))
+                navigate('/employer')
+            }
+            else{
                 if(data.message==='Invalid Email'){
                     setErr({...err,email:`Invalid Email`})
                 }

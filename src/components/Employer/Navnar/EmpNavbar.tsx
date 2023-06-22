@@ -1,8 +1,11 @@
 import { faBell } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
+import { useSelector } from 'react-redux';
 
 function EmpNavbar() {
+    const {EmpUsername,EmpImage } = useSelector((state: any) => state.employer);
+
     return (
         <>
             <nav className='flex align-middle justify-between z-1' >
@@ -18,8 +21,8 @@ function EmpNavbar() {
                     </div>
                    
                     <div className='flex items-center me-4 pt-2 md:pt-0 gap-2'>
-                            <h1 className='nav-item me-1'>username</h1>
-                            <img className='h-10 rounded-full' src='/Images/a.jpg' alt="" />
+                            <h1 className='nav-item me-1'>{EmpUsername}</h1>
+                            <img className='h-10 rounded-full' src={EmpImage} alt="" />
                     </div>
                 </div>
             </nav>

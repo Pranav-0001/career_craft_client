@@ -3,7 +3,19 @@ import './DashHead.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBriefcase, faClipboardQuestion, faCube, faGears, faPersonWalkingArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { faAddressCard } from '@fortawesome/free-regular-svg-icons'
+import { api } from '../../../services/axios'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { updateEmp } from '../../../redux/employer/employerSlice'
 function DashHead() {
+    const navigate=useNavigate()
+    const dispatch=useDispatch()
+    const empLogout=()=>{
+        localStorage.removeItem('user')
+        api.post('/employer/logout',{},{withCredentials:true})
+        dispatch(updateEmp({}))
+        navigate('/login')
+    }
   return (
     <>
       <div>
@@ -30,7 +42,7 @@ function DashHead() {
                         <FontAwesomeIcon icon={faClipboardQuestion}/>
                         <h1 className='hidden lg:block'>Questions</h1>
                     </div>
-                    <div className='flex items-center justify-center gap-3  h-full w-full cursor-pointer'>
+                    <div className='flex items-center justify-center gap-3  h-full w-full cursor-pointer' onClick={empLogout}>
                         <FontAwesomeIcon icon={faPersonWalkingArrowRight}/>
                         <h1 className='hidden lg:block'>Logout</h1>
                     </div>
