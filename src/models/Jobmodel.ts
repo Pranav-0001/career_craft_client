@@ -1,4 +1,5 @@
 export interface Job {
+    _id:string
     title:string;
     category:string;
     qualification:string;
@@ -10,5 +11,6 @@ export interface Job {
     rangeSalary?:string
     fixedSalary?:string
     EmployerId:string
-    status:boolean
+    status:boolean 
+    Employer?:any
 }

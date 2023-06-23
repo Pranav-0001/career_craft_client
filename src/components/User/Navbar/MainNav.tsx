@@ -42,7 +42,7 @@ function MainNav() {
                         </div>
                     }
                     <div className='hidden md:block'>
-                        <h1 className='nav-item'>Find Jobs</h1>
+                        <h1 onClick={()=>navigate('/findjobs')} className='nav-item'>Find Jobs</h1>
                     </div>
                     {userId &&
                         <div className='hidden md:block'>
@@ -127,3 +127,4 @@ function MainNav() {
 }
 
 export default MainNav
+ 

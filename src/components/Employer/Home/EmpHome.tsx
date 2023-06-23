@@ -14,11 +14,16 @@ function EmpHome() {
     const [jobs,setJobs]=useState<Job[]>([])
     useEffect(() => {
       const fetchData=async()=>{
+        try{
         const {data} = await api.get(`/employer/employer-jobs/${EmployerId}`,{withCredentials:true})
+        if (data.newAccessToken) localStorage.setItem('user',data.newAccessToken)
         setJobs(data.jobs)
+        }catch(err){
+            setJobs([])
+        }
       }
       fetchData()
-    }, [])
+    }, [EmployerId])
     
     return (
         <>
@@ -82,7 +87,7 @@ function EmpHome() {
                 </div>
 
                 <div className='w-full px-3 md:px-6 lg:px-16 mt-6 hidden md:block'>
-                    <table className='w-full '>
+                    <table className='w-full mb-8'>
                         <thead className='border border-primary-600 bg-primary-600 h-10 font-bold'>
                             <td>S.No</td>
                             <td>Title</td>
@@ -110,7 +115,7 @@ function EmpHome() {
                                     <h1 className='  rounded-md items-center'>1000</h1>
                                 </td>
                                 <td className='pt-3  '>
-                                    <h1 className='  rounded-md items-center'>Active</h1>
+                                    <h1 className='  rounded-md items-center'>{obj.status?'Active':'Closed'}</h1>
                                 </td>
                                 <td>
                                     <div className='flex gap-3'>
@@ -124,16 +129,16 @@ function EmpHome() {
                     </table>
                 </div>
                 <div className='w-full px-3 md:px-6 lg:px-16 mt-6  md:hidden'>
-                    <table className='w-full '>
+                    <table className='w-full mb-8'>
                         <thead className='border border-primary-600 bg-primary-600 h-8'>
                             <td>Title</td>
 
                             <td>Action</td>
                         </thead>
-                        <tr className=''>
+                        {jobs.map((obj,index)=><tr className='' key={obj._id}>
                             <td className=''>
-                                <h1>Fullstack  devepment</h1>
-                                <p className='text-xs text-gray-500'>Uploaded on 21/2/2022</p>
+                                <h1>{obj.title}</h1>
+                                <p className='text-xs text-gray-500'>Deadline {obj.deadline}</p>
                             </td>
                             <td>
                                 <div className='flex gap-3'>
@@ -142,7 +147,7 @@ function EmpHome() {
                                 </div>
                             </td>
 
-                        </tr>
+                        </tr>)}
                     </table>
                 </div>
             </div>

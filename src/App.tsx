@@ -6,6 +6,7 @@ import Homepage from './Pages/Homepage';
 import DashboardPage from './Pages/DashboardPage';
 import EmpHomePage from './Pages/EmpHomePage';
 import JobPostPage from './Pages/JobPostPage';
+import JoblistPage from './Pages/JoblistPage';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <Route path='/dashboard' element={<DashboardPage/>}/>
       <Route path='/employer' element={<EmpHomePage/>}/>
       <Route path='/addjob' element={<JobPostPage/>}/>
+      <Route path='/findjobs' element={<JoblistPage/>}/>
     </Routes>
     </>
   );

@@ -7,7 +7,9 @@ export const api = axios.create({
 
   api.interceptors.request.use(
     (config)=>{
-      console.log(config);
+      let token=localStorage.getItem('user')
+      if(token) config.headers['accessToken']=token
+      // console.log(config);
       return config
     },
     (error) => {
@@ -18,6 +20,8 @@ export const api = axios.create({
 
   api.interceptors.response.use(
     (response)=>{
+      const {data} =response
+      console.log(data);
 
       return response
     },
