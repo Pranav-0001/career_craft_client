@@ -1,13 +1,20 @@
 import React, { ChangeEvent, useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+
 import { api } from '../../../services/axios';
 import { emailValidation, fnamesValidation, lnamesValidation, passValidation, unameValidation } from '../../../utils/user/signupVali';
 import { useNavigate } from 'react-router-dom';
+import {CredentialResponse, GoogleLogin} from '@react-oauth/google'
+import jwtDecode from 'jwt-decode';
+import { useDispatch } from 'react-redux';
+import { updateUser } from '../../../redux/user/userSlice';
+import { AxiosError } from 'axios';
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function CandidateForm() {
     const navigate=useNavigate()
+    const dispatch=useDispatch()
     const [firstname, setFirstname] = useState('')
     const [lastname, setLastname] = useState('')
     const [email, setEmail] = useState('')
@@ -62,12 +69,12 @@ function CandidateForm() {
         e.preventDefault();
         if (firstname && lastname && username && email && password) {
             if (err.cnf === '' && err.email === '' && err.firstname === '' && err.lastname === '' && err.password === '' && err.username === '') {
-                    
-              
+              try{
                 const { data } = await api.post('/generate-otp', { email }, { withCredentials: true })
                 setOTP(data)
-
-
+              }catch(err){
+                console.log(err);
+              }
             }
         }
     }
@@ -79,6 +86,12 @@ function CandidateForm() {
                  const {data}= await api.post('/register',{firstname,lastname,username,email,password},{withCredentials:true})
             if(data.user){
             setErr({...err,otp:''})
+            if(data?.user?.role==='candidate'){
+                const {accessToken,user}=data
+                localStorage.setItem('user',accessToken)
+                dispatch(updateUser({userId:user._id,username:user.username,image:user.profileImg,userEmail:user.email}))
+                navigate('/')
+            }
                 navigate('/')
             }else{
                 navigate('/register')
@@ -96,6 +109,43 @@ function CandidateForm() {
             
         }
 
+    }
+    const gSignup=async(res:CredentialResponse)=>{
+        
+        const result:any=jwtDecode(res.credential as string)
+        const user={
+            firstname:result.name.split(' ')[0],
+            lastname:result.name.split(' ')[1],
+            username:result.email.split('@')[0],
+            email:result.email,
+            password:'123Google@@',
+            profileImg:result.picture,
+            isGoogle:true
+        }
+        try{
+         const {data} = await api.post('/register',{...user},{withCredentials:true})
+        if(data?.user?.role==='candidate'){
+            const {accessToken,user}=data
+            localStorage.setItem('user',accessToken)
+            dispatch(updateUser({userId:user._id,username:user.username,image:user.profileImg,userEmail:user.email}))
+            navigate('/')
+        }
+      
+        }catch(err:any){
+            console.log(err.response.data.message);
+            toast.error(err.response.data.message, {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                });
+            
+        }
+        
     }
 
 
@@ -183,15 +233,18 @@ function CandidateForm() {
                             <div className='text-sm flex md:col-span-2 justify-evenly'>
                                 <p>Already have an account ? <span className='cursor-pointer text-primary-1000'>Login </span>here </p>
                             </div>
-                            <div className='md:col-span-2 flex justify-center border-2 border-primary-400 mx-8 md:mx-56 rounded-md cursor-pointer mb-4'>
-                                <h1> <FontAwesomeIcon icon={faGoogle} className='me-2' />Register with Google </h1>
+                            <div className='md:col-span-2 flex justify-center  mx-8 md:mx-56 rounded-md cursor-pointer mb-4'>
+                                
+                            <GoogleLogin size='medium'  onSuccess={credentialResponse => {gSignup(credentialResponse);}} onError={() => { console.log('Login Failed'); }}/>
+                                
+                                {/* <h1> <FontAwesomeIcon icon={faGoogle} className='me-2' />Register with Google </h1> */}
                             </div>
                         </div>
 
                     </div>
                 </form>
             }
-
+            <ToastContainer/>
         </div>
     )
 }

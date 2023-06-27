@@ -21,7 +21,7 @@ const titleVali=(val:string,err:object,setErr:Function)=>{
 }
 
 const domainVali=(val:string,err:object,setErr:Function)=>{
-    const rgx=/^(?=[a-zA-Z\s]{4,16}$)[a-zA-Z\s]+$/gm
+    const rgx=/^(?=[a-zA-Z\s]{2,16}$)[a-zA-Z\s]+$/gm
     if(val.trim().length===0) setErr({...err,category:`Filed can't be empty .`})
     else if(!rgx.test(val))setErr({...err,category:`Enter a valid Domain .`}) 
     else setErr({...err,category:``})

@@ -11,7 +11,7 @@ function JobPost() {
     
     const [salaryType, setSalaryType] = useState('Fixed')
     
-    const [jobData, setJobData] = useState({ title: '', category: 'React Js', qualification: '', experience: 'Fresher', deadline: '', desc: '',jobType:'' })
+    const [jobData, setJobData] = useState({ title: '', category: 'React Js', qualification: '', experience: 'Fresher', deadline: '', desc: '',jobType:'Full Time' })
     const [rangeSalary, setRangeSalary] = useState({ from: '', to: '' })
     const [fixedSalary, setFixedSalary] = useState('')
     const [err,setErr]=useState({ title: '', category: '', qualification: '', experience: '', deadline: '', desc: '',jobType:'',salaryType:'',from:'',to:'',fixed:'' })
@@ -40,6 +40,8 @@ function JobPost() {
         if( err.title=== ''&& err.category=== ''&& err.qualification=== ''&& err.experience=== ''&& err.deadline=== ''&& err.desc=== ''&&err.jobType===''&&err.salaryType===''&&err.from===''&&err.to===''&&err.fixed===''){
             const {title,category,qualification,deadline,desc,experience,jobType} = jobData
             const {from,to}=rangeSalary
+            console.log(jobData);
+            
             if(title&&category&&qualification&&deadline&&desc&&experience&&jobType){
                 if(fixedSalary || (from&&to)){
 
@@ -54,8 +56,9 @@ function JobPost() {
                         salaryType,
                         experience,
                         jobType,
-                        rangeSalary:`${from} - ${to}`,
-                        fixedSalary,
+                        salaryFrom:parseInt(from),
+                        salaryTo:parseInt(to),
+                        fixedSalary:parseInt(fixedSalary),
                         EmployerId
                     }
                     

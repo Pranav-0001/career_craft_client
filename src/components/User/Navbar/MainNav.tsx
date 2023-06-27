@@ -105,7 +105,7 @@ function MainNav() {
             </div>
             <div className={` h-full bg-gray-100 absolute  right-0 sideMenuBar  duration-700   ${sideMenu?'w-96':'w-0'}`}>
                 <div className="flex items-center ms-5 mt-5 gap-4 border-b-2 border-gray-700 me-4 pb-4">
-                    <img className='h-20' src={image} alt="" />
+                    <img className='h-20 rounded-full' src={image} alt="" />
                     <div>
                         <p className='font-bold text-lg'>{username}</p>
                         <p className='text-sm'>{userEmail}</p>

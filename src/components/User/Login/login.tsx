@@ -7,6 +7,9 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateUser } from '../../../redux/user/userSlice';
 import { updateEmp } from '../../../redux/employer/employerSlice';
+import {CredentialResponse, GoogleLogin} from '@react-oauth/google'
+import jwtDecode from 'jwt-decode';
+
 
 function Login() {
     const navigate=useNavigate()
@@ -19,6 +22,22 @@ function Login() {
         setEmail(e.target.value)
         if(e.target.value.trim().length===0) setErr({...err,email:`Email field can't be empty.`})
         else setErr({...err,email:``})
+
+
+    }
+    const gLogin=async(res:any)=>{
+        const result:any=jwtDecode(res.credential as string)
+        const email=result.email
+        const password='123Google@@'
+        const {data}=await api.post('/login',{email,password},{withCredentials:true})
+        if(data?.user?.role==='candidate'){
+            const {accessToken,user}=data
+            localStorage.setItem('user',accessToken)
+            dispatch(updateUser({userId:user._id,username:user.username,image:user.profileImg,userEmail:user.email}))
+            
+            navigate('/')
+        }
+
 
 
     }
@@ -87,9 +106,13 @@ function Login() {
                             <div className='flex justify-center mb-3'>
                                 <button type="submit" className='bg-black text-white w-80 rounded-md h-9'>Log In</button>
                             </div>     
-                            <div className='flex justify-center mt-2 border border-primary-400  mx-16 rounded-md mb-4 cursor-pointer'>
-                                <h1> <FontAwesomeIcon icon={faGoogle} className='me-2' />Log in with Google </h1>
+                            <div className='flex justify-center mt-2  border-primary-400  mx-16 rounded-md mb-4 cursor-pointer'>
+                                {/* <h1> <FontAwesomeIcon icon={faGoogle} className='me-2' />Log in with Google </h1> */}
+                            <GoogleLogin size='medium'  onSuccess={credentialResponse => {gLogin(credentialResponse);}} onError={() => { console.log('Login Failed'); }}/>
+
                             </div>           
+                            
+
                             <div className='flex justify-center mb-4'>
                                 <p>Don't have an account ? <span className='text-primary-900 cursor-pointer'>Sign Up</span></p>
                             </div>

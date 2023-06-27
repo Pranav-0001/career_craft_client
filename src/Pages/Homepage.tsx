@@ -2,7 +2,6 @@ import React,{useEffect} from 'react'
 import MainNav from '../components/User/Navbar/MainNav'
 import Home from '../components/User/Home/Home'
 import Footer from '../components/User/Footer/Footer'
-import { api } from '../services/axios'
 import { verifyAuth } from '../utils/auth/authUser'
 import { useNavigate } from 'react-router-dom'
 
@@ -17,7 +16,7 @@ function Homepage() {
     }
     }
     auth()
-  }, [])
+  }, [navigate,token])
   
   return (
     <div>

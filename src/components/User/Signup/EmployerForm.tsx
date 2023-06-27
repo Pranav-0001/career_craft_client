@@ -1,13 +1,18 @@
 import React,{ChangeEvent, useState} from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+
 import { empValidate } from '../../../utils/employer/signupValidation';
 import { api } from '../../../services/axios';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { updateEmp } from '../../../redux/employer/employerSlice';
+
+
 
 
 function EmployerForm() {
     const navigate=useNavigate()
+    const dispatch=useDispatch()
+
     const [employer,setEmployer]=useState({firstname:'',lastname:'',username:'',email:'',company:'',location:'',password:'',cnf:''}) 
     const [err,setErr]=useState({firstname:'',lastname:'',username:'',email:'',company:'',location:'',password:'',cnf:'',otp:''}) 
     const [otp,setOTP]=useState<number|string|null>(null)
@@ -40,7 +45,15 @@ function EmployerForm() {
         try{
         if(otp?.toString()===userOTP){
             setErr({...err,otp:''})
-            api.post("/employer/register",{...employer},{withCredentials:true}).then(()=>{
+            api.post("/employer/register",{...employer},{withCredentials:true}).then((res)=>{
+                 console.log(res.data);
+                 if(res?.data?.employer){
+                    const {accessToken,employer}=res.data
+                    localStorage.setItem('user',accessToken)
+                    dispatch(updateEmp({EmployerId:employer._id,EmpUsername:employer.username,EmpImage:employer.profileImg,EmpEmail:employer.email}))
+                    navigate('/employer')
+                }
+                 
                 navigate('/')
             }).catch(Err=>{
                 console.log(Err);
@@ -57,6 +70,8 @@ function EmployerForm() {
             
         }
     }
+
+    
 
     
   return (
@@ -154,9 +169,9 @@ function EmployerForm() {
                         <div className='text-sm flex md:col-span-2 justify-evenly'>
                             <p>Already have an account ? <span className='cursor-pointer text-primary-1000'>Login </span>here </p>
                         </div>
-                        <div className='md:col-span-2 flex justify-center border-2 border-primary-400 mx-8 md:mx-56 rounded-md cursor-pointer mb-4'>
-                        <h1> <FontAwesomeIcon icon={faGoogle} className='me-2' />Register with Google </h1>
-                        </div>
+                        {/* <div className='md:col-span-2 flex justify-center border-2 border-primary-400 mx-8 md:mx-56 rounded-md cursor-pointer mb-4'> */}
+                        {/* <h1> <FontAwesomeIcon icon={faGoogle} className='me-2' />Register with Google </h1> */}
+                        {/* </div> */}
                     </form>
                     }
 

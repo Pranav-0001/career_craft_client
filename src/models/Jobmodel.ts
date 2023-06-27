@@ -8,9 +8,17 @@ export interface Job {
     desc:string;
     jobType:string;
     salaryType:string;
-    rangeSalary?:string
+    rangeSalary?:string;
+    salaryFrom?:number;
+    salaryTo?:number
     fixedSalary?:string
     EmployerId:string
     status:boolean 
     Employer?:any
+}
+
+export interface filterTyes {
+    domain?:string,
+    Type?:string,
+    Salary?:string
 }

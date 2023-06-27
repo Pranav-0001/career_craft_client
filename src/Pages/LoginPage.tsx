@@ -15,7 +15,8 @@ function LoginPage() {
       if(role==='candidate')navigate('/')
       else if(role==='employer') navigate('/employer')
     }
-  }, [navigate])
+  }, [navigate,user])
+  
   
   return (
     <div>
