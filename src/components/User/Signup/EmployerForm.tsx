@@ -7,9 +7,13 @@ import { useDispatch } from 'react-redux';
 import { updateEmp } from '../../../redux/employer/employerSlice';
 
 
+interface EmployerFormProps {
+    setempSuccess: React.Dispatch<React.SetStateAction<boolean>>;
+  }
 
-
-function EmployerForm() {
+const EmployerForm:React.FC<EmployerFormProps>=({setempSuccess})=> {
+    
+    
     const navigate=useNavigate()
     const dispatch=useDispatch()
 
@@ -48,13 +52,14 @@ function EmployerForm() {
             api.post("/employer/register",{...employer},{withCredentials:true}).then((res)=>{
                  console.log(res.data);
                  if(res?.data?.employer){
-                    const {accessToken,employer}=res.data
-                    localStorage.setItem('user',accessToken)
-                    dispatch(updateEmp({EmployerId:employer._id,EmpUsername:employer.username,EmpImage:employer.profileImg,EmpEmail:employer.email}))
-                    navigate('/employer')
+                    // const {accessToken,employer}=res.data
+                    // localStorage.setItem('user',accessToken)
+                    // dispatch(updateEmp({EmployerId:employer._id,EmpUsername:employer.username,EmpImage:employer.profileImg,EmpEmail:employer.email}))
+                    // navigate('/employer')
+                    setempSuccess(true)
                 }
                  
-                navigate('/')
+                
             }).catch(Err=>{
                 console.log(Err);
                 setOTP(null)
@@ -75,9 +80,10 @@ function EmployerForm() {
 
     
   return (
-    <div>
+    <>
+        
       
-                <div className='flex justify-center font-work'>
+                <div className={`flex justify-center font-work `}>
                     {otp?
                     <form onSubmit={verify} className='border-2 mb-8 bg-white border-primary-400 md:w-1/4 w-96 md:mx-0 mx-3  pt-5   mt-4 rounded-lg px-5 md:px-10 grid grid-cols-1 gap-2 md:grid-cols-1'>
                         <div>
@@ -177,7 +183,7 @@ function EmployerForm() {
 
                 </div>
             
-    </div>
+    </>
   )
 }
 

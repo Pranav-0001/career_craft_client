@@ -1,7 +1,5 @@
 import React, { ChangeEvent, useState } from 'react'
 import './login.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { api } from '../../../services/axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -9,6 +7,7 @@ import { updateUser } from '../../../redux/user/userSlice';
 import { updateEmp } from '../../../redux/employer/employerSlice';
 import {CredentialResponse, GoogleLogin} from '@react-oauth/google'
 import jwtDecode from 'jwt-decode';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 function Login() {
@@ -73,6 +72,10 @@ function Login() {
                 }
                 else if(data.message==='Invalid password'){
                     setErr({...err,password:`Invalid Password`})
+                }else if(data.notVerified){
+                    toast.info(data.message,{
+                        position:"top-center"
+                    })
                 }
             }
         }
@@ -120,6 +123,7 @@ function Login() {
                     </div> 
                 </div>
             </div>
+            <ToastContainer/>
         </main>
 
     )

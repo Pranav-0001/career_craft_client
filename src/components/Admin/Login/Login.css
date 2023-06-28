@@ -1,0 +1,3 @@
+.login-textbox{
+    @apply outline-primary-500 border-2 w-80 rounded-md border-primary-200 px-2 h-10
+}
