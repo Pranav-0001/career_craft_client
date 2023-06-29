@@ -2,12 +2,15 @@ import React,{useState} from 'react'
 import { ToastContainer } from 'react-toastify';
 import './Login.css'
 import { adminSignIn } from '../../../services/admin/adminLogin';
+import { useDispatch } from 'react-redux';
+import { updateAdmin } from '../../../redux/admin/adminSlice';
 
 function AdminLogin() {
 
     const [email,setEmail]=useState('')
     const [pass,setPass]=useState('')
     const [err,setErr]= useState({email:'',password:''})
+    const dispatch=useDispatch()
     const emailEnter=(e:React.ChangeEvent<HTMLInputElement>)=>{
         setErr({email:"",password:""})
         setEmail(e.target.value)
@@ -25,7 +28,10 @@ function AdminLogin() {
         }else if(data.password){
             setErr({...err,password:data.password})
         }else if(data.admin){
-            console.log(data.admin);
+            const {admin}=data
+            console.log(data);
+            
+            dispatch(updateAdmin({AdminId:admin._id,AdminUsername:admin.username,AdminImage:admin.profileImg}))
             
         }
        

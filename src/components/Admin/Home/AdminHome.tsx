@@ -84,30 +84,102 @@ function AdminHome() {
                         <Bar data={BarData} options={options} />
                     </div>
                 </div>
-                <div className='mx-4 grid md:grid-cols-2'>
-                    <div className=' '>
-                        <h1 className='mb-2'>Users</h1>
-                        <div className='flex justify-around border rounded-t-md py-2'>
+                <div className='mx-4 grid md:grid-cols-2 gap-2'>
+                    <div className='mb-8 '>
+                        <h1 className='mb-2 font-exo text-2xl pt-6 '>Users</h1>
+                        <div className='flex justify-around border-2 font-bold font-exo border-gray-400 rounded-t-md py-2'>
+                            <h1>S.No</h1>
                             <h1>Profile</h1>
                             <h1>LAS Points</h1>
                         </div>
-                        <div className='flex justify-around border py-2'>
+                        <div className='adminpanel-users-row'>
+                            <h1>1</h1>
                             <div className='flex items-center gap-2'>
                                 <img src="Images/a.jpg" className='w-10 rounded-md' alt="" />
                                 <h1>Pranav</h1>
                             </div>
                             <h1>112 pts</h1>
                         </div>
-                        <div className='flex justify-around border py-2'>
+                        <div className='adminpanel-users-row'>
+                            <h1>2</h1>
                             <div className='flex items-center gap-2'>
                                 <img src="Images/a.jpg" className='w-10 rounded-md' alt="" />
                                 <h1>Pranav</h1>
                             </div>
+                            
+                            <h1>112 pts</h1>
+                        </div>
+                        <div className='adminpanel-users-row'>
+                            <h1>2</h1>
+                            <div className='flex items-center gap-2'>
+                                <img src="Images/a.jpg" className='w-10 rounded-md' alt="" />
+                                <h1>Pranav</h1>
+                            </div>
+                            
+                            <h1>112 pts</h1>
+                        </div>
+                        <div className='adminpanel-users-row'>
+                            <h1>2</h1>
+                            <div className='flex items-center gap-2'>
+                                <img src="Images/a.jpg" className='w-10 rounded-md' alt="" />
+                                <h1>Pranav</h1>
+                            </div>
+                            
+                            <h1>112 pts</h1>
+                        </div>
+                        <div className='adminpanel-users-row'>
+                            <h1>2</h1>
+                            <div className='flex items-center gap-2'>
+                                <img src="Images/a.jpg" className='w-10 rounded-md' alt="" />
+                                <h1>Pranav</h1>
+                            </div>
+                            
                             <h1>112 pts</h1>
                         </div>
                     </div>
-                    <div>
-
+                    <div className='mb-8'>
+                    <h1 className='mb-2 font-exo text-2xl pt-6 '>Subscription History</h1>
+                        <div className='flex justify-around border-2 font-exo font-bold border-gray-400 rounded-t-md py-2'>
+                            <h1>Uers</h1>
+                            <h1>Date</h1>
+                            <h1>Status</h1>
+                        </div>
+                        <div className='adminpanel-users-row'>
+                            <h1>Pranav</h1>
+                            <h1>10 oct 2016</h1>
+                            <h1>Paid</h1>
+                        </div>
+                        <div className='adminpanel-users-row'>
+                            <h1>Pranav</h1>
+                            <h1>10 oct 2016</h1>
+                            <h1>Paid</h1>
+                        </div>
+                        <div className='adminpanel-users-row'>
+                            <h1>Pranav</h1>
+                            <h1>10 oct 2016</h1>
+                            <h1>Paid</h1>
+                        </div>
+                        <div className='adminpanel-users-row'>
+                            <h1>Pranav</h1>
+                            <h1>10 oct 2016</h1>
+                            <h1>Paid</h1>
+                        </div>
+                        <div className='adminpanel-users-row'>
+                            <h1>Pranav</h1>
+                            <h1>10 oct 2016</h1>
+                            <h1>Paid</h1>
+                        </div>
+                        <div className='adminpanel-users-row'>
+                            <h1>Pranav</h1>
+                            <h1>10 oct 2016</h1>
+                            <h1>Paid</h1>
+                        </div>
+                        <div className='adminpanel-users-row'>
+                            <h1>Pranav</h1>
+                            <h1>10 oct 2016</h1>
+                            <h1>Paid</h1>
+                        </div>
+                        
                     </div>
                 </div>
             </div>

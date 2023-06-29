@@ -9,6 +9,7 @@ import JobPostPage from './Pages/JobPostPage';
 import JoblistPage from './Pages/JoblistPage';
 import AdminLoginPage from './Pages/adminLoginPage';
 import AdminHomePage from './Pages/AdminHomePage';
+import AdminUserListPage from './Pages/AdminUserListPage';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
       <Route path='/findjobs' element={<JoblistPage/>}/>
       <Route path='/admin/login' element={<AdminLoginPage/>}/>
       <Route path='/admin/' element={<AdminHomePage/>}/>
+      <Route path='/admin/userlist' element={<AdminUserListPage/>}/>
     </Routes>
     </>
   );
