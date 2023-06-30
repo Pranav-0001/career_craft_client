@@ -47,7 +47,7 @@ function NonPrimeUsers() {
             <td>100</td>
             <td>10</td>
             <td>{obj.status?"Active" : "Banned"}</td>
-            <td>{obj.status?<FontAwesomeIcon className='bg-red-500 text-white px-3 py-2 rounded-lg'  icon={faEye}/> : <FontAwesomeIcon className='bg-green-500 text-white px-3 py-2 rounded-lg' icon={faEyeSlash}/>}</td>
+            <td>{obj.status?<FontAwesomeIcon className='bg-red-500 text-white px-3 py-2 rounded-lg'  icon={faEyeSlash}/> : <FontAwesomeIcon className='bg-green-500 text-white px-3 py-2 rounded-lg' icon={faEye}/>}</td>
           </tr>)}
         </tbody>
       </table>

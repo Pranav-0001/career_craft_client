@@ -1,12 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AllUserList from '../components/Admin/Users/AllUserList'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import AdminNav from '../components/Admin/Navbar/AdminNav'
+import { verifyAuth } from '../utils/auth/authUser'
+import { useNavigate } from 'react-router-dom'
 
 function AdminUserListPage() {
+  
   const [open,setOpen]=useState(false)
-
+  
   return (
     <>
     <div className='grid grid-cols-5 px-2 md:px-8 pt-5'>

@@ -10,22 +10,38 @@ import JoblistPage from './Pages/JoblistPage';
 import AdminLoginPage from './Pages/adminLoginPage';
 import AdminHomePage from './Pages/AdminHomePage';
 import AdminUserListPage from './Pages/AdminUserListPage';
+import EmployerProtected from './Routes/Employer/EmployerProtected';
+import AdminProtected from './Routes/Admin/AdminProtected';
+import CandidateOrGuest from './Routes/User/CandidateOrGuestOnly';
+import CandidateProtect from './Routes/User/CandidateProtected';
+import EditResumePage from './Pages/EditResumePage';
 
 
 function App() {
+  
   return (
     <>
     <Routes>
-    <Route path='/' element={<Homepage/>}  />
+    
+
+
+
+      <Route path='/' element={<CandidateOrGuest><Homepage/></CandidateOrGuest>}  />
       <Route  path='/login' element={<LoginPage />}  />
       <Route path='/register' element={<ReginsterPage/>}/>
-      <Route path='/dashboard' element={<DashboardPage/>}/>
-      <Route path='/employer' element={<EmpHomePage/>}/>
-      <Route path='/addjob' element={<JobPostPage/>}/>
+      <Route path='/dashboard' element={<CandidateProtect><DashboardPage/></CandidateProtect>}/>
       <Route path='/findjobs' element={<JoblistPage/>}/>
+      <Route path='/editResume' element={<EditResumePage/>}/>
+
+
+
+
+      <Route path='/employer' element={<EmployerProtected><EmpHomePage/></EmployerProtected>}/>
+      <Route path='/employer/addjob' element={<EmployerProtected><JobPostPage/></EmployerProtected>}/>
+      
       <Route path='/admin/login' element={<AdminLoginPage/>}/>
-      <Route path='/admin/' element={<AdminHomePage/>}/>
-      <Route path='/admin/userlist' element={<AdminUserListPage/>}/>
+      <Route path='/admin/' element={<AdminProtected><AdminHomePage/></AdminProtected>}/>
+      <Route path='/admin/userlist' element={<AdminProtected><AdminUserListPage/></AdminProtected>}/>
     </Routes>
     </>
   );

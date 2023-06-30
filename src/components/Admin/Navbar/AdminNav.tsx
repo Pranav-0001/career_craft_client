@@ -4,12 +4,19 @@ import React from 'react'
 import './adminNav.css'
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { adminSignout } from '../../../services/admin/adminLogin';
 interface AdminNavProps {
   page: string;
 }
 function AdminNav({page}:AdminNavProps) {
   const {AdminUsername,AdminImage} = useSelector((state:any)=>state.admin)
   const navigate=useNavigate()
+  const adminLogout=async()=>{
+    const res=await adminSignout()
+    if(res.signout){
+      navigate("/admin/login")
+    }
+  }
   return (
     <>
     <div className='h-full  w-full '>
@@ -44,7 +51,7 @@ function AdminNav({page}:AdminNavProps) {
               <FontAwesomeIcon className='text-xl' icon={faRankingStar}/>
               <h1>Ranking</h1>
             </div>
-            <div className='admin-nav-item border-0'>
+            <div className='admin-nav-item border-0 ' onClick={adminLogout}>
               <FontAwesomeIcon className='text-xl' icon={faArrowRightFromBracket}/>
               <h1>Logout</h1>
             </div>

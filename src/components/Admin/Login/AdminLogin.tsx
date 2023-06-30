@@ -4,9 +4,10 @@ import './Login.css'
 import { adminSignIn } from '../../../services/admin/adminLogin';
 import { useDispatch } from 'react-redux';
 import { updateAdmin } from '../../../redux/admin/adminSlice';
+import { useNavigate } from 'react-router-dom';
 
 function AdminLogin() {
-
+    const navigate=useNavigate()
     const [email,setEmail]=useState('')
     const [pass,setPass]=useState('')
     const [err,setErr]= useState({email:'',password:''})
@@ -32,6 +33,7 @@ function AdminLogin() {
             console.log(data);
             
             dispatch(updateAdmin({AdminId:admin._id,AdminUsername:admin.username,AdminImage:admin.profileImg}))
+            navigate("/admin")
             
         }
        

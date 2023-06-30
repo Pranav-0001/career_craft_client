@@ -82,7 +82,7 @@ function EmpHome() {
                         <h1 className='font-exo text-xl md:text-2xl'>Last Job List</h1>
                     </div>
                     <div>
-                        <button onClick={() => navigate('/addjob')} className='bg-primary-800 px-3 py-2 text-white rounded-md'>Create Job Post</button>
+                        <button onClick={() => navigate('/employer/addjob')} className='bg-primary-800 px-3 py-2 text-white rounded-md'>Create Job Post</button>
                     </div>
                 </div>
 

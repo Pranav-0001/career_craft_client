@@ -6,17 +6,7 @@ import { verifyAuth } from '../utils/auth/authUser'
 import { useNavigate } from 'react-router-dom'
 
 function Homepage() {
-  const navigate=useNavigate()
-  let token = localStorage.getItem('user')
-  useEffect(() => {
-    const auth=async()=>{
-    if(token){
-      let role=verifyAuth(token)
-      if(role==='employer') navigate('/employer')
-    }
-    }
-    auth()
-  }, [navigate,token])
+
   
   return (
     <div>

@@ -5,17 +5,6 @@ import { useNavigate } from 'react-router-dom'
 import { verifyAuth } from '../utils/auth/authUser'
 
 function JobPostPage() {
-  const navigate=useNavigate()
-    useEffect(() => {
-    const token=localStorage.getItem('user')
-    if(token){
-        const role=verifyAuth (token)
-        role==='employer'? navigate('/addjob') :navigate('/')
-    }else{
-      navigate('/')
-    }
-      
-    }, [navigate])
   return (
     <div>
       <EmpNavbar/>
