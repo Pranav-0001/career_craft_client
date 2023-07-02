@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@cloudinary/react": "^1.11.2",
+    "@cloudinary/url-gen": "^1.10.1",
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-brands-svg-icons": "^6.4.0",
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
@@ -19,6 +21,7 @@
     "@types/react-dom": "^18.2.5",
     "axios": "^1.4.0",
     "chart.js": "^4.3.0",
+    "cloudinary": "^1.37.3",
     "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
     "react-app-env": "^1.2.3",
