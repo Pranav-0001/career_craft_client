@@ -1,20 +1,16 @@
 import React from 'react'
+import JobDetails from '../components/User/JobDetails/JobDetails'
 import MainNav from '../components/User/Navbar/MainNav'
-import Home from '../components/User/Home/Home'
 import Footer from '../components/User/Footer/Footer'
 
-
-function Homepage() {
-
-  
+function JobDetailPage() {
   return (
     <div>
-      <MainNav/>
-    
-      <Home/>
+        <MainNav/>
+      <JobDetails/>
       <Footer/>
     </div>
   )
 }
 
-export default Homepage
+export default JobDetailPage

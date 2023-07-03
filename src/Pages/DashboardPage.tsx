@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React from 'react'
 import Dashboard from '../components/User/Dashboard/Dashboard'
 import MainNav from '../components/User/Navbar/MainNav'
 import SideMenu from '../components/User/UserSIdeBar/SideMenu'

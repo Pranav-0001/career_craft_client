@@ -15,6 +15,7 @@ export interface Job {
     EmployerId:string
     status:boolean 
     Employer?:any
+    savedBy?:any[]
 }
 
 export interface filterTyes {

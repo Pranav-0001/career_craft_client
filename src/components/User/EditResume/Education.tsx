@@ -20,7 +20,7 @@ function Education() {
                         </div>
                         <div >
                         <h1 className=''>Institute/Technology </h1>
-                            <input type="text" className="px-4 signupFormInput w-full" />
+                            <input type="text" className="px-4 signupFormInput w-full" /> 
                         </div>
                         <div>
 
@@ -32,6 +32,9 @@ function Education() {
                         <div >
                         <h1 className=''>Ending Period </h1>
                             <input type="text" className="px-4 signupFormInput w-full" />
+                        </div>
+                        <div className='mt-4 ms-1'>
+                            <button className='bg-primary-1000 text-white px-4 py-2 rounded-md'>Update Change</button>
                         </div>
                     </div>
                 </div>

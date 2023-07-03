@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, {  useState } from 'react'
 import AllUserList from '../components/Admin/Users/AllUserList'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import AdminNav from '../components/Admin/Navbar/AdminNav'
-import { verifyAuth } from '../utils/auth/authUser'
-import { useNavigate } from 'react-router-dom'
+
 
 function AdminUserListPage() {
   

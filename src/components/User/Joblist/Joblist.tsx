@@ -4,10 +4,17 @@ import { api } from '../../../services/axios'
 import { Job } from '../../../models/Jobmodel'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBookmark } from '@fortawesome/free-regular-svg-icons'
+import { faBookmark as solidbookmark } from '@fortawesome/free-solid-svg-icons'
 import { faArrowRightToBracket, faClose } from '@fortawesome/free-solid-svg-icons'
 import { getDomains, getJobs } from '../../../services/Employer/fetJobs'
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { removeSaved, saveJob } from '../../../services/candidate/job'
 
 function Joblist() {
+    const navigate=useNavigate()
+    const { userId } = useSelector((state: any) => state.user);
+
     const [jobs, setJobs] = useState<Job[]>([])
     const [domain, setDomain] = useState<string[]>([])
     const [filterDomain,setFilterDomain]=useState<string|null>(null)
@@ -18,6 +25,7 @@ function Joblist() {
     const jobtype=['Full Time' , 'Part Time' ,'Remote' , 'Internship' ]
     const Salary=['1 - 3' , '3 - 6' ,'6 - 9 ' , '9 - 12','12 - 16' ,'16 - 20','20+' ]
     const [sort,setSort]=useState<string|null>('')
+
     const filterSelect=(e:ChangeEvent<HTMLInputElement>)=>{
         const {name,value}=e.target
         if(name==='domain'){
@@ -33,12 +41,35 @@ function Joblist() {
             setFilterSalary(value)}
     }
     
+    const bookMarkJob=async(id:string)=>{
+       const res=await saveJob(id,userId)
+       if(res){
+        const edited:Job[]=jobs.map((obj)=>{
+            if(obj._id===id) return {...obj,savedBy:[...(obj.savedBy??[]),userId]}
+            else return obj
+        })
+        setJobs(edited)
+       }
+    }
+    const removeBookmark=async(id:string)=>{
+
+       const res=await removeSaved(id,userId)
+       if(res){
+        const edited:Job[]=jobs.map((obj)=>{
+            if(obj._id===id) return {...obj,savedBy:obj.savedBy?.map(ele=>ele!==userId)}
+            else return obj
+        })
+        setJobs(edited)
+       }
+    }
     
     useEffect(() => {
         const fetchJobs = async () => {
             try {
                 const domains=await getDomains()
                 const jobs=await getJobs(pageNo,filterDomain,filterType,filterSalary,sort)
+                
+                
                 setJobs(jobs?.jobs)
                 setPages(jobs?.pages)
                 setDomain(domains);
@@ -126,7 +157,7 @@ function Joblist() {
                                 <div className='flex w-full gap-4'>
                                     <img src={obj.Employer[0].profileImg} alt="" className='h-12 ' />
                                     <div>
-                                        <h1 className='text-2xl'>{obj.title}</h1>
+                                        <h1 onClick={()=>navigate(`/job-details/${obj._id}`) } className='text-2xl cursor-pointer'>{obj.title}</h1>
                                         <p className='text-sm'>{obj.Employer[0].company}</p>
                                     </div>
                                 </div>
@@ -134,8 +165,15 @@ function Joblist() {
                                     <h1 className='text-lg'>Salary : {obj.salaryType==='Range' ? `${obj.salaryFrom} -  ${obj.salaryTo}`: obj.fixedSalary} Lpa</h1>
                                     <p className='text-sm'>Deadline : {obj.deadline}</p>
                                 </div>
-                                <div className='cursor-pointer'>
-                                    <FontAwesomeIcon  className='p-2 rounded-md bg-gray-200' icon={faBookmark}/>
+                                <div className='cursor-pointer text-xl'>
+                                    {obj.savedBy?.includes(userId)?
+                                    <FontAwesomeIcon  className='p-2 rounded-md bg-gray-200 text-primary-700' icon={solidbookmark} onClick={()=>removeBookmark(obj._id)}/>
+
+                                    :
+                                    <FontAwesomeIcon  className='p-2 rounded-md bg-gray-200 text-primary-700' icon={faBookmark} onClick={()=>bookMarkJob(obj._id)}/>
+
+                                    }
+
                                 </div>
                                
                             </div>

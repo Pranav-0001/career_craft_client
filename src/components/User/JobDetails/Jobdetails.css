@@ -1,0 +1,6 @@
+.bg-top-text-bg{
+    background-image: url('../../../../public/Images/text-bg.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

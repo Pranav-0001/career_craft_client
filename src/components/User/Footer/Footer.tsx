@@ -17,7 +17,7 @@ function Footer() {
         </div>
         <div className='w-60'>
             
-            <img className='w-1/2 ms-8' src="Images/ONLY_LOGO.svg" alt="" />
+            <img className='w-1/2 ms-8' src="/Images/ONLY_LOGO.svg" alt="" />
             <h1 className='text-sm'>Support Line : +91 9846071341</h1>
         </div>
 
