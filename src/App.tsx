@@ -16,6 +16,7 @@ import CandidateOrGuest from './Routes/User/CandidateOrGuestOnly';
 import CandidateProtect from './Routes/User/CandidateProtected';
 import EditResumePage from './Pages/EditResumePage';
 import JobDetailPage from './Pages/JobDetailPage';
+import BookmarkJobsPage from './Pages/BookmarkJobsPage';
 
 
 function App() {
@@ -33,7 +34,9 @@ function App() {
       <Route path='/dashboard' element={<CandidateProtect><DashboardPage/></CandidateProtect>}/>
       <Route path='/findjobs' element={<JoblistPage/>}/>
       <Route path='/editResume' element={<EditResumePage/>}/>
+      <Route path='/bookmarks' element={<BookmarkJobsPage/>}/>
       <Route path='/job-details/:id' element={<JobDetailPage/>} />
+      
 
 
 

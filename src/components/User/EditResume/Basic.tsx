@@ -1,12 +1,16 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, ChangeEventHandler, useState } from 'react'
 import { handleImgUrl } from '../../../services/candidate/profile'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleXmark, faClose } from '@fortawesome/free-solid-svg-icons'
 import { url } from 'inspector'
 import { center } from '@cloudinary/url-gen/qualifiers/textAlignment'
+import { BasicType } from '../../../models/User'
+import { basicDataValidation } from '../../../utils/user/basicDataVali'
 
 function Basic() {
   const [imgurl, setImgUrl] = useState<string>()
+  const [basic,setBasic] = useState<BasicType>()
+  const [err,setErr] = useState<BasicType>()
   const generateUrl = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const img = e.target.files[0]
@@ -17,26 +21,37 @@ function Basic() {
     }
 
   }
+  const basicForm=(e:ChangeEvent<HTMLInputElement>)=>{
+    const {name,value}=e.target
+    setBasic({...basic,[name]:value})
+    basicDataValidation(name,value,err,setErr)
+    
+  }
+  const basicAbout=(e:ChangeEvent<HTMLTextAreaElement>)=>{
+    setBasic({...basic,about:e.target.value})
+  }
+  console.log(err);
+  
   return (
     <>
       <div className='w-full lg:ps-10 lg:pe-20 mt-10'>
         <div className='w-full  border-primary border-200 shadow-sm shadow-primary-600 rounded-md px-2 mb-8 pb-8'>
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-2 items-center font-exo'>
+          <form className='grid grid-cols-1 md:grid-cols-2 gap-2 items-center font-exo'>
             <div>
               <h1>Firstname</h1>
 
-              <input type="text" className="signupFormInput w-full" />
+              <input type="text" name='firstname' onChange={basicForm} className="signupFormInput w-full" />
 
             </div>
-            <div className='md:grid md:grid-cols-3 items-center gap-2'>
+            <div className='md:grid md:grid-cols-3 items-center gap-1'>
               <div className='w-full col-span-2'>
                 <h1>Lastname</h1>
-                <input type="text" className="signupFormInput w-full" />
+                <input type="text" name='lastname' onChange={basicForm} className="signupFormInput w-full" />
               </div>
               <div className='w-full'>
                 <div className="flex items-center justify-center w-full py-2 ">
 
-                  {imgurl ? <div className='w-24 h-24 flex items-center shadow-sm rounded-sm px-2 relative bg-profile-img' style={{ backgroundImage: `url("${imgurl}")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'cover' }}>
+                  {imgurl ? <div className='w-24 h-24 flex items-center shadow-sm rounded-lg px-2 relative  bg-profile-img' style={{ backgroundImage: `url("${imgurl}")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'cover' }}>
                     <FontAwesomeIcon className='bg-white absolute top-0 right-0 cursor-pointer text-lg  rounded-full  text-black' onClick={() => setImgUrl(undefined)} icon={faCircleXmark} />
 
                   </div>
@@ -54,29 +69,31 @@ function Basic() {
             </div>
             <div>
               <h1>Email</h1>
-              <input type="text" className="signupFormInput w-full" />
+              <input type="text" onChange={basicForm} name='email' value={"demo"} className="signupFormInput w-full" disabled/>
             </div>
             <div>
               <h1>Phone</h1>
-              <input type="text" className="signupFormInput w-full" />
+              <input type="number" onChange={basicForm} name='phone' className="signupFormInput w-full" />
             </div>
             <div>
               <h1>Qualification</h1>
-              <input type="text" className="signupFormInput w-full" />
+              <input type="text" onChange={basicForm} name='qualification' className="signupFormInput w-full" />
             </div>
             <div>
               <h1>Career Objective</h1>
-              <input type="text" className="signupFormInput w-full" />
+              <input type="text" onChange={basicForm} name='objective' className="signupFormInput w-full" />
             </div>
             <div className='col-span-2'>
-              <h1>Career Objective</h1>
-              <textarea name="" id="" className='signupFormInput h-28'></textarea>
+              <h1>About</h1>
+              <textarea name="about" id="" className='signupFormInput h-28' onChange={basicAbout} ></textarea>
+              
+
             </div>
             <div className="col-span-2 mx-2">
               <button className='bg-primary-800 text-white px-4 rounded-md py-1'>Update</button>
             </div>
 
-          </div>
+          </form>
         </div>
       </div>
     </>
@@ -84,3 +101,4 @@ function Basic() {
 }
 
 export default Basic
+ 

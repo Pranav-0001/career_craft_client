@@ -1,4 +1,4 @@
 .signupFormInput{
-    @apply w-full h-10 md:h-12 border-primary-200  border-2 outline-primary-500 rounded-md
+    @apply w-full h-10 md:h-12 border-primary-200  border-2 outline-primary-500 rounded-md px-4
 }
 

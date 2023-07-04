@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux'
 import { Job } from '../../../models/Jobmodel'
 
 function JobDetails() {
-    const [jobData, setJobData] = useState<jobData>()
+    const [jobData, setJobData] = useState<jobData >()
     const { id } = useParams<{ id: string }>()
     const { userId } = useSelector((state: any) => state.user);
 
@@ -57,7 +57,11 @@ function JobDetails() {
             const id = jobData._id
             const res=await applyJob(id,userId)
             if(res){
-               //
+               console.log(res);
+               let newData:jobData={...jobData,appliedBy:[...(jobData.appliedBy),{user:userId,appliedOn:"",status:"Applied"}]}
+               console.log(newData);
+               
+               
             }
         }
     }

@@ -11,3 +11,13 @@ export interface User{
     status:boolean,
     isPrime:boolean
 }
+
+export interface BasicType{
+    firstname?:string
+    lastname?:string
+    email?:string
+    phone?:string
+    qualification?:number
+    objective?:string
+    about?:string
+}

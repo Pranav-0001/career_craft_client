@@ -26,3 +26,8 @@ export const applyJob=async(id:string,user:string)=>{
    const {data} = await api.post('/applyjob',{jobId:id,user})
    return data
 }
+
+export const fetchsavedJobs=async(user:string)=>{
+   const {data}=await api.get(`/savejobs?user=${user}`)
+   return data.saved
+}
