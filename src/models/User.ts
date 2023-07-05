@@ -17,7 +17,7 @@ export interface BasicType{
     lastname?:string
     email?:string
     phone?:string
-    qualification?:number
+    qualification?:string
     objective?:string
     about?:string
 }

@@ -1,21 +1,28 @@
-import React, { ChangeEvent, ChangeEventHandler, useState } from 'react'
-import { handleImgUrl } from '../../../services/candidate/profile'
+import React, { ChangeEvent, FormEvent, useState } from 'react'
+import { handleImgUrl, updateBasicInfo } from '../../../services/candidate/profile'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleXmark, faClose } from '@fortawesome/free-solid-svg-icons'
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons'
 import { url } from 'inspector'
 import { center } from '@cloudinary/url-gen/qualifiers/textAlignment'
 import { BasicType } from '../../../models/User'
 import { basicDataValidation } from '../../../utils/user/basicDataVali'
+import { ToastContainer, toast } from 'react-toastify'
+import { useSelector } from 'react-redux'
 
 function Basic() {
   const [imgurl, setImgUrl] = useState<string>()
+  const [imgUp,setImgUp]=useState(false)
   const [basic,setBasic] = useState<BasicType>()
   const [err,setErr] = useState<BasicType>()
+  const { userId } = useSelector((state:any) => state.user);
+
   const generateUrl = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      const img = e.target.files[0]
+      setImgUp(true)
+      
       const url = await handleImgUrl(e.target.files[0])
       if (url) {
+        setImgUp(false)
         setImgUrl(url)
       }
     }
@@ -28,41 +35,80 @@ function Basic() {
     
   }
   const basicAbout=(e:ChangeEvent<HTMLTextAreaElement>)=>{
+    const {name,value}=e.target
+
     setBasic({...basic,about:e.target.value})
+    basicDataValidation(name,value,err,setErr)
+
   }
-  console.log(err);
+  const handleSubmit=(e:FormEvent)=>{
+    e.preventDefault()
+    if(imgurl){
+      if(basic?.firstname&&basic.lastname&&basic.phone&&basic.qualification&&basic.objective&&basic.about){
+        if(err?.about===''&&err?.firstname===''&&err.lastname===''&&err.phone===''&&err.objective===''&& err.qualification===''){
+          const {firstname,lastname,phone,qualification,objective,about} =basic
+          updateBasicInfo(firstname,lastname,phone,qualification,objective,about,imgurl,userId)
+
+        }
+      }
+    }else{
+      toast.error("Upload Image")
+    }
+
+  }
   
   return (
     <>
       <div className='w-full lg:ps-10 lg:pe-20 mt-10'>
         <div className='w-full  border-primary border-200 shadow-sm shadow-primary-600 rounded-md px-2 mb-8 pb-8'>
-          <form className='grid grid-cols-1 md:grid-cols-2 gap-2 items-center font-exo'>
+          <form className='grid grid-cols-1 md:grid-cols-2 gap-2 items-center font-exo' onSubmit={handleSubmit}>
             <div>
               <h1>Firstname</h1>
 
-              <input type="text" name='firstname' onChange={basicForm} className="signupFormInput w-full" />
+              <input type="text" name='firstname' onChange={basicForm} className="signupFormInput w-full" required/>
+              <p className='text-xs text-red-600'>{err?.firstname}</p>
 
             </div>
             <div className='md:grid md:grid-cols-3 items-center gap-1'>
               <div className='w-full col-span-2'>
                 <h1>Lastname</h1>
-                <input type="text" name='lastname' onChange={basicForm} className="signupFormInput w-full" />
+                <input type="text" name='lastname' onChange={basicForm} className="signupFormInput w-full"  required/>
+                <p className='text-xs text-red-600'>{err?.lastname}</p>
               </div>
               <div className='w-full'>
                 <div className="flex items-center justify-center w-full py-2 ">
 
-                  {imgurl ? <div className='w-24 h-24 flex items-center shadow-sm rounded-lg px-2 relative  bg-profile-img' style={{ backgroundImage: `url("${imgurl}")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'cover' }}>
+
+                  {imgurl ? <div className='mt-3 w-28 h-24 flex items-center shadow-sm rounded-lg px-2 relative  bg-profile-img' style={{ backgroundImage: `url("${imgurl}")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'cover' }}>
                     <FontAwesomeIcon className='bg-white absolute top-0 right-0 cursor-pointer text-lg  rounded-full  text-black' onClick={() => setImgUrl(undefined)} icon={faCircleXmark} />
 
                   </div>
-                    : <label className=" flex flex-col items-center justify-center w-full  h-24 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50  hover:bg-gray-100   ">
+                    :
+                    imgUp
+                    ?
+                      <div>
+                        <div className="dot-spinner mt-5">
+                          <div className="dot-spinner__dot"></div>
+                          <div className="dot-spinner__dot"></div>
+                          <div className="dot-spinner__dot"></div>
+                          <div className="dot-spinner__dot"></div>
+                          <div className="dot-spinner__dot"></div>
+                          <div className="dot-spinner__dot"></div>
+                          <div className="dot-spinner__dot"></div>
+                          <div className="dot-spinner__dot"></div>
+                        </div>
+                      </div> 
+                    :
+                    <label className=" flex flex-col items-center justify-center w-full  h-24 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50  hover:bg-gray-100   ">
                       <div className="flex flex-col items-center justify-center pt-5 pb-6">
                         <svg aria-hidden="true" className="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
                         <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span></p>
 
                       </div>
                       <input onChange={generateUrl} type="file" className="hidden" />
-                    </label>}
+                    </label>
+                    
+                    }
                 </div>
               </div>
 
@@ -70,22 +116,31 @@ function Basic() {
             <div>
               <h1>Email</h1>
               <input type="text" onChange={basicForm} name='email' value={"demo"} className="signupFormInput w-full" disabled/>
+              <p className='text-xs text-red-600'>{err?.email}</p>
+
             </div>
             <div>
               <h1>Phone</h1>
-              <input type="number" onChange={basicForm} name='phone' className="signupFormInput w-full" />
+              <input type="number" onChange={basicForm} name='phone' className="signupFormInput w-full"  required/>
+              <p className='text-xs text-red-600'>{err?.phone}</p>
+
             </div>
             <div>
               <h1>Qualification</h1>
-              <input type="text" onChange={basicForm} name='qualification' className="signupFormInput w-full" />
+              <input type="text" onChange={basicForm} name='qualification' className="signupFormInput w-full" required />
+              <p className='text-xs text-red-600'>{err?.qualification}</p>
             </div>
             <div>
               <h1>Career Objective</h1>
-              <input type="text" onChange={basicForm} name='objective' className="signupFormInput w-full" />
+              <input type="text" onChange={basicForm} name='objective' className="signupFormInput w-full"  required/>
+              <p className='text-xs text-red-600'>{err?.objective}</p>
+
             </div>
             <div className='col-span-2'>
               <h1>About</h1>
-              <textarea name="about" id="" className='signupFormInput h-28' onChange={basicAbout} ></textarea>
+              <textarea name="about" id="" className='signupFormInput h-28' onChange={basicAbout}  required></textarea>
+              <p className='text-xs text-red-600'>{err?.about}</p>
+
               
 
             </div>
@@ -96,6 +151,7 @@ function Basic() {
           </form>
         </div>
       </div>
+      <ToastContainer/>
     </>
   )
 }

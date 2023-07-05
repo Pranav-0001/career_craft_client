@@ -1,5 +1,6 @@
 
 import axios from "axios"
+import { api } from "../axios"
 
 
 
@@ -22,4 +23,9 @@ export const handleImgUrl=async(img:File)=>{
     } catch (error) {
         
     }
+}
+
+export const updateBasicInfo=(firstname:string,lastname:string,phone:string,qualification:string,objective:string,about:string,imageURL:string,user:string)=>{
+
+    api.post(`/basic-update/${user}`,{firstname,lastname,phone,qualification,objective,about,imageURL},{withCredentials:true})
 }
