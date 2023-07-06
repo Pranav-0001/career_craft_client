@@ -38,12 +38,12 @@ const QualiValidation=(val:string,err:BasicType|undefined,setErr:Function)=>{
 const objectiveValidation=(val:string,err:BasicType|undefined,setErr:Function)=>{
     
     if(val.trim().length===0) setErr({...err,objective:"Field Can't be empty"})
-    else if(val.trim().length<10 ) setErr({...err,objective:"Objective is too short"})
+    else if(val.trim().length<20 ) setErr({...err,objective:"Objective is too short"})
     else  setErr({...err,objective:""})
 }
 const aboutValidation=(val:string,err:BasicType|undefined,setErr:Function)=>{
     
     if(val.trim().length===0) setErr({...err,about:"Field Can't be empty"})
-    else if(val.trim().length<20 ) setErr({...err,about:"About is too short"})
+    else if(val.trim().length<10 ) setErr({...err,about:"About is too short"})
     else  setErr({...err,about:""})
 }

@@ -34,7 +34,7 @@ const SideMenu:React.FC<SideMenuProps>= ({page}) =>{
                 <FontAwesomeIcon icon={faEdit}/>
                 <h1>Edit Resume</h1>
             </div>
-            <div className={`flex items-center gap-3 py-3 cursor-pointer px-6`}>
+            <div onClick={()=>navigate('/view-resume')} className={`${page==="resumeView"?'bg-primary-900 text-white':''} flex items-center gap-3 py-3 cursor-pointer px-6`}>
                 <FontAwesomeIcon icon={faEye}/>
                 <h1>View Resume</h1>
             </div>
