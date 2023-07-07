@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { ProfileType, ProjectType } from '../../../models/User';
 import { profileFormValid } from '../../../utils/user/profileDataVali';
 import { updateProfileInfo } from '../../../services/candidate/profile';
+import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 
 function Profile() {
   const { userId } = useSelector((state:any) => state.user);
@@ -14,9 +15,27 @@ function Profile() {
   const [profile,SetProfile]=useState<ProfileType>({gender:"Male",matital:"Unmarried"})
   const [err,setErr]=useState<ProfileType>({gender:"",matital:""})
   const [skillerr,setSkillErr]=useState('')
-  const [projectCnt,setProjectCnt]=useState([1])
   const [projects,setProjects]=useState<ProjectType[]>([])
-  const [projectErr,setProjectErr]=useState({})
+  const [project,setProject]=useState<ProjectType>()
+  const [projectErr,setProjectErr]=useState<ProjectType>()
+  const [isProjectModal,setisProjectModal]=useState(false)
+
+  const projectForm=(e:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
+    const {name,value} = e.target
+    if(name==='title') {
+        setProject({...project,title:value})
+        if(value.trim().length===0) setProjectErr({...projectErr,title:"field can't be empty"})
+        else if(value.trim().length<5) setProjectErr({...projectErr,title:"Title is too short"})
+        else setProjectErr({...projectErr,title:""})
+    }
+    if(name==='desc') {
+        setProject({...project,desc:value})
+        if(value.trim().length===0) setProjectErr({...projectErr,desc:"field can't be empty"})
+        else if(value.trim().length<15) setProjectErr({...projectErr,desc:"Description is too short"})
+        else setProjectErr({...projectErr,desc:""})
+    }
+
+  }
 
 
   const addSkill=()=>{
@@ -66,10 +85,22 @@ function Profile() {
         setChecked(false)
     }
     
+    
   }
-  const addnewProject=()=>{
-    setProjectCnt([...projectCnt,projectCnt.length+1])
+
+  const handleProjectFormSubmit=(e:React.FormEvent)=>{
+    e.preventDefault()
+    if(projectErr?.title===''&&projectErr?.desc===''){
+        if(project?.title&&project.desc){
+            setProjects([...projects,project])
+            setisProjectModal(false)
+        }
+    }
+    
+    
   }
+
+
   const handleSubmit=(e:React.FormEvent)=>{
     e.preventDefault()
    
@@ -90,17 +121,19 @@ function Profile() {
         }
     }
   }
-  const removeProject=(ele:number)=>{
-    const newArr= projectCnt.filter(obj=>obj!==ele)
-    setProjectCnt(newArr)
+
+  const deleteProject=(obj:ProjectType)=>{
+    const newArray= projects.filter(ele=>ele!==obj)
+    setProjects(newArray)
   }
+
   
 
     return (
         <>
-            <div className='w-full lg:ps-10 lg:pe-20 mt-10'>
+            <div className={`w-full lg:ps-10 lg:pe-20 mt-10 ${isProjectModal?'blur-sm ':''}`}>
                 <div className='w-full  border-primary border-200 shadow-sm shadow-primary-600 rounded-md px-2 mb-8 pb-8 pt-4'>
-                    <form onSubmit={handleSubmit} className='md:grid grid-cols-1 md:grid-cols-2 gap-2 items-center font-exo '>
+                    <form onSubmit={handleSubmit} className='md:grid grid-cols-1 md:grid-cols-2 gap-2 items-center font-exo  ' >
                         <div className=''>
                             <h1 className=''>Father's Name</h1>
                             <input type="text" name='father' className="px-4 signupFormInput w-full" onChange={profileForm} required/>
@@ -166,25 +199,51 @@ function Profile() {
                             <p className='text-red-600 text-xs'>{skillerr}</p>
 
                         </div>
-                        <h1  className='px-1 font-exo text-2xl mt-2'>Projects</h1>
-                        {projectCnt.map((obj,i)=><div className='col-span-2 mt-4'>
-                            <h1 className='text-lg flex items-center gap-2'>Project {i+1} {i+1>1 ? <FontAwesomeIcon className='cursor-pointer' onClick={()=>removeProject(obj)} icon={faClose}/>:null} </h1>
-                            <h1>Title</h1>
-                                <input onChange={enterProject}  type="text" name={`projectTitle-${i+1}`} className="px-4 signupFormInput w-full"  required/>
-                                <p className='text-red-600 text-xs'>{}</p>
+
+                        <h1  className='col-span-2 px-1 font-exo text-2xl mt-2 flex items-center gap-2'>Projects  <FontAwesomeIcon icon={faPlusCircle} onClick={()=>setisProjectModal(true)} className='text-' /> </h1>
+                        
+                        <div className='col-span-2 px-1 font-exo'>
+                            {projects.map((obj,i)=><div className='mb-2 w-full rounded-md border border-primary-300 px-2'>
                                 
-                            <h1>Description</h1>
-                            <textarea onChange={enterProject} name={`projectDes-${i+1}`} id=""  className='px-4 signupFormInput h-24 w-full' required></textarea>
-                        </div>)}
-                        <div className='col-span-2 px-2 text-end text-xl text-primary-800'>
-                            <h1 ><FontAwesomeIcon onClick={addnewProject} icon={faPlusCircle} /></h1>
+                                <div  className='flex justify-between pt-2'>
+                                    <h1 className='text-2xl font-exo '>Project {i+1}</h1>
+                                    
+                                 <FontAwesomeIcon className='text-xl text-red-600 cursor-pointer' icon={faCircleXmark} onClick={()=>deleteProject(obj)}/>
+                                </div>
+                                <h1 className='text-xl font-exo pt-4'><span className='font-exo font-bold'> Title :</span> {obj.title}</h1>
+                                <p className='pb-2'><span className='font-bold'> Description : </span> {obj.desc}</p>
+                            </div>)}
                         </div>
                         <div className='mt-4 ms-1'>
-                            <button className='bg-primary-1000 text-white px-4 py-2 rounded-md'>Update Change</button>
+                            <button className='bg-primary-1000 text-white px-4 py-2 rounded-md '>Update Change</button>
                         </div>
                     </form>
                 </div>
             </div>
+            {isProjectModal && <div className='fixed px-2 left-0 lg:left-1/4 lg:ps-40  w-full lg:w-4/5 lg:pe-96 top-20 py-36  h-screen'>
+                <form onSubmit={handleProjectFormSubmit} className=' border w-full bg-white border-primary-200 rounded-md px-2  py-4 shadow-md'>
+                    <div className='flex justify-end'>
+                        <FontAwesomeIcon icon={faCircleXmark} className='cursor-pointer text-xl text-red-600' onClick={()=>setisProjectModal(false)}/>
+                    </div>
+                <h1 className='text-xl text-center'>Project Information</h1>
+                    <div className='mt-4'>
+                    <h1>Project Title</h1>
+                    <input type="text" name='title' onChange={projectForm} className="px-4 signupFormInput w-full"  required/>
+                    <p className='text-red-600 text-xs'>{projectErr?.title}</p>
+
+                    </div>
+                    <div className=''>
+                    <h1>Project Description</h1>
+                    <textarea  name='desc' onChange={projectForm} className="px-4 signupFormInput w-full h-24"  required></textarea>
+                    <p className='text-red-600 text-xs'>{projectErr?.desc}</p>
+
+                    </div>
+                    <div className='flex justify-center mt-2'>
+                        <button className='bg-primary-700 text-white px-2 py-2 rounded-md'>Add Project</button>
+                    </div>
+                </form>
+
+            </div>}
         </>
     )
 }
