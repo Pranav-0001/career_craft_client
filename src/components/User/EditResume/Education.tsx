@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import { EducationType } from '../../../models/User'
+import React, { useEffect, useState } from 'react'
+import { EducationType, User } from '../../../models/User'
 import { educationDataValidation } from '../../../utils/user/eduDataVali'
 import { useSelector } from 'react-redux'
-import { updateEducationalInfo } from '../../../services/candidate/profile'
+import { fetchUserData, updateEducationalInfo } from '../../../services/candidate/profile'
 
 function Education() {
     const [edu,setEdu]=useState<EducationType>()
@@ -24,6 +24,18 @@ function Education() {
             }
         }
     }
+    useEffect(() => {
+        const fetchData=async()=>{
+        const user:User=await fetchUserData(userId)
+          if(user?.education){
+            setEdu(user.education)
+            setErr({education:'',institute:'',result:'',starting:'',ending:''})
+          }
+
+        }
+        fetchData()
+    }, [])
+    
     return (
         <>
             <div className='w-full lg:ps-10 lg:pe-20 mt-10'>
@@ -35,18 +47,18 @@ function Education() {
                         </div>
                         <div >
                         <h1 className=''>Educational level</h1>
-                            <input name='education' type="text" className="px-4 signupFormInput w-full" onChange={eduForm} />
+                            <input name='education' type="text" value={edu?.education} className="px-4 signupFormInput w-full" onChange={eduForm} />
                             <p className='text-xs text-red-700'>{err?.education}</p>
 
                         </div>
                         <div >
                         <h1 className=''>Result <span className='text-gray-400 text-sm'>(Percentage)</span></h1>
-                            <input onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()} name='result' type="number" onChange={eduForm} className="px-4 signupFormInput w-full" />
+                            <input value={edu?.result} onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()} name='result' type="number" onChange={eduForm} className="px-4 signupFormInput w-full" />
                             <p className='text-xs text-red-700'>{err?.result}</p>
                         </div>
                         <div >
                         <h1 className=''>Institute/University </h1>
-                            <input onChange={eduForm} name='institute'  type="text" className="px-4 signupFormInput w-full" /> 
+                            <input onChange={eduForm} name='institute' value={edu?.institute} type="text" className="px-4 signupFormInput w-full" /> 
                             <p className='text-xs text-red-700'>{err?.institute}</p>
 
                         </div>
@@ -55,13 +67,13 @@ function Education() {
                         </div>
                         <div >
                         <h1 className=''>Starting Period </h1>
-                            <input onChange={eduForm} name='starting' type="number" onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()} className="px-4 signupFormInput w-full" />
+                            <input value={edu?.starting} onChange={eduForm} name='starting' type="number" onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()} className="px-4 signupFormInput w-full" />
                             <p className='text-xs text-red-700'>{err?.starting}</p>
                             
                         </div>
                         <div >
                         <h1 className=''>Ending Period </h1>
-                            <input onChange={eduForm} name='ending' type="number" onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()} className="px-4 signupFormInput w-full" />
+                            <input value={edu?.ending} onChange={eduForm} name='ending' type="number" onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()} className="px-4 signupFormInput w-full" />
                             <p className='text-xs text-red-700'>{err?.ending}</p>
                         </div>
                         <div className='mt-4 ms-1'>

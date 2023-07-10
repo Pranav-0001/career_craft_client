@@ -1,10 +1,10 @@
 import { faClose, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
-import { ProfileType, ProjectType } from '../../../models/User';
+import { ProfileType, ProjectType, User } from '../../../models/User';
 import { profileFormValid } from '../../../utils/user/profileDataVali';
-import { updateProfileInfo } from '../../../services/candidate/profile';
+import { fetchUserData, updateProfileInfo } from '../../../services/candidate/profile';
 import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 
 function Profile() {
@@ -12,13 +12,28 @@ function Profile() {
   const [checked,setChecked]=useState(false)
   const [skill,setSkill]=useState<string>('')
   const [skills,setSkills]=useState<string[]>([])
-  const [profile,SetProfile]=useState<ProfileType>({gender:"Male",matital:"Unmarried"})
-  const [err,setErr]=useState<ProfileType>({gender:"",matital:""})
+  const [profile,SetProfile]=useState<ProfileType>({gender:"Male",marital:"Unmarried"})
+  const [err,setErr]=useState<ProfileType>({gender:"",marital:""})
   const [skillerr,setSkillErr]=useState('')
   const [projects,setProjects]=useState<ProjectType[]>([])
   const [project,setProject]=useState<ProjectType>()
   const [projectErr,setProjectErr]=useState<ProjectType>()
   const [isProjectModal,setisProjectModal]=useState(false)
+
+  useEffect(() => {
+    const fetchData=async()=>{
+        const user:User=await fetchUserData(userId)
+        if(user.profile) {
+          SetProfile(user.profile)
+          if(user.profile?.skills) setSkills(user.profile.skills)
+          setErr({father:'',mother:'',gender:'',marital:'',nationality:'',permanent:'',present:''})
+          console.log(user.profile.projects,"kkkk")
+          if(user.profile?.projects) setProjects(user.profile.projects)
+        }
+        
+    }
+    fetchData()
+}, [])
 
   const projectForm=(e:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
     const {name,value} = e.target
@@ -64,7 +79,7 @@ function Profile() {
         projects[i].desc=value
     }
   }
-  console.log(projects);
+  
   
 
   const profileForm=(e:ChangeEvent<HTMLInputElement | HTMLTextAreaElement |HTMLSelectElement>)=>{
@@ -73,7 +88,7 @@ function Profile() {
     SetProfile({...profile,[name]:value})
     
   }
-  console.log(profile);
+
   
   const sameAddress=(e:ChangeEvent<HTMLInputElement>)=>{
     if(e.target.checked){
@@ -104,18 +119,19 @@ function Profile() {
   const handleSubmit=(e:React.FormEvent)=>{
     e.preventDefault()
    
-    if(profile?.father&&profile.mother&&profile.dob&&profile.gender&&profile.matital&&profile.nationality&&profile.permanent&&profile.present){
+   
+    if(profile?.father&&profile.mother&&profile.dob&&profile.gender&&profile.marital&&profile.nationality&&profile.permanent&&profile.present){
       
-        console.log(err);
+       
         
         if(err?.father===''&&err?.mother===''&&err?.nationality===''&&err?.permanent===''&&err?.present===''){
-            console.log("iii");
+            
             
             if(skills.length<1) setSkillErr('Add Skills')
             else if(skills.length<2) setSkillErr('Atleast 2 Skills required')
             else {
-                const {father,mother,dob,nationality,permanent,present,matital,gender}=profile
-                updateProfileInfo(father,mother,dob,nationality,permanent,present,matital,gender,skills,userId)
+                const {father,mother,dob,nationality,permanent,present,marital,gender}=profile
+                updateProfileInfo(father,mother,dob,nationality,permanent,present,marital,gender,skills,projects,userId)
             }
             
         }
@@ -136,52 +152,72 @@ function Profile() {
                     <form onSubmit={handleSubmit} className='md:grid grid-cols-1 md:grid-cols-2 gap-2 items-center font-exo  ' >
                         <div className=''>
                             <h1 className=''>Father's Name</h1>
-                            <input type="text" name='father' className="px-4 signupFormInput w-full" onChange={profileForm} required/>
+                            <input value={profile?.father} type="text" name='father' className="px-4 signupFormInput w-full" onChange={profileForm} required/>
                             <p className='text-red-600 text-xs'>{err?.father}</p>
 
                         </div>
                         <div>
                             <h1>Mother's Name</h1>
-                            <input type="text" name='mother'  className="px-4 signupFormInput w-full" onChange={profileForm} required/>
+                            <input value={profile?.mother} type="text" name='mother'  className="px-4 signupFormInput w-full" onChange={profileForm} required/>
                             <p className='text-red-600 text-xs'>{err?.mother}</p>
                         </div>
                         <div>
                             <h1>Date of Birth</h1>
-                            <input type="date" name='dob'  className="px-4 signupFormInput w-full" max="2004-12-31"  onChange={profileForm} required/>
+                            <input type="date" name='dob' value={profile?.dob} className="px-4 signupFormInput w-full" max="2004-12-31"  onChange={profileForm} required/>
                             {/* value={"2013-01-08"} */}
 
                         </div>
                         <div>
                             <h1>Nationality</h1>
-                            <input type="text" name='nationality' className="px-4 signupFormInput w-full"  onChange={profileForm} required/>
+                            <input type="text" name='nationality' value={profile?.nationality} className="px-4 signupFormInput w-full"  onChange={profileForm} required/>
                             <p className='text-red-600 text-xs'>{err?.nationality}</p>
 
                         </div>
                         <div>
                             <h1>Permanent Address</h1>
-                            <textarea name="permanent" id=""  className="px-4 signupFormInput w-full h-24"  onChange={profileForm} required ></textarea>
+                            <textarea name="permanent" id=""  className="px-4 signupFormInput w-full h-24" value={profile?.permanent}  onChange={profileForm} required ></textarea>
                             <p className='text-red-600 text-xs'>{err?.permanent}</p>
 
                         </div>
                         <div >
                             <h1 className='flex'>Present Address  </h1>
                             {/* <span className='text-sm flex items-center'> <input onChange={sameAddress} className='w-6' type="checkbox" name="" id="" /> Same as permanent Address</span> */}
-                            <textarea name="present" id="" className="px-4 signupFormInput w-full h-24"  value={checked ? profile?.permanent : profile?.present} onChange={profileForm} required> </textarea>
+                            <textarea name="present" id="" className="px-4 signupFormInput w-full h-24"  value={profile?.present} onChange={profileForm} required> </textarea>
                             <p className='text-red-600 text-xs'>{err?.present}</p>
                             
                         </div>
                         <div>
                             <h1>Marital Status</h1>
-                            <select name="matital" className="px-4 signupFormInput w-full" id=""  onChange={profileForm} required>
-                                <option value="Unmarried">Unmarried</option>
-                                <option value="Married">Married</option>
+                            <select name="marital" className="px-4 signupFormInput w-full" id=""  onChange={profileForm}  required>
+                                {profile.marital==="Unmarried"?
+                                <> <option value="Unmarried" selected>Unmarried</option>
+                                <option value="Married" >Married</option></>
+                                :profile.marital==="Married"?
+                                <>
+                                <option value="Married" selected>Married</option>
+                                <option value="Unmarried" >Unmarried</option></>
+                                :
+                                <>
+                                <option value="Unmarried" selected>Unmarried</option>
+                                <option value="Married" selected>Married</option>
+                                </>
+                                }
+                                
+                                
                             </select>
                         </div>
                         <div>
                             <h1>Gender</h1>
                             <select name="gender" className="px-4 signupFormInput w-full" id=""  onChange={profileForm} required>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
+                                {profile.gender==="Male"?
+                                <><option value="Male" selected>Male</option>
+                                <option value="Female">Female</option></>
+                                :profile.gender==="Female"?
+                                <><option value="Male">Male</option>
+                                <option value="Female" selected>Female</option></>
+                                :<><option value="Male">Male</option>
+                                <option value="Female">Female</option></>
+                               }
                             </select>
                         </div>
                         <div className='col-span-2 '>

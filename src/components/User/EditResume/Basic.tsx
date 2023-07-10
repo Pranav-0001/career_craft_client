@@ -1,10 +1,10 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react'
-import { handleImgUrl, updateBasicInfo } from '../../../services/candidate/profile'
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import { fetchUserData, handleImgUrl, updateBasicInfo } from '../../../services/candidate/profile'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons'
 import { url } from 'inspector'
 import { center } from '@cloudinary/url-gen/qualifiers/textAlignment'
-import { BasicType } from '../../../models/User'
+import { BasicType, User } from '../../../models/User'
 import { basicDataValidation } from '../../../utils/user/basicDataVali'
 import { ToastContainer, toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
@@ -14,7 +14,23 @@ function Basic() {
   const [imgUp,setImgUp]=useState(false)
   const [basic,setBasic] = useState<BasicType>()
   const [err,setErr] = useState<BasicType>()
-  const { userId } = useSelector((state:any) => state.user);
+  const { userId,userEmail } = useSelector((state:any) => state.user);
+
+
+  useEffect(() => {
+    const fetchData=async()=>{
+        const user:User=await fetchUserData(userId)
+        
+        
+        if(user?.basic) {
+          setBasic(user.basic)
+          setImgUrl(user.basic.imageURL)
+          setErr({firstname:'',lastname:'',phone:'',about:'',objective:'',qualification:'',email:''})
+        }
+        
+    }
+    fetchData()
+}, [])
 
   const generateUrl = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -107,14 +123,14 @@ function Basic() {
             <div>
               <h1>Firstname</h1>
 
-              <input type="text" name='firstname' onChange={basicForm} className="signupFormInput w-full" required/>
+              <input type="text" name='firstname' value={basic?.firstname} onChange={basicForm} className="signupFormInput w-full" required/>
               <p className='text-xs text-red-600'>{err?.firstname}</p>
 
             </div>
             <div className='md:grid md:grid-cols-3 items-center gap-1'>
               <div className='w-full col-span-2'>
                 <h1>Lastname</h1>
-                <input type="text" name='lastname' onChange={basicForm} className="signupFormInput w-full"  required/>
+                <input type="text" name='lastname' value={basic?.lastname} onChange={basicForm} className="signupFormInput w-full"  required/>
                 <p className='text-xs text-red-600'>{err?.lastname}</p>
               </div>
               <div className='md:block hidden w-full'>
@@ -157,30 +173,30 @@ function Basic() {
             </div>
             <div>
               <h1>Email</h1>
-              <input type="text" onChange={basicForm} name='email' value={"demo"} className="signupFormInput w-full" disabled/>
+              <input type="text"  onChange={basicForm} name='email' value={userEmail} className="signupFormInput w-full" disabled/>
               <p className='text-xs text-red-600'>{err?.email}</p>
 
             </div>
             <div>
               <h1>Phone</h1>
-              <input type="number" onChange={basicForm} name='phone' className="signupFormInput w-full"  required/>
+              <input type="number" onChange={basicForm} value={basic?.phone} name='phone' className="signupFormInput w-full"  required/>
               <p className='text-xs text-red-600'>{err?.phone}</p>
 
             </div>
             <div>
               <h1>Qualification</h1>
-              <input type="text" onChange={basicForm} name='qualification' className="signupFormInput w-full" required />
+              <input type="text" onChange={basicForm} value={basic?.qualification} name='qualification' className="signupFormInput w-full" required />
               <p className='text-xs text-red-600'>{err?.qualification}</p>
             </div>
             <div>
-            <h1>About</h1>
-              <input type="text" onChange={basicForm} name="about"  className="signupFormInput w-full"  required/>
+            <h1>Domain</h1>
+              <input type="text" onChange={basicForm} name="about" value={basic?.about}  className="signupFormInput w-full"  required/>
               <p className='text-xs text-red-600'>{err?.about}</p>
 
             </div>
             <div className='col-span-2'>
               <h1>Career Objective</h1>
-              <textarea  name='objective' id="" className='signupFormInput h-28' onChange={basicAbout}  required></textarea>
+              <textarea  name='objective' id="" className='signupFormInput h-40' value={basic?.objective} onChange={basicAbout}  required></textarea>
               <p className='text-xs text-red-600'>{err?.objective}</p>
 
               

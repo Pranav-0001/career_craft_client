@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { ProfessionalType } from '../../../models/User'
+import React, { useEffect, useState } from 'react'
+import { ProfessionalType, User } from '../../../models/User'
 import { profValidate } from '../../../utils/user/profVali'
-import { updateProfessionalInfo } from '../../../services/candidate/profile'
+import { fetchUserData, updateProfessionalInfo } from '../../../services/candidate/profile'
 import { useSelector } from 'react-redux'
 
 function Professional() {
@@ -27,6 +27,20 @@ function Professional() {
         
     }
 
+    useEffect(() => {
+      const fetch=async()=>{
+        const user:User=await fetchUserData(userId)
+        if(user?.professional){
+            setProf(user.professional)
+            setErr({company:"",designation:"",experience:""})
+        }
+
+        
+      } 
+      fetch()
+    }, [])
+    
+
     return (
         <>
             <div className='w-full lg:ps-10 lg:pe-20 mt-10'>
@@ -37,19 +51,19 @@ function Professional() {
                         </div>
                         <div>
                             <h1 className=''>Company Name</h1>
-                            <input type="text" name='company' className="px-4 signupFormInput w-full" onChange={profForm} required/>
+                            <input type="text" name='company' value={prof.company} className="px-4 signupFormInput w-full" onChange={profForm} required/>
                             <p className='text-xs text-red-600'>{err?.company}</p>
                         </div>
                         <div>
                             <h1 className=''>Designation</h1>
-                            <input type="text" name='designation' className="px-4 signupFormInput w-full" onChange={profForm} required/>
+                            <input type="text" name='designation' value={prof.designation} className="px-4 signupFormInput w-full" onChange={profForm} required/>
                             <p className='text-xs text-red-600'>{err?.designation}</p>
 
                         </div>
                         <div>
                             <h1 className=''>Year of Experience</h1>
                           
-                            <select name="experience" id=""  className='px-4 signupFormInput w-full' >
+                            <select name="experience" value={prof.experience} id="" onChange={profForm} className='px-4 signupFormInput w-full' >
                                 <option value="1">1 Year</option>
                                 <option value="2">2 Year</option>
                                 <option value="3">3 Year</option>

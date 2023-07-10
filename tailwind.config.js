@@ -18,7 +18,8 @@ module.exports = {
           '900':'rgba(0, 167, 172,0.9)',
           '1000':'rgba(0, 167, 172,1)',
         },
-        adminNav:"#38414A"
+        adminNav:"#38414A",
+        cvPrimary:'#005c85'
       },
       fontFamily:{
         exo: ['"Exo 2"', 'sans-serif'],

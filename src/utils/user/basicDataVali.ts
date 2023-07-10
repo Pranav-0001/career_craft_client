@@ -44,6 +44,6 @@ const objectiveValidation=(val:string,err:BasicType|undefined,setErr:Function)=>
 const aboutValidation=(val:string,err:BasicType|undefined,setErr:Function)=>{
     
     if(val.trim().length===0) setErr({...err,about:"Field Can't be empty"})
-    else if(val.trim().length<10 ) setErr({...err,about:"About is too short"})
+    else if(val.trim().length<3 ) setErr({...err,about:"Domain is too short"})
     else  setErr({...err,about:""})
 }

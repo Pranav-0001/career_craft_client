@@ -11,7 +11,7 @@ function ViewResumePage() {
         <div className='hidden lg:block lg:col-span-2 '>
           <SideMenu page={"resumeView"}/>
         </div>
-        <div className='col-span-7 px-4 lg:px-0 lg:col-span-5 '>
+        <div className='col-span-7 px-4 lg:px-0 lg:col-span-5 pt-20'>
           <Resume/>
         </div>
       </div>

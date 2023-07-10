@@ -1,6 +1,7 @@
 
 import axios from "axios"
 import { api } from "../axios"
+import { ProjectType } from "../../models/User"
 
 
 
@@ -25,20 +26,20 @@ export const handleImgUrl=async(img:File)=>{
     }
 }
 
-export const updateBasicInfo=(firstname:string,lastname:string,phone:string,qualification:string,objective:string,about:string,imageURL:string,user:string)=>{
+export const updateBasicInfo=async(firstname:string,lastname:string,phone:string,qualification:string,objective:string,about:string,imageURL:string,user:string)=>{
 
-    api.post(`/basic-update/${user}`,{firstname,lastname,phone,qualification,objective,about,imageURL},{withCredentials:true})
+    const {data}=await api.post(`/basic-update/${user}`,{firstname,lastname,phone,qualification,objective,about,imageURL},{withCredentials:true})
 }
 
-export const updateProfileInfo=(father:string,mother:string,dob:string,nationality:string,permanent:string,present:string,marital:string,gender:string,skills:string[],user:string)=>{
+export const updateProfileInfo=async(father:string,mother:string,dob:string,nationality:string,permanent:string,present:string,marital:string,gender:string,skills:string[],projects:ProjectType[],user:string)=>{
 
-    api.post(`/profile-update/${user}`,{father,mother,dob,nationality,permanent,present,marital,gender,skills},{withCredentials:true})
+    const {data}=await api.post(`/profile-update/${user}`,{father,mother,dob,nationality,permanent,present,marital,gender,skills,projects},{withCredentials:true})
 
 }
 
-export const updateEducationalInfo=(education:string,result:string,institute:string,starting:string,ending:string,user:string)=>{
+export const updateEducationalInfo=async(education:string,result:string,institute:string,starting:string,ending:string,user:string)=>{
     try {
-        api.put(`/education-update/${user}`,{education,result,institute,starting,ending},{withCredentials:true})
+        const {data}=await api.put(`/education-update/${user}`,{education,result,institute,starting,ending},{withCredentials:true})
     } catch (error) {
         console.log(error);
         
@@ -46,10 +47,22 @@ export const updateEducationalInfo=(education:string,result:string,institute:str
     
 }
 
-export const updateProfessionalInfo=(company:string,designation:string,experience:string,userId:string)=>{
+export const updateProfessionalInfo=async(company:string,designation:string,experience:string,userId:string)=>{
     try {
-        api.put(`/professional-update/${userId}`,{company,designation,experience},{withCredentials:true})
+        const {data}=await api.put(`/professional-update/${userId}`,{company,designation,experience},{withCredentials:true})
     } catch (error) {
+        
+    }
+}
+
+
+export const fetchUserData=async(userId:string)=>{
+    try {
+        const {data}=await api.get(`/getuserdata/${userId}`,{withCredentials:true})
+        
+        
+        return data.user
+    }catch(err){
         
     }
 }

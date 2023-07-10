@@ -10,6 +10,10 @@ export interface User{
     profileImg:string,
     status:boolean,
     isPrime:boolean
+    basic?:BasicType,
+    profile?:ProfileType,
+    education?:EducationType,
+    professional?:ProfessionalType
 }
 
 export interface BasicType{
@@ -20,6 +24,7 @@ export interface BasicType{
     qualification?:string
     objective?:string
     about?:string
+    imageURL?:string
 }
 
 export interface ProfileType{
@@ -29,8 +34,10 @@ export interface ProfileType{
     nationality?:string
     permanent?:string
     present?:string
-    matital?:string
+    marital?:string
     gender?:string
+    skills?:string[]
+    projects?:ProjectType[]
 }
 
 export interface EducationType{

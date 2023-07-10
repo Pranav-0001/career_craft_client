@@ -1,14 +1,29 @@
 import { faSquare } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Basic from './Basic'
 import Profile from './Profile'
 import Education from './Education'
 import './EditResume.css'
 import Professional from './Professional'
+import { fetchUserData } from '../../../services/candidate/profile'
+import { useSelector } from 'react-redux'
+import { User } from '../../../models/User'
 
 function EditResume() {
     const [page,setPage]=useState('basic')
+    
+    const { userId } = useSelector((state:any) => state.user);
+
+    useEffect(() => {
+        const fetchData=async()=>{
+            const user:User=await fetchUserData(userId)
+            
+            
+        }
+        fetchData()
+    }, [])
+    
     return (
         <>
             <div className='mt-20 w-full'>
