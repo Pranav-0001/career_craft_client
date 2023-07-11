@@ -8,6 +8,8 @@ import { applyJob, getSingleJob, removeSaved, saveJob } from '../../../services/
 import { jobData } from '../../../models/jobDetails'
 import { useSelector } from 'react-redux'
 import { Job } from '../../../models/Jobmodel'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 function JobDetails() {
     const [jobData, setJobData] = useState<jobData >()
@@ -54,12 +56,25 @@ function JobDetails() {
 
     const applyNow=async () =>{
         if (jobData?._id) {
-            const id = jobData._id
-            const res=await applyJob(id,userId)
+            const jobId = jobData._id
+            const empId=jobData.Employer[0]._id
+            
+            const res=await applyJob(jobId,empId,userId)
             if(res){
-               console.log(res);
-               let newData:jobData={...jobData,appliedBy:[...(jobData.appliedBy),{user:userId,appliedOn:"",status:"Applied"}]}
-               console.log(newData);
+               
+               if(!res.status){
+                console.log(res);
+                
+                toast.error(res.Error, {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    });
+               }
                
                
             }
@@ -208,7 +223,7 @@ function JobDetails() {
                 </div>
 
             </div>
-
+            <ToastContainer/>
         </div>
     )
 }

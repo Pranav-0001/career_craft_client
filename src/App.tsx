@@ -18,6 +18,7 @@ import EditResumePage from './Pages/EditResumePage';
 import JobDetailPage from './Pages/JobDetailPage';
 import BookmarkJobsPage from './Pages/BookmarkJobsPage';
 import ViewResumePage from './Pages/ViewResumePage';
+import AppliedJobsPage from './Pages/AppliedJobsPage';
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
       <Route path='/bookmarks' element={<BookmarkJobsPage/>}/>
       <Route path='/job-details/:id' element={<JobDetailPage/>} />
       <Route path='/view-resume' element={<ViewResumePage/>} />
+      <Route path='/my-applications' element={<AppliedJobsPage/>} />
       
 
 
