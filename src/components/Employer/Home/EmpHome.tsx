@@ -27,8 +27,8 @@ function EmpHome() {
     
     return (
         <>
-            <DashHead />
-            <div className='w-full'>
+           
+            <div className='w-full '>
                 <div className='flex justify-between mx-3 md:mx-16 lg:mx-16 mt-4'>
                     <div className='flex'>
                         <img src={EmpImage} alt="" className='w-20' />

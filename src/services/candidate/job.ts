@@ -32,7 +32,9 @@ export const fetchsavedJobs=async(user:string)=>{
    return data.saved
 }
 
-export const fetchUserApplied=async (userId:string)=>{
-   const {data}= await api.get(`/user-applied-jobs/:${userId}`)
+export const  fetchUserApplied=async (userId:string)=>{
+   const {data}= await api.get(`/user-applied-jobs/${userId}`)
+   console.log(data.jobs);
+   
    return data.jobs
 }

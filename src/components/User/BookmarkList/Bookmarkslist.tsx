@@ -5,10 +5,11 @@ import { Job } from '../../../models/Jobmodel';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark } from '@fortawesome/free-solid-svg-icons';
 import './bookmark.css'
+import { useNavigate } from 'react-router-dom';
 
 function Bookmarklist() {
   const [jobs,setJobs]= useState<Job[] | []>([])
-
+  const navigate=useNavigate()
   const { userId } = useSelector((state:any) => state.user);
   const removeBookmark=async(id:string)=>{
     const res=await removeSaved(id,userId)
@@ -53,9 +54,14 @@ function Bookmarklist() {
             <span className='px-1 ms-2 bg-orange-300 text-white rounded-md '>{obj.jobType} </span>
           </div>
         </div>) : 
+        <>
         <div className='w-full noSaved h-80 flex col-span-2 justify-center mt-4'>
           <h1 className='text-2xl font-exo'>No Saved Jobs</h1>
+          
+          
         </div>
+        <button onClick={()=>navigate('/findjobs')} className='col-span-2 text-center  text-white'><span className='bg-primary-800 px-3 py-2 rounded-md hover:shadow-lg '> Find Jobs</span></button>
+        </>
         }
       </div>
     </>

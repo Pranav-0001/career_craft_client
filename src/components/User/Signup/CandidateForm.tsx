@@ -92,7 +92,7 @@ function CandidateForm() {
                 dispatch(updateUser({userId:user._id,username:user.username,image:user.profileImg,userEmail:user.email}))
                 navigate('/')
             }
-                navigate('/')
+                // navigate('/')
             }else{
                 navigate('/register')
             }

@@ -3,7 +3,7 @@ import { faBookmark as solidBookmark } from '@fortawesome/free-solid-svg-icons'
 import { faArrowRightToBracket } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { applyJob, getSingleJob, removeSaved, saveJob } from '../../../services/candidate/job'
 import { jobData } from '../../../models/jobDetails'
 import { useSelector } from 'react-redux'
@@ -12,6 +12,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 
 function JobDetails() {
+    const navigate=useNavigate()
     const [jobData, setJobData] = useState<jobData >()
     const { id } = useParams<{ id: string }>()
     const { userId } = useSelector((state: any) => state.user);
@@ -58,6 +59,7 @@ function JobDetails() {
         if (jobData?._id) {
             const jobId = jobData._id
             const empId=jobData.Employer[0]._id
+
             
             const res=await applyJob(jobId,empId,userId)
             if(res){
@@ -74,6 +76,17 @@ function JobDetails() {
                     draggable: true,
                     progress: undefined,
                     });
+               }
+               else{
+                if(jobData.appliedBy){
+                  let newJobData:jobData={...jobData,appliedBy:[...jobData?.appliedBy,userId]}  
+                  setJobData(newJobData)
+                }else{
+                    let newJobData:jobData={...jobData,appliedBy:[userId]} 
+                  setJobData(newJobData)
+
+                }
+                
                }
                
                
@@ -110,7 +123,7 @@ function JobDetails() {
 
                     </div>
                     <div>
-                        {jobData&& jobData.appliedBy && jobData?.appliedBy.some(obj => obj.user === userId) ? <h1 className='bg-primary-600 px-4 py-2 rounded-md shadow-md text-white'>Applied</h1> : <button onClick={applyNow} className='font-exo bg-primary-800 text-white px-3 py-2 rounded-md'>Apply Now</button>}  
+                        {jobData&& jobData.appliedBy && jobData?.appliedBy.includes(userId) ? <div className='flex gap-2 items-center'><button  className='bg-yellow-200 font-bold text-yellow-800 px-2 py-1 rounded-md hidden lg:block '>Applied</button> <p onClick={()=>navigate('/my-applications')} className='cursor-pointer text-sm font-exo hover:underline hover:text-blue-500'>Go to Applied</p> </div>: <button onClick={applyNow} className='font-exo bg-primary-800 text-white px-3 py-2 rounded-md'>Apply Now</button>}  
                     </div>
                 </div>
 

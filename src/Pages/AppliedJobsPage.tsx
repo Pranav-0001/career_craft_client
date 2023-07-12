@@ -12,7 +12,7 @@ function AppliedJobsPage() {
         <div className='hidden lg:block lg:col-span-2 '>
           <SideMenu page={"apply"}/>
         </div>
-        <div className='col-span-7 px-4 lg:px-0 lg:col-span-5 pt-10 lg:pt-20'>
+        <div className='col-span-7 px-2 lg:px-0 lg:col-span-5 pt-10 lg:pt-20'>
           <AppliedJobs/>
         </div>
       </div>
