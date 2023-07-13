@@ -27,7 +27,7 @@ const DashHead:React.FC<TopMenuProps>=({page}) =>{
         <div className='w-full px-2 md:px-16 mt-6 md:mt-16 mb-6'>
             <div className='w-full border-2 rounded-md h-24 px-2 py-3 bg-white'>
                 <div className='w-full h-full dash-head rounded-md flex items-center text-xl justify-between md:justify-around   overflow-hidden'>
-                    <div className={`flex items-center justify-center gap-3 ${page==="dash" && 'bg-primary-800 text-white '}  h-full w-full cursor-pointer`}>
+                    <div onClick={()=>navigate('/employer')} className={`flex items-center justify-center gap-3 ${page==="dash" && 'bg-primary-800 text-white '}  h-full w-full cursor-pointer`}>
                         <FontAwesomeIcon icon={faCube}/>
                         <h1 className='hidden lg:block'>DashBoard</h1>
                     </div>
@@ -35,7 +35,7 @@ const DashHead:React.FC<TopMenuProps>=({page}) =>{
                         <FontAwesomeIcon icon={faAddressCard}/>
                         <h1 className='hidden lg:block'>Profile</h1>
                     </div>
-                    <div className={`flex items-center justify-center gap-3 ${page==="applied" && 'bg-primary-800 text-white '}   h-full w-full cursor-pointer`}>
+                    <div onClick={()=>navigate('/employer/all-applications')} className={`flex items-center justify-center gap-3 ${page==="applied" && 'bg-primary-800 text-white '}   h-full w-full cursor-pointer`}>
                         <FontAwesomeIcon icon={faBriefcase}/>
                         <h1 className='hidden lg:block'>Applied List</h1>
                     </div>

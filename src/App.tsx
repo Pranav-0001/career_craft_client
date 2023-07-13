@@ -20,6 +20,7 @@ import BookmarkJobsPage from './Pages/BookmarkJobsPage';
 import ViewResumePage from './Pages/ViewResumePage';
 import AppliedJobsPage from './Pages/AppliedJobsPage';
 import EmpAppliedJobListPage from './Pages/EmpAppliedJobListPage';
+import EmpResumeViewPage from './Pages/EmpResumeViewPage';
 
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
       <Route path='/employer' element={<EmployerProtected><EmpHomePage/></EmployerProtected>}/>
       <Route path='/employer/addjob' element={<EmployerProtected><JobPostPage/></EmployerProtected>}/>
       <Route path='/employer/all-applications' element={<EmployerProtected><EmpAppliedJobListPage/></EmployerProtected>}/>
+      <Route path='/employer/view-resume' element={<EmployerProtected><EmpResumeViewPage/></EmployerProtected>}/>
       
       <Route path='/admin/login' element={<AdminLoginPage/>}/>
       <Route path='/admin/' element={<AdminProtected><AdminHomePage/></AdminProtected>}/>
