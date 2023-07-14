@@ -10,6 +10,7 @@ export  interface appliedJobsByUser{
     appliedOn:string
 }
 export  interface appliedJobsByEmp{
+    _id:string
     jobId:string,
     empId:string,
     status:string,

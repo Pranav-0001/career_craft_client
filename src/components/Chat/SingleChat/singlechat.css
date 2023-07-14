@@ -1,0 +1,9 @@
+.chat{
+    max-height: 100vw;
+}
+.chatpage{
+    max-height: 75vh;
+}
+.chats::-webkit-scrollbar{
+    display: none;
+}

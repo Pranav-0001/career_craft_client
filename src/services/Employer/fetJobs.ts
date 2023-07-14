@@ -17,3 +17,12 @@ export const getDomains=async()=>{
         console.log(err);
     }
 }
+
+export const acceptUserApplication=async(userId:string,empId:string,applicationId:string)=>{
+    try {
+        const {data}=await api.post('/employer/accept-application',{userId,empId,applicationId})
+        return data.update
+    } catch (error) {
+        
+    }
+}
