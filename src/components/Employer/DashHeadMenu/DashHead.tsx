@@ -43,7 +43,7 @@ const DashHead:React.FC<TopMenuProps>=({page}) =>{
                         <FontAwesomeIcon icon={faGears}/>
                         <h1 className='hidden lg:block'>Settings</h1>
                     </div>
-                    <div className='flex items-center justify-center gap-3  h-full w-full cursor-pointer'>
+                    <div className={`${page==="que" && 'bg-primary-800 text-white '} flex items-center justify-center gap-3  h-full w-full cursor-pointer`}>
                         <FontAwesomeIcon icon={faClipboardQuestion}/>
                         <h1 className='hidden lg:block'>Questions</h1>
                     </div>

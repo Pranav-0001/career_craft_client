@@ -18,6 +18,7 @@ export interface Message{
     sender:sender,
     content:string,
     chat:Chats
+    createdAt:string
 }
 
 export interface sender{

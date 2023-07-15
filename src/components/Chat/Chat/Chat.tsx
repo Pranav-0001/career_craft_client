@@ -41,14 +41,14 @@ const Chat: React.FC<role> = ({ role }) => {
     return (
         <div className='h-4/5'>
             <div className='w-full h-4/5  py-4 lg:px-8 px-2 font-exo'>
-                <div className='flex pe-32 ps-2  mb-4'>
+                <div className='flex pe-32 ps-2  mb-2'>
                     <input type="text" className='w-1/4 outline-none py-2 px-4 rounded-full' />
                 </div>
                 <div className='w-full  rounded-md  overflow-hidden ' >
                     <div className='lg:grid grid-cols-4 chatpage gap-2'>
                         <div className='bg-white h-4/5 rounded-md  shadow-md overflow-y-scroll chat-scroll'>
 
-                            {chats.map((obj) => <div className='px-2 py-3' onClick={()=>selectChat(obj)}>
+                            {chats.map((obj) => <div key={obj._id} className='px-2 py-3' onClick={()=>selectChat(obj)}>
                                 <div className='w-full  h-16 bg-white  flex items-center border-b-2 pb-2'>
                                     <div className='py-2 px-2'>
                                         <img className='h-12 rounded-full' src={obj.users[0]._id === currentUserId ? obj.users[1].profileImg : obj.users[0].profileImg} alt="" />
