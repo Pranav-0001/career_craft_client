@@ -24,6 +24,7 @@ import EmpResumeViewPage from './Pages/EmpResumeViewPage';
 import ChatPage from './Pages/ChatPage';
 import EmployerQuestionPage from './Pages/EmployerQuestionPage';
 import EmpAddQuestion from './Pages/EmpAddQuestion';
+import CandidateExamPage from './Pages/CandidateExamPage';
 
 
 function App() {
@@ -40,12 +41,13 @@ function App() {
       <Route path='/register' element={<ReginsterPage/>}/>
       <Route path='/dashboard' element={<CandidateProtect><DashboardPage/></CandidateProtect>}/>
       <Route path='/findjobs' element={<JoblistPage/>}/>
-      <Route path='/editResume' element={<EditResumePage/>}/>
-      <Route path='/bookmarks' element={<BookmarkJobsPage/>}/>
+      <Route path='/editResume' element={<CandidateProtect><EditResumePage/></CandidateProtect>}/>
+      <Route path='/bookmarks' element={<CandidateProtect><BookmarkJobsPage/></CandidateProtect>}/>
       <Route path='/job-details/:id' element={<JobDetailPage/>} />
       <Route path='/view-resume' element={<ViewResumePage/>} />
       <Route path='/my-applications' element={<AppliedJobsPage/>} />
       <Route path='/chat' element={<CandidateProtect><ChatPage role={'candidate'} /></CandidateProtect>} />
+      <Route path='/exam/:id' element={<CandidateExamPage/>}/>
 
       
 

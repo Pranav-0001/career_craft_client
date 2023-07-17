@@ -1,5 +1,6 @@
 export  interface QuestionTypes{
-    addedBy:string
+    _id?:string,
+    addedBy?:string
     question?:string,
     answer?:string,
     option1?:string,
@@ -8,4 +9,5 @@ export  interface QuestionTypes{
     difficulty?:string,
     code?:string
     role?:string
+    options?:string[]
 }

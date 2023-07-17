@@ -1,0 +1,15 @@
+import { QuestionTypes } from "./Questions"
+
+export type ExamType={
+    _id?:string,
+    questions?:QuestionTypes[],
+    answer?:[{queId:string,userAns:string}],
+    candidate?:string,
+    employer?:string,
+    startedAt?:string,
+    attended?:boolean
+    submitted?:boolean
+    date?:string,
+    mark?:number
+    
+}

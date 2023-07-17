@@ -1,13 +1,32 @@
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { QuestionTypes } from '../../../models/Questions'
+import { getAllQuestions } from '../../../services/question/question'
+import { useSelector } from 'react-redux'
 
 interface queModel{
     role:string
 }
 
 const Questions:React.FC<queModel>=({role})=>{
+    const [questions,setQuestions]=useState<QuestionTypes[]>([])
+    const [pages,setPages]=useState<number[]>([])
+    const [selectedPage,setSelectedPage]=useState<number>(1)
+    const {EmployerId}  = useSelector((state: any) => state.employer);
+
+    useEffect(() => {
+      const fetch=async()=>{
+       const data =await getAllQuestions(selectedPage,EmployerId)
+       setQuestions(data.questions)
+
+       setPages(data.pagecount)
+       
+      }
+      fetch()
+    }, [selectedPage])
+    
   return (
     
     <>
@@ -27,38 +46,40 @@ const Questions:React.FC<queModel>=({role})=>{
                     </tr>
                 </thead>
                 <tbody className='bg-gray-100'>
-                    <tr className=''>
-                        <td className='ps-1 py-2 ' ><p className=''> How are String represented in memory in C?</p></td> 
-                        <td className='ps-1 py-2 '>An Array of characters</td>
+                    {questions.map(obj=><tr className='border-2'>
+                        <td className='ps-1 py-2 ' ><p className=''> {obj.question}</p></td> 
+                        <td className='ps-1 py-2 '>{obj.answer}</td>
                         <td className='ps-1 py-2 '>
-                            <li>An object of some class</li>
-                            <li>Same as other primitive data types</li>
-                            <li>Linked list of characters</li>
+                            {obj.options?.map((ele)=>{return  ele!==obj.answer ?  <><li>{ele}</li></> : ""})}
                         </td>
-                        <td className='ps-1 py-2 flex items-center gap-2 py-4'>
+                        <td className='ps-1 flex items-center gap-2 py-4'>
                             <FontAwesomeIcon icon={faEyeSlash} className='bg-red-600 text-white px-2 py-2 shadow rounded-md cursor-pointer' />
                             <FontAwesomeIcon icon={faEdit}  className='bg-blue-600 text-white px-2 py-2 shadow rounded-md cursor-pointer'/>
                         </td>  
-                    </tr>
+                    </tr>)}
                 </tbody>
             </table>
             </div>
             <div className='w-full lg:hidden'>
-                <div className='w-full shadow px-4 pt-2 py-4 rounded'>
+            {questions.map(obj=><div className='w-full shadow px-4 pt-2 py-4 rounded'>
                     <div className='flex w-full justify-end gap-2'>
                      <FontAwesomeIcon icon={faEyeSlash} className='bg-red-600 text-white px-2 py-2 shadow rounded-md cursor-pointer' />
                  <FontAwesomeIcon icon={faEdit}  className='bg-blue-600 text-white px-2 py-2 shadow rounded-md cursor-pointer'/>   
                     </div>
                 
-                    <p>How are String represented in memory in C?</p>
-                    <p>Ans : An Array of characters</p>
+                    <p>{obj.question}</p>
+                    <p>Ans : {obj.answer}</p>
                     <p>Options</p>
-                    <li>An object of some class</li>
-                            <li>Same as other primitive data types</li>
-                            <li>Linked list of characters</li>
-                </div>
+                    {obj.options?.map(ele=>{return obj.answer!==ele?<><li>{ele}</li> </>:''})}
+                </div>)}
             </div>
+            <div className='flex justify-end gap-1 mt-8'>
+            {pages.map((obj)=>
+                <button onClick={()=>setSelectedPage(obj)} className={`px-4 py-2 border border-primary-700 ${selectedPage===obj?'bg-primary-800 text-white ':''}`}>{obj}</button>
+            )}
         </div>
+        </div>
+        
     </div>
     </>
   )
