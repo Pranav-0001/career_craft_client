@@ -1,9 +1,8 @@
-import { trim } from "@cloudinary/url-gen/actions/reshape";
 import { EducationType } from "../../models/User";
 
 export const educationDataValidation=(name:string,val:string,err:EducationType | undefined,setErr:Function)=>{
  
-    if(name=='education') eduValidate(val,err,setErr)
+    if(name==='education') eduValidate(val,err,setErr)
     if(name==='result') resValidate(val,err,setErr)
     if(name==='institute') insValidate(val,err,setErr)
     if(name==='starting') YearValidate(name,val,err,setErr)

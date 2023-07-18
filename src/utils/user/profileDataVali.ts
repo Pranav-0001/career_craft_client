@@ -1,4 +1,3 @@
-import { name } from "@cloudinary/url-gen/actions/namedTransformation";
 import { ProfileType } from "../../models/User";
 
 export const profileFormValid=(name:string,val:string,err:ProfileType | undefined,setErr:Function)=>{

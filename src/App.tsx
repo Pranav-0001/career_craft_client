@@ -25,6 +25,7 @@ import ChatPage from './Pages/ChatPage';
 import EmployerQuestionPage from './Pages/EmployerQuestionPage';
 import EmpAddQuestion from './Pages/EmpAddQuestion';
 import CandidateExamPage from './Pages/CandidateExamPage';
+import EmpJobEditPage from './Pages/EmpJobEditPage';
 
 
 function App() {
@@ -56,6 +57,7 @@ function App() {
 
       <Route path='/employer' element={<EmployerProtected><EmpHomePage/></EmployerProtected>}/>
       <Route path='/employer/addjob' element={<EmployerProtected><JobPostPage/></EmployerProtected>}/>
+      <Route path='/employer/edit-job/:id' element={<EmployerProtected><EmpJobEditPage/></EmployerProtected>}/>
       <Route path='/employer/all-applications' element={<EmployerProtected><EmpAppliedJobListPage/></EmployerProtected>}/>
       <Route path='/employer/view-resume' element={<EmployerProtected><EmpResumeViewPage/></EmployerProtected>}/>
       <Route path='/employer/chat' element={<EmployerProtected><ChatPage role={'employer'} /></EmployerProtected>} />

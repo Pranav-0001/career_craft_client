@@ -13,7 +13,7 @@ import { faClock } from '@fortawesome/free-regular-svg-icons';
 const Exam = () => {
     const [exam, setExam] = useState<ExamType>({})
     const [timer, setTimer] = useState(900);
-    const [answer, setANswer] = useState<{ queId?: string, userAns?: string }[]>([{}])
+    const [answer, setANswer] = useState<{ queId?: string, userAns?: string ,status?:boolean}[]>([{}])
     const [timerId, setTimerId] = useState<NodeJS.Timeout|null>();
     const { id } = useParams()
     const navigate = useNavigate()
@@ -65,11 +65,13 @@ const Exam = () => {
         const seconds = time % 60;
         return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     };
-    const selectingAns = (qId?: string, ans?: string) => {
+    const selectingAns = (qId?: string, userAns?: string,ans?:string) => {
         const newArr = answer.filter(obj => obj.queId !== qId)
-        setANswer([...newArr, { queId: qId, userAns: ans }])
+        setANswer([...newArr, { queId: qId, userAns: userAns ,status:ans===userAns }])
 
     }
+   
+    
     const submitTest = () => {
         toast('Timer elapsed!');
       };
@@ -103,7 +105,7 @@ const Exam = () => {
                             </div>}
                             <div className='grid md:grid-cols-2 grid-cols-1 gap-2 md:gap-4'>
                                 {que.options?.map((val, i) =>
-                                    <div onClick={() => selectingAns(que._id, val)} className={`flex gap-2  px-2 py-2 cursor-pointer rounded-md shadow  ${answer.some(obj => obj.userAns === val) ? 'shadow-green-300 border-2 border-green-300' : 'shadow-primary-300 border'}  `}>
+                                    <div onClick={() => selectingAns(que._id, val,que.answer)} className={`flex gap-2  px-2 py-2 cursor-pointer rounded-md shadow  ${answer.some(obj => obj.userAns === val) ? 'shadow-green-300 border-2 border-green-300' : 'shadow-primary-300 border'}  `}>
                                         <h1>{i + 1}. </h1>
                                         <h1>{val}</h1>
                                     </div>

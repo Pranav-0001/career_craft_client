@@ -26,3 +26,12 @@ export const acceptUserApplication=async(userId:string,empId:string,applicationI
         
     }
 }
+
+export const fetchJobById=async(id:string|undefined)=>{
+    try {
+        const {data} =await  api.get(`/employer/job/${id}`)
+        return data
+    } catch (error) {
+        
+    }
+}

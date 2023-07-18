@@ -1,21 +1,27 @@
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faCircleArrowUp, faFilePen, faPaperPlane, faPaperclip, faVideoCamera } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, useEffect, useRef } from 'react'
 import { Chats, Message } from '../../../models/chat';
 import { fetchAllMessages, sendMessage } from '../../../services/Chats/Chat';
 import io from 'socket.io-client';
 import './singlechat.css'
+import { useSelector } from 'react-redux';
 
 interface selectedUser {
   user: Chats
   currentUserId: string
 }
 
+
+
 const SingleChat: React.FC<selectedUser> = ({ user, currentUserId }) => {
+
   const [message, setMessage] = useState<string>('')
   const [messages, setMessages] = useState<Message[]>([])
   const scrollDownRef = useRef<HTMLDivElement | null>(null)
+  const [isOpen,setisOpen]=useState(false)
   const ENDPOINT = process.env.REACT_APP_BASE_URL as string
+  
   let socket: any
   socket = io(ENDPOINT)
 
@@ -50,7 +56,7 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId }) => {
       socket.emit('join chat', user._id)
     }
     fetch()
-  }, [])
+  }, [user])
   useEffect(() => {
     if (scrollDownRef.current) {
       scrollDownRef.current.scrollTo(0, scrollDownRef.current.scrollHeight)
@@ -79,8 +85,8 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId }) => {
     const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
     const formattedTime = `${formattedHours}:${formattedMinutes}${amPm}`;
     return formattedTime
-    
   }
+  const role= user.users[0]._id===currentUserId ? user.users[0].role : user.users[1].role
 
 
 
@@ -107,8 +113,19 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId }) => {
               </div>
             )}
           </div>
+          {role==='employer'&& isOpen  &&<div className={`duration-700 flex h-32 shadow w-60 rounded-md text-white  absolute bottom-12 right-14 justify-center items-center gap-2 `}>
+            <div className='text-center bg-primary-900 py-7 rounded-full px-2'>
+              <FontAwesomeIcon className='text-2xl' icon={faFilePen}/>
+              <h1>Create Exam</h1>
+            </div>
+            <div className='text-center bg-primary-900 py-7 rounded-full px-2'>
+              <FontAwesomeIcon className='text-2xl' icon={faVideoCamera}/>
+              <h1>Create Exam</h1>
+            </div>
+          </div>}
           <div className='w-full h-10   absolute rounded-b-md bottom-0 px-2 pb-2 flex items-center gap-2 '>
             <input type="text" className='w-full px-4 py-2 rounded-md outline-none' value={message} onChange={setMessageFn} />
+            {role==='employer'&&<button onClick={()=>setisOpen(!isOpen)} className='bg-primary-700 px-3 py-2 rounded-md'><FontAwesomeIcon  className='text-lg text-white' icon={faPaperclip}/></button>}
             <button onClick={handleMessageSent} className='px-3 py-2 text-white bg-primary-700 rounded-md'><FontAwesomeIcon icon={faPaperPlane} /></button>
           </div>
         </div>

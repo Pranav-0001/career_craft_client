@@ -46,7 +46,7 @@ const Chat: React.FC<role> = ({ role }) => {
                 </div>
                 <div className='w-full  rounded-md  overflow-hidden ' >
                     <div className='lg:grid grid-cols-4 chatpage gap-2'>
-                        <div className='bg-white h-4/5 rounded-md  shadow-md overflow-y-scroll chat-scroll'>
+                        <div className={`bg-white h-4/5 rounded-md  shadow-md overflow-y-scroll chat-scroll ${selectedUser ? 'hidden lg:block':''}`}>
 
                             {chats.map((obj) => <div key={obj._id} className='px-2 py-3' onClick={()=>selectChat(obj)}>
                                 <div className='w-full  h-16 bg-white  flex items-center border-b-2 pb-2'>
@@ -56,7 +56,7 @@ const Chat: React.FC<role> = ({ role }) => {
                                     </div>
                                     <div className=''>
                                         <h1 className='text-xl p-0'>{obj.users[0]._id === currentUserId ? obj.users[1].firstname + ' ' + obj.users[1].lastname : obj.users[0].firstname + ' ' + obj.users[0].lastname}</h1>
-                                        <p className='text-xs p-0 text-gray-400'>{obj.latestMessage.content.substring(0,10)}{obj.latestMessage.content.length>10?'...':''}</p>
+                                        {obj.latestMessage.content&&<p className='text-xs p-0 text-gray-400'>{obj.latestMessage.content.substring(0,10)}{obj.latestMessage.content.length>10?'...':''}</p>}
                                     </div>
                                 </div>
                             </div>)}
@@ -64,7 +64,9 @@ const Chat: React.FC<role> = ({ role }) => {
 
                         {selectedUser
                             ?
+                            <div className={`col-span-3 ${selectedUser ?'block' :'hidden'} lg:block`}>
                             <SingleChat  user={selectedUser} currentUserId={currentUserId}/>
+                            </div>
                             :
                             <div className='h-screen col-span-3'>
                             <div className='flex  w-full h-4/5 border rounded-md justify-center items-center'>

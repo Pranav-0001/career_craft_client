@@ -119,7 +119,7 @@ function EmpHome() {
                                 </td>
                                 <td>
                                     <div className='flex gap-3'>
-                                        <button className='bg-primary-400 px-2 py-1 rounded-md'><FontAwesomeIcon icon={faEdit} /></button>
+                                        <button onClick={()=>navigate(`/employer/edit-job/${obj._id}`)} className='bg-primary-400 px-2 py-1 rounded-md'><FontAwesomeIcon icon={faEdit} /></button>
                                         <button className='bg-primary-400 px-2 py-1 rounded-md'><FontAwesomeIcon icon={faEye} /></button>
                                     </div>
                                 </td>
@@ -142,7 +142,7 @@ function EmpHome() {
                             </td>
                             <td>
                                 <div className='flex gap-3'>
-                                    <button className='bg-primary-400 px-2 py-1 rounded-md'><FontAwesomeIcon icon={faEdit} /></button>
+                                    <button onClick={()=>navigate(`/employer/edit-job/${obj._id}`)} className='bg-primary-400 px-2 py-1 rounded-md'><FontAwesomeIcon icon={faEdit} /></button>
                                     <button className='bg-primary-400 px-2 py-1 rounded-md'><FontAwesomeIcon icon={faEye} /></button>
                                 </div>
                             </td>
