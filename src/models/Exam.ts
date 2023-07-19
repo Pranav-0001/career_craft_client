@@ -10,6 +10,13 @@ export type ExamType={
     attended?:boolean
     submitted?:boolean
     date?:string,
-    mark?:number
+    mark?:number,
+    createdAt?:string
     
+}
+
+export interface resultTypes{
+    _id:string,
+    answers:{queId:string,userAns:string,status:boolean},
+    question:QuestionTypes[]
 }

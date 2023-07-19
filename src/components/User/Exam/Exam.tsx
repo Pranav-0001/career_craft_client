@@ -7,23 +7,49 @@ import { googlecode } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { ToastContainer, toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
+import { useSelector } from 'react-redux';
 
 
 
 const Exam = () => {
     const [exam, setExam] = useState<ExamType>({})
+    const [timeup,setTimeup] =useState(false)
     const [timer, setTimer] = useState(900);
     const [answer, setANswer] = useState<{ queId?: string, userAns?: string ,status?:boolean}[]>([{}])
     const [timerId, setTimerId] = useState<NodeJS.Timeout|null>();
     const { id } = useParams()
     const navigate = useNavigate()
+    const { userId } = useSelector((state:any) => state.user);
+
+    useEffect(() => {
+        const fetch = async () => {
+            if (id) {
+                const examData: ExamType = await fetchExam(id)
+                setExam(examData);
+                if (examData.attended) navigate('/chat')
+                else if(examData.candidate !== userId) {
+                    toast.error('Access Denied: You are attempting to attend the exam using a different user account. Please log in with the appropriate account to proceed with the exam.',{position:'top-center'})
+                    setTimeout(() => {
+                        navigate('/')
+                    }, 5000);
+                    
+                }
+                else {
+                    setattended(id)
+                }
+            }
+        }
+        fetch()
+    }, [])
     
     useEffect(() => {
+        
+        
         const startTimer = () => {
           const id = setTimeout(() => {
           
-            submitTest();
-            setTimerId(null); 
+            setTimeup(true)
+ 
           }, 15 * 60 * 1000); 
           setTimerId(id);
         };
@@ -47,19 +73,7 @@ const Exam = () => {
             clearInterval(interval);
         };
     }, []);
-    useEffect(() => {
-        const fetch = async () => {
-            if (id) {
-                const examData: ExamType = await fetchExam(id)
-                setExam(examData);
-                if (examData.attended) navigate('/chat')
-                else {
-                    // setattended(id)
-                }
-            }
-        }
-        fetch()
-    }, [])
+    
     const formatTime = (time: number) => {
         const minutes = Math.floor(time / 60);
         const seconds = time % 60;
@@ -72,11 +86,9 @@ const Exam = () => {
     }
    
     
-    const submitTest = () => {
-        toast('Timer elapsed!');
-      };
+    
     const handleSubmit=async()=>{
-        if(timerId) clearTimeout(timerId)
+        
         const res=await postAnwer(answer,exam._id)
         if(res){
             navigate('/')
@@ -84,6 +96,16 @@ const Exam = () => {
     }
     return (
         <>
+        {timeup &&
+        <div className='w-full h-96 flex justify-center items-center'>
+            <div className='lg:w-1/3 md:w-2/3 w-full  bg-white rounded-md shadow-md text-center ' >
+                <h1 className='font-exo py-3 text-2xl'>Time Exceeded: The time limit for the exam has been exceeded.</h1>
+                <button onClick={handleSubmit} className='px-2 py-1 bg-red-500 text-white text-xl font-bold font-exo rounded-lg mb-2'>OK</button>
+            </div>
+
+        </div>
+        }
+        {userId=== exam.candidate && timeup===false ? <div>
             <div className='w-full flex justify-end sticky top-0  pe-20 pt-10'>
                 <h1 className='font-work font-bold text-xl text-red-600'><FontAwesomeIcon icon={faClock} /> {formatTime(timer)}</h1>
             </div>
@@ -120,7 +142,14 @@ const Exam = () => {
                     <button onClick={handleSubmit} className='bg-primary-700 px-4 text-white py-2 rounded-md shadow-md'>Submit</button>
                 </div>
             </div>
-            <ToastContainer />
+           
+        </div>
+        :
+        <div>
+           
+        </div>
+        }
+         <ToastContainer />
         </>
     )
 }

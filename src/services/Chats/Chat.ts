@@ -5,8 +5,8 @@ export const fetchAllChats=async(userId:string)=>{
     return data.chats
 }
 
-export const sendMessage=async(content:string,chatId:string,senderId:string)=>{
-    const {data}= await api.post(`/msg/send`,{content,chatId,senderId})
+export const sendMessage=async(content:string,chatId:string,senderId:string,isExam?:boolean)=>{
+    const {data}= await api.post(`/msg/send`,{content,chatId,senderId,isExam})
     return data
 }
 

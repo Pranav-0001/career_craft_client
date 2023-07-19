@@ -56,7 +56,7 @@ const Chat: React.FC<role> = ({ role }) => {
                                     </div>
                                     <div className=''>
                                         <h1 className='text-xl p-0'>{obj.users[0]._id === currentUserId ? obj.users[1].firstname + ' ' + obj.users[1].lastname : obj.users[0].firstname + ' ' + obj.users[0].lastname}</h1>
-                                        {obj.latestMessage.content&&<p className='text-xs p-0 text-gray-400'>{obj.latestMessage.content.substring(0,10)}{obj.latestMessage.content.length>10?'...':''}</p>}
+                                        {obj?.latestMessage?.content&&<p className='text-xs p-0 text-gray-400'>{obj.latestMessage.content.substring(0,10)}{obj.latestMessage.content.length>10?'...':''}</p>}
                                     </div>
                                 </div>
                             </div>)}

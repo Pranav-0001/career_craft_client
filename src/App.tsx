@@ -26,6 +26,7 @@ import EmployerQuestionPage from './Pages/EmployerQuestionPage';
 import EmpAddQuestion from './Pages/EmpAddQuestion';
 import CandidateExamPage from './Pages/CandidateExamPage';
 import EmpJobEditPage from './Pages/EmpJobEditPage';
+import EmpExamResult from './Pages/EmpExamResult';
 
 
 function App() {
@@ -48,7 +49,7 @@ function App() {
       <Route path='/view-resume' element={<ViewResumePage/>} />
       <Route path='/my-applications' element={<AppliedJobsPage/>} />
       <Route path='/chat' element={<CandidateProtect><ChatPage role={'candidate'} /></CandidateProtect>} />
-      <Route path='/exam/:id' element={<CandidateExamPage/>}/>
+      <Route path='/exam/:id' element={<CandidateProtect><CandidateExamPage/></CandidateProtect>}/>
 
       
 
@@ -63,6 +64,7 @@ function App() {
       <Route path='/employer/chat' element={<EmployerProtected><ChatPage role={'employer'} /></EmployerProtected>} />
       <Route path='/employer/questions' element={<EmployerProtected><EmployerQuestionPage role='employer'/></EmployerProtected>} />
       <Route path='/employer/add-question' element={<EmployerProtected><EmpAddQuestion role='employer'/></EmployerProtected>} />
+      <Route path='/employer/result/:id' element={<EmployerProtected><EmpExamResult/></EmployerProtected>} />
       
       <Route path='/admin/login' element={<AdminLoginPage/>}/>
       <Route path='/admin/' element={<AdminProtected><AdminHomePage/></AdminProtected>}/>
