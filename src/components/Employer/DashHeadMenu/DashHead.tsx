@@ -18,7 +18,7 @@ const DashHead:React.FC<TopMenuProps>=({page}) =>{
     const empLogout=()=>{
         localStorage.removeItem('user')
         api.post('/employer/logout',{},{withCredentials:true})
-        dispatch(updateEmp({}))
+        dispatch(updateEmp({EmployerId:null,EmpUsername:null,EmpImage:null,EmpEmail:null}))
         navigate('/login')
     }
   return (

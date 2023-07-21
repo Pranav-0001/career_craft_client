@@ -1,4 +1,4 @@
-import { faCircleArrowUp, faFilePen, faPaperPlane, faPaperclip, faVideoCamera } from '@fortawesome/free-solid-svg-icons';
+import { faCircleArrowUp, faFilePen, faPaperPlane, faPaperclip, faVideo, faVideoCamera } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, useEffect, useRef } from 'react'
 import { Chats, Message } from '../../../models/chat';
@@ -8,6 +8,7 @@ import './singlechat.css'
 import { useSelector } from 'react-redux';
 import { generateNewExam } from '../../../services/Exam/Exam';
 import { useNavigate } from 'react-router-dom';
+import { createOffer, init } from '../../../services/Video/VideoChat';
 
 interface selectedUser {
   user: Chats
@@ -58,7 +59,7 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId }) => {
       socket.emit('join chat', user._id)
     }
     fetch()
-  }, [user])
+  }, [user])  
   useEffect(() => {
     if (scrollDownRef.current) {
       scrollDownRef.current.scrollTo(0, scrollDownRef.current.scrollHeight)
@@ -67,13 +68,20 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId }) => {
   const generateExam=async()=>{
     const candidate= user.users[0]._id===currentUserId ? user.users[1]._id : user.users[0]._id
     const exam= await generateNewExam(candidate,currentUserId)
-    const res = await sendMessage(exam._id, user._id, currentUserId,true)
+    const res = await sendMessage(exam._id, user._id, currentUserId,true,false)
     socket?.emit('new message', res.msg)
     console.log("aaa",res);
-    
     setMessages([...messages, res.msg])
-
-
+  }
+  const createVideoCall=async()=>{
+   
+    // await init()
+    // const {offer}=await createOffer()
+    // console.log();
+    
+    const res=await sendMessage('Video Round',user._id,currentUserId,false,true)
+    socket?.emit('new message', res.msg)
+    setMessages([...messages, res.msg])
   }
 
 
@@ -116,7 +124,7 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId }) => {
             {messages?.map((obj) =>
               <div key={obj._id} className={`w-full flex ${obj.sender._id === currentUserId ? 'justify-end' : 'justify-start ps-2'} `}>
                 <img src={obj.sender.profileImg} alt="" className={`h-5 ${obj.sender._id === currentUserId ? 'hidden' : 'block rounded-full'}`} />
-                <div className={`my-1 overflow-hidden ${obj.sender._id === currentUserId ? 'rounded-s-3xl  rounded-br-3xl bg-green-300 ' : 'bg-primary-400 rounded-e-3xl rounded-bl-3xl '}   mx-2   w-fit max-w-md  ${obj.isExam ? 'px-0 py-0':'  px-4 py-2'} break-all `}>
+                <div className={`my-1 overflow-hidden ${obj.sender._id === currentUserId ? 'rounded-s-3xl  rounded-br-3xl bg-green-300 ' : 'bg-primary-400 rounded-e-3xl rounded-bl-3xl '}   mx-2   w-fit max-w-md  ${obj.isExam || obj.isVideo ? 'px-0 py-0':'  px-4 py-2'} break-all `}>
                   {obj.isExam ? 
                   <div className=''>
                   
@@ -164,7 +172,19 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId }) => {
                   </div>
                     
                   </div>
+                  : obj.isVideo?
+                  <>
+                  <div className=''>
+                    <h1 className='pe-10 ps-5  py-4  font-bold font-exo '><FontAwesomeIcon icon={faVideo}/>  Video Interview</h1>
+                    <div className={`${role==='employer'? 'bg-green-500 text-center': 'bg-primary-800 text-center'}`}>
+                      {role==='employer' ? <button onClick={()=>navigate(`/employer/videochat/${user._id}`)} className='text-lg pt-1 text-white font-bold'>Start Now</button> : <button className='text-lg pt-1 text-white font-bold'>Join Now</button>}
+                      <p className='text-end pe-3' style={{fontSize:'10px'}} >{getTime(obj.createdAt)}</p>
+                    </div>
+                      
+                  </div>
+                  </> 
                   :
+
                   <>
                   <p className=''>{obj.content}</p>
                   <p className='text-end' style={{fontSize:'10px'}} >{getTime(obj.createdAt)}</p>
@@ -180,7 +200,7 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId }) => {
               
               {/* <h1>Create Exam</h1> */}
             </div>
-            <div className='text-center bg-primary-900  rounded-full p-8 cursor-pointer'>
+            <div className='text-center bg-primary-900  rounded-full p-8 cursor-pointer' onClick={createVideoCall}>
               <FontAwesomeIcon className='text-2xl' icon={faVideoCamera}/>
               {/* <p className='break-all'>Start Interview</p> */}
             </div>

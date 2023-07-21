@@ -27,6 +27,8 @@ import EmpAddQuestion from './Pages/EmpAddQuestion';
 import CandidateExamPage from './Pages/CandidateExamPage';
 import EmpJobEditPage from './Pages/EmpJobEditPage';
 import EmpExamResult from './Pages/EmpExamResult';
+import VideoChatPage from './Pages/VideoChatPage';
+import EmpVideoChatPage from './Pages/EmpVideoChatPage';
 
 
 function App() {
@@ -51,6 +53,7 @@ function App() {
       <Route path='/chat' element={<CandidateProtect><ChatPage role={'candidate'} /></CandidateProtect>} />
       <Route path='/exam/:id' element={<CandidateProtect><CandidateExamPage/></CandidateProtect>}/>
 
+      <Route path='/videochat' element={<CandidateProtect><VideoChatPage/></CandidateProtect>} />
       
 
 
@@ -65,6 +68,7 @@ function App() {
       <Route path='/employer/questions' element={<EmployerProtected><EmployerQuestionPage role='employer'/></EmployerProtected>} />
       <Route path='/employer/add-question' element={<EmployerProtected><EmpAddQuestion role='employer'/></EmployerProtected>} />
       <Route path='/employer/result/:id' element={<EmployerProtected><EmpExamResult/></EmployerProtected>} />
+      <Route path='/employer/videochat/:id' element={<EmployerProtected><EmpVideoChatPage/></EmployerProtected>} />
       
       <Route path='/admin/login' element={<AdminLoginPage/>}/>
       <Route path='/admin/' element={<AdminProtected><AdminHomePage/></AdminProtected>}/>

@@ -21,7 +21,8 @@ export interface Message{
     chat:Chats
     createdAt:string,
     isExam?:boolean,
-    Exam?:ExamType
+    Exam?:ExamType,
+    isVideo:boolean
 }
 
 export interface sender{
