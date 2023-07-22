@@ -53,7 +53,7 @@ function App() {
       <Route path='/chat' element={<CandidateProtect><ChatPage role={'candidate'} /></CandidateProtect>} />
       <Route path='/exam/:id' element={<CandidateProtect><CandidateExamPage/></CandidateProtect>}/>
 
-      <Route path='/videochat' element={<CandidateProtect><VideoChatPage/></CandidateProtect>} />
+      <Route path='/videochat/:id' element={<CandidateProtect><VideoChatPage/></CandidateProtect>} />
       
 
 

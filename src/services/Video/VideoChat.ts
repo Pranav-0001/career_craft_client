@@ -2,6 +2,7 @@ let localStream:MediaStream;
 let remoteStream:MediaStream;
 let peerConnection:RTCPeerConnection;
 
+
 const server={
     iceServers:[
         {
@@ -15,7 +16,7 @@ export const init=async()=>{
     return localStream
 }
 
-export const createOffer =async () =>{
+export const createPeerConnection=async()=>{
     peerConnection=new RTCPeerConnection(server)
     remoteStream  = new MediaStream()
 
@@ -34,8 +35,22 @@ export const createOffer =async () =>{
             
         }
     }
+}
+
+export const createOffer =async () =>{
+    await createPeerConnection()
     let offer =await peerConnection.createOffer()
     await peerConnection.setLocalDescription(offer)
     console.log({offer});
     return {remoteStream,offer}
+}
+
+export const createAnswer=async(offer : RTCSessionDescriptionInit)=>{
+    await createPeerConnection()
+    await peerConnection.setRemoteDescription(offer)
+    let answer = await peerConnection.createAnswer()
+    await peerConnection.setLocalDescription(answer)
+    return {answer,remoteStream}
+    
+
 }

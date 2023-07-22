@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { generateNewExam } from '../../../services/Exam/Exam';
 import { useNavigate } from 'react-router-dom';
 import { createOffer, init } from '../../../services/Video/VideoChat';
+import { useSocket } from '../../../context/socketContext';
 
 interface selectedUser {
   user: Chats
@@ -18,15 +19,16 @@ interface selectedUser {
 
 
 const SingleChat: React.FC<selectedUser> = ({ user, currentUserId }) => {
-  const navigate=useNavigate()
+  const navigate = useNavigate()
   const [message, setMessage] = useState<string>('')
   const [messages, setMessages] = useState<Message[]>([])
   const scrollDownRef = useRef<HTMLDivElement | null>(null)
-  const [isOpen,setisOpen]=useState(false)
+  const [isOpen, setisOpen] = useState(false)
   const ENDPOINT = process.env.REACT_APP_BASE_URL as string
-  
+
   let socket: any
   socket = io(ENDPOINT)
+  // const socket=useSocket()
 
 
   const setMessageFn = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,12 +46,12 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId }) => {
     }
   }
   useEffect(() => {
-    
+
     socket.emit('setup', currentUserId)
     return () => {
       socket.disconnect();
     }
-  }, [currentUserId,socket])
+  }, [currentUserId, socket])
 
   useEffect(() => {
     const fetch = async () => {
@@ -59,27 +61,27 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId }) => {
       socket.emit('join chat', user._id)
     }
     fetch()
-  }, [user])  
+  }, [user])
   useEffect(() => {
     if (scrollDownRef.current) {
       scrollDownRef.current.scrollTo(0, scrollDownRef.current.scrollHeight)
     }
   }, [messages])
-  const generateExam=async()=>{
-    const candidate= user.users[0]._id===currentUserId ? user.users[1]._id : user.users[0]._id
-    const exam= await generateNewExam(candidate,currentUserId)
-    const res = await sendMessage(exam._id, user._id, currentUserId,true,false)
+  const generateExam = async () => {
+    const candidate = user.users[0]._id === currentUserId ? user.users[1]._id : user.users[0]._id
+    const exam = await generateNewExam(candidate, currentUserId)
+    const res = await sendMessage(exam._id, user._id, currentUserId, true, false)
     socket?.emit('new message', res.msg)
-    console.log("aaa",res);
+    console.log("aaa", res);
     setMessages([...messages, res.msg])
   }
-  const createVideoCall=async()=>{
-   
+  const createVideoCall = async () => {
+
     // await init()
     // const {offer}=await createOffer()
     // console.log();
-    
-    const res=await sendMessage('Video Round',user._id,currentUserId,false,true)
+
+    const res = await sendMessage('Video Round', user._id, currentUserId, false, true)
     socket?.emit('new message', res.msg)
     setMessages([...messages, res.msg])
   }
@@ -107,8 +109,12 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId }) => {
     const formattedTime = `${formattedHours}:${formattedMinutes}${amPm}`;
     return formattedTime
   }
-  
-  const role= user.users[0]._id===currentUserId ? user.users[0].role : user.users[1].role
+
+  const role = user.users[0]._id === currentUserId ? user.users[0].role : user.users[1].role
+  let candidate: string
+  let employer:string
+  if (role === 'employer') candidate = user.users[0]._id !== currentUserId ? user.users[0]._id : user.users[1]._id
+  if (role === 'candidate') employer = user.users[0]._id !== currentUserId ? user.users[0]._id : user.users[1]._id
 
 
 
@@ -116,7 +122,7 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId }) => {
     <div className='col-span-3 h-screen'>
       <div className='rounded-md bg-gray-100  h-3/4  shadow relative'>
         <div className='w-full  bg-primary-900 rounded-t-md flex items-center gap-2 px-4 py-2 font-bold'>
-          <img src={user.users[0]._id === currentUserId ? user.users[1].profileImg :user.users[0].profileImg} className='h-7 rounded-full' alt="" />
+          <img src={user.users[0]._id === currentUserId ? user.users[1].profileImg : user.users[0].profileImg} className='h-7 rounded-full' alt="" />
           <h1 className='text-white'>{user.users[0]._id === currentUserId ? user.users[1].firstname + ' ' + user.users[1].lastname : user.users[0].firstname + ' ' + user.users[0].lastname}</h1>
         </div>
         <div className='h-full'>
@@ -124,90 +130,89 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId }) => {
             {messages?.map((obj) =>
               <div key={obj._id} className={`w-full flex ${obj.sender._id === currentUserId ? 'justify-end' : 'justify-start ps-2'} `}>
                 <img src={obj.sender.profileImg} alt="" className={`h-5 ${obj.sender._id === currentUserId ? 'hidden' : 'block rounded-full'}`} />
-                <div className={`my-1 overflow-hidden ${obj.sender._id === currentUserId ? 'rounded-s-3xl  rounded-br-3xl bg-green-300 ' : 'bg-primary-400 rounded-e-3xl rounded-bl-3xl '}   mx-2   w-fit max-w-md  ${obj.isExam || obj.isVideo ? 'px-0 py-0':'  px-4 py-2'} break-all `}>
-                  {obj.isExam ? 
-                  <div className=''>
-                  
-                  <div >
-                    {role==='employer'?
-                    <>
-                    <h1 className='font-bold pe-20  px-4 py-2'><FontAwesomeIcon icon={faFilePen}/> Technical Round</h1>
-                    <p className='px-8 '>Status :  <span className='p-1 rounded-lg bg-yellow-100'>{obj.Exam?.submitted ? 'submitted'  : obj.Exam?.attended ? 'Attended' : 'Not Attended' }</span></p>
-                   {obj.Exam?.submitted?<div className='w-full h-10 bg-green-500 mt-2'>
-                    <h1 onClick={()=>navigate(`/employer/result/${obj.Exam?._id}`)} className='text-center text-white font-bold pt-1 cursor-pointer'>Check Results</h1>
-                   <p className='text-end pe-3' style={{fontSize:'10px'}} >{getTime(obj.createdAt)}</p>
+                <div className={`my-1 overflow-hidden ${obj.sender._id === currentUserId ? 'rounded-s-3xl  rounded-br-3xl bg-green-300 ' : 'bg-primary-400 rounded-e-3xl rounded-bl-3xl '}   mx-2   w-fit max-w-md  ${obj.isExam || obj.isVideo ? 'px-0 py-0' : '  px-4 py-2'} break-all `}>
+                  {obj.isExam ?
+                    <div className=''>
 
-                   </div>: <p className='text-end pe-3' style={{fontSize:'10px'}} >{getTime(obj.createdAt)}</p>}
-                   
-                    </>
-                    :
-                    <>
-                    <h1 className='ps-4  pe-10 pt-4 text-xl font-bold underline mb-2'>Technical Test</h1>
-                    <div className='px-4 pb-2'>
+                      <div >
+                        {role === 'employer' ?
+                          <>
+                            <h1 className='font-bold pe-20  px-4 py-2'><FontAwesomeIcon icon={faFilePen} /> Technical Round</h1>
+                            <p className='px-8 '>Status :  <span className='p-1 rounded-lg bg-yellow-100'>{obj.Exam?.submitted ? 'submitted' : obj.Exam?.attended ? 'Attended' : 'Not Attended'}</span></p>
+                            {obj.Exam?.submitted ? <div className='w-full h-10 bg-green-500 mt-2'>
+                              <h1 onClick={() => navigate(`/employer/result/${obj.Exam?._id}`)} className='text-center text-white font-bold pt-1 cursor-pointer'>Check Results</h1>
+                              <p className='text-end pe-3' style={{ fontSize: '10px' }} >{getTime(obj.createdAt)}</p>
 
-                    
-                    <li>This exam consists of 10 questions.</li>
-                    <li>The total time allotted for the test is 15 minutes.</li>
-                    <li>You are required to complete the exam within the given time limit.</li>
-                    <li>The exam should be taken within 24 hours from the time it was posted.</li>
-                    <li>Please ensure that you have a reliable internet connection and a suitable environment to concentrate during the test.</li>
-                    <li>Make sure to submit your answers before the time runs out. </li>
-                    <p  className='font-bold'>All The Best</p>
+                            </div> : <p className='text-end pe-3' style={{ fontSize: '10px' }} >{getTime(obj.createdAt)}</p>}
+
+                          </>
+                          :
+                          <>
+                            <h1 className='ps-4  pe-10 pt-4 text-xl font-bold underline mb-2'>Technical Test</h1>
+                            <div className='px-4 pb-2'>
+
+
+                              <li>This exam consists of 10 questions.</li>
+                              <li>The total time allotted for the test is 15 minutes.</li>
+                              <li>You are required to complete the exam within the given time limit.</li>
+                              <li>The exam should be taken within 24 hours from the time it was posted.</li>
+                              <li>Please ensure that you have a reliable internet connection and a suitable environment to concentrate during the test.</li>
+                              <li>Make sure to submit your answers before the time runs out. </li>
+                              <p className='font-bold'>All The Best</p>
+                            </div>
+                            <div className='w-full  bg-primary-1000'>
+                              {
+                                obj.Exam?.submitted
+                                  ?
+                                  <h1 className='text-center font-bold text-white pt-2 text-xl'>Test Submitted</h1>
+                                  : obj.Exam?.attended ? <h1 className='text-center font-bold text-white pt-2 text-xl '>Test Attended </h1>
+                                    : <h1 onClick={() => navigate(`/exam/${obj.Exam?._id}`)} className='text-center font-bold text-white pt-2 text-xl cursor-pointer'>Take Test</h1>
+                              }
+
+                              <p className='text-end pe-3' style={{ fontSize: '10px' }} >{getTime(obj.createdAt)}</p>
+
+                            </div>
+                          </>
+
+                        }
+                      </div>
+
                     </div>
-                    <div className='w-full  bg-primary-1000'>
-                      {
-                        obj.Exam?.submitted 
-                        ?
-                        <h1 className='text-center font-bold text-white pt-2 text-xl'>Test Submitted</h1>
-                        :  obj.Exam?.attended ?  <h1 className='text-center font-bold text-white pt-2 text-xl '>Test Attended </h1>
-                        :<h1 onClick={()=>navigate(`/exam/${obj.Exam?._id}`)} className='text-center font-bold text-white pt-2 text-xl cursor-pointer'>Take Test</h1>
-                      }
-                      
-                    <p className='text-end pe-3' style={{fontSize:'10px'}} >{getTime(obj.createdAt)}</p>
+                    : obj.isVideo ?
+                      <>
+                        <div className=''>
+                          <h1 className='pe-10 ps-5  py-4  font-bold font-exo '><FontAwesomeIcon icon={faVideo} />  Video Interview</h1>
+                          <div className={`${role === 'employer' ? 'bg-green-500 text-center' : 'bg-primary-800 text-center'}`}>
+                            {role === 'employer' ? <button onClick={() => navigate(`/employer/videochat/${candidate}`)} className='text-lg pt-1 text-white font-bold'>Start Now</button> : <button onClick={()=>navigate(`/videochat/${employer}`)} className='text-lg pt-1 text-white font-bold'>Join Now</button>}
+                            <p className='text-end pe-3' style={{ fontSize: '10px' }} >{getTime(obj.createdAt)}</p>
+                          </div>
 
-                    </div>
-                    </>
-                    
-                    }
-                  </div>
-                    
-                  </div>
-                  : obj.isVideo?
-                  <>
-                  <div className=''>
-                    <h1 className='pe-10 ps-5  py-4  font-bold font-exo '><FontAwesomeIcon icon={faVideo}/>  Video Interview</h1>
-                    <div className={`${role==='employer'? 'bg-green-500 text-center': 'bg-primary-800 text-center'}`}>
-                      {role==='employer' ? <button onClick={()=>navigate(`/employer/videochat/${user._id}`)} className='text-lg pt-1 text-white font-bold'>Start Now</button> : <button className='text-lg pt-1 text-white font-bold'>Join Now</button>}
-                      <p className='text-end pe-3' style={{fontSize:'10px'}} >{getTime(obj.createdAt)}</p>
-                    </div>
-                      
-                  </div>
-                  </> 
-                  :
-
-                  <>
-                  <p className=''>{obj.content}</p>
-                  <p className='text-end' style={{fontSize:'10px'}} >{getTime(obj.createdAt)}</p>
-                  </>
-                   }
+                        </div>
+                      </>
+                      :
+                      <>
+                        <p className=''>{obj.content}</p>
+                        <p className='text-end' style={{ fontSize: '10px' }} >{getTime(obj.createdAt)}</p>
+                      </>
+                  }
                 </div>
               </div>
             )}
           </div>
-          {role==='employer'  &&<div className={`${isOpen?'h-36':'h-0'} bg-white overflow-hidden duration-500 flex  shadow w-60 rounded-md text-white  absolute bottom-12 right-14 justify-center items-center gap-2 `}>
+          {role === 'employer' && <div className={`${isOpen ? 'h-36' : 'h-0'} bg-white overflow-hidden duration-500 flex  shadow w-60 rounded-md text-white  absolute bottom-12 right-14 justify-center items-center gap-2 `}>
             <div className={`text-center bg-primary-900 p-8 rounded-full cursor-pointer`} onClick={generateExam}>
-              <FontAwesomeIcon className='text-2xl' icon={faFilePen}/>
-              
+              <FontAwesomeIcon className='text-2xl' icon={faFilePen} />
+
               {/* <h1>Create Exam</h1> */}
             </div>
             <div className='text-center bg-primary-900  rounded-full p-8 cursor-pointer' onClick={createVideoCall}>
-              <FontAwesomeIcon className='text-2xl' icon={faVideoCamera}/>
+              <FontAwesomeIcon className='text-2xl' icon={faVideoCamera} />
               {/* <p className='break-all'>Start Interview</p> */}
             </div>
           </div>}
           <div className='w-full h-10   absolute rounded-b-md bottom-0 px-2 pb-2 flex items-center gap-2 '>
             <input type="text" className='w-full px-4 py-2 rounded-md outline-none' value={message} onChange={setMessageFn} />
-            {role==='employer'&&<button onClick={()=>setisOpen(!isOpen)} className='bg-primary-700 px-3 py-2 rounded-md'><FontAwesomeIcon  className='text-lg text-white' icon={faPaperclip}/></button>}
+            {role === 'employer' && <button onClick={() => setisOpen(!isOpen)} className='bg-primary-700 px-3 py-2 rounded-md'><FontAwesomeIcon className='text-lg text-white' icon={faPaperclip} /></button>}
             <button onClick={handleMessageSent} className='px-3 py-2 text-white bg-primary-700 rounded-md'><FontAwesomeIcon icon={faPaperPlane} /></button>
           </div>
         </div>
