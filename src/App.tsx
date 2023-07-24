@@ -29,6 +29,7 @@ import EmpJobEditPage from './Pages/EmpJobEditPage';
 import EmpExamResult from './Pages/EmpExamResult';
 import VideoChatPage from './Pages/VideoChatPage';
 import EmpVideoChatPage from './Pages/EmpVideoChatPage';
+import PremiumPage from './Pages/PremiumPage';
 
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
       <Route path='/exam/:id' element={<CandidateProtect><CandidateExamPage/></CandidateProtect>}/>
 
       <Route path='/videochat/:id' element={<CandidateProtect><VideoChatPage/></CandidateProtect>} />
+      <Route path='/premium' element={<PremiumPage/>}/>
       
 
 

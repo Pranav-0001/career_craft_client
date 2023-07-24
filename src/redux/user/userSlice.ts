@@ -4,7 +4,8 @@ const INITIAL_STATE={
     userId:"",
     username:"",
     image:"",
-    userEmail:''
+    userEmail:'',
+    isPrime:''
 }
 
 export const UserSclice=createSlice({
@@ -16,6 +17,7 @@ export const UserSclice=createSlice({
             state.username=action.payload.username
             state.image=action.payload.image
             state.userEmail=action.payload.userEmail
+            state.isPrime=action.payload.isPrime
         }
     }
 })

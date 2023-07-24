@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, useEffect, useRef } from 'react'
 import { Chats, Message } from '../../../models/chat';
 import { fetchAllMessages, sendMessage } from '../../../services/Chats/Chat';
+import { v4 as uuidv4 } from 'uuid';
 import io from 'socket.io-client';
 import './singlechat.css'
 import { useSelector } from 'react-redux';
@@ -13,7 +14,7 @@ import { useSocket } from '../../../context/socketContext';
 
 interface selectedUser {
   user: Chats
-  currentUserId: string
+  currentUserId: string 
 }
 
 
@@ -26,9 +27,9 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId }) => {
   const [isOpen, setisOpen] = useState(false)
   const ENDPOINT = process.env.REACT_APP_BASE_URL as string
 
-  let socket: any
-  socket = io(ENDPOINT)
-  // const socket=useSocket()
+  // let socket: any
+  // socket = io(ENDPOINT)
+  let socket=useSocket()
 
 
   const setMessageFn = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,9 +49,9 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId }) => {
   useEffect(() => {
 
     socket.emit('setup', currentUserId)
-    return () => {
-      socket.disconnect();
-    }
+    // return () => {
+    //   socket.disconnect();
+    // }
   }, [currentUserId, socket])
 
   useEffect(() => {
@@ -81,7 +82,7 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId }) => {
     // const {offer}=await createOffer()
     // console.log();
 
-    const res = await sendMessage('Video Round', user._id, currentUserId, false, true)
+    const res = await sendMessage(uuidv4(), user._id, currentUserId, false, true)
     socket?.emit('new message', res.msg)
     setMessages([...messages, res.msg])
   }
@@ -110,13 +111,26 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId }) => {
     return formattedTime
   }
 
+  const handleEnterEmpVideoChat=(content:string)=>{
+    // socket.emit('join:video',({room:content,user:"employer"}))
+    
+    navigate(`/employer/videochat/${content}`)
+
+
+  }
+
+  const handleEnterCanVideoChat=(content:string)=>{
+    
+    navigate(`/videochat/${content}`)
+  }
+
   const role = user.users[0]._id === currentUserId ? user.users[0].role : user.users[1].role
   let candidate: string
   let employer:string
   if (role === 'employer') candidate = user.users[0]._id !== currentUserId ? user.users[0]._id : user.users[1]._id
   if (role === 'candidate') employer = user.users[0]._id !== currentUserId ? user.users[0]._id : user.users[1]._id
 
-
+ 
 
   return (
     <div className='col-span-3 h-screen'>
@@ -183,7 +197,7 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId }) => {
                         <div className=''>
                           <h1 className='pe-10 ps-5  py-4  font-bold font-exo '><FontAwesomeIcon icon={faVideo} />  Video Interview</h1>
                           <div className={`${role === 'employer' ? 'bg-green-500 text-center' : 'bg-primary-800 text-center'}`}>
-                            {role === 'employer' ? <button onClick={() => navigate(`/employer/videochat/${candidate}`)} className='text-lg pt-1 text-white font-bold'>Start Now</button> : <button onClick={()=>navigate(`/videochat/${employer}`)} className='text-lg pt-1 text-white font-bold'>Join Now</button>}
+                            {role === 'employer' ? <button onClick={() => handleEnterEmpVideoChat(obj.content)} className='text-lg pt-1 text-white font-bold'>Start Now</button> : <button onClick={()=>handleEnterCanVideoChat(obj.content)} className='text-lg pt-1 text-white font-bold'>Join Now</button>}
                             <p className='text-end pe-3' style={{ fontSize: '10px' }} >{getTime(obj.createdAt)}</p>
                           </div>
 

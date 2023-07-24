@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell, faCircleQuestion, faEdit, faEye, faFile } from '@fortawesome/free-regular-svg-icons'
 import { useSelector,useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { faBusinessTime, faGears, faPersonWalkingArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { faBusinessTime, faCrow, faCrown, faGears, faPersonWalkingArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { updateUser } from '../../../redux/user/userSlice'
 import { api } from '../../../services/axios'
 
@@ -14,7 +14,7 @@ function MainNav() {
     const navigate = useNavigate()
     const dispatch=useDispatch()
     const [sideMenu,setMenu]=useState(false)
-    const { userId, username, image,userEmail } = useSelector((state: any) => state.user);
+    const { userId, username, image,userEmail,isPrime } = useSelector((state: any) => state.user);
     const userLogout=()=>{
         
         api.post('/logout',{userId},{withCredentials:true}).then((data)=>{
@@ -57,7 +57,11 @@ function MainNav() {
                     {userId &&
                         <div className='flex items-center me-4 pt-2 md:pt-0'>
                             <h1 className='nav-item me-1'>{username}</h1>
-                            <img className='h-10 rounded-full' src={image} alt="" />
+                            <div className='relative'>
+                                {isPrime&&<FontAwesomeIcon icon={faCrown} className='absolute text-yellow-300 bottom-0'/>}
+                               <img className={`h-10 rounded-full ${isPrime&&'border-2 border-yellow-300 shadow'}`} src={image} alt="" /> 
+                            </div>
+                            
                         </div>
                     }
                     {userId &&
@@ -116,6 +120,7 @@ function MainNav() {
                     <li className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faFile} />  Saved Jobs</li>
                     <li className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faCircleQuestion} /> Learn and Share</li>
                     <li className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faEye} /> View Resume</li>
+                    <li className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faCrown} className='text-yellow-400' /> Mock Test</li>
                     <li className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faEdit} /> Edit Resume</li>
                     <li className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faBusinessTime} /> Applied Jobs</li>
                     <li className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faGears} /> Settings</li>

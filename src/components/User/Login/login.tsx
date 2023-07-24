@@ -32,8 +32,7 @@ function Login() {
         if(data?.user?.role==='candidate'){
             const {accessToken,user}=data
             localStorage.setItem('user',accessToken)
-            dispatch(updateUser({userId:user._id,username:user.username,image:user.profileImg,userEmail:user.email}))
-            
+            dispatch(updateUser({userId:user._id,username:user.username,image:user.profileImg,userEmail:user.email,isPrime:user.isPrime}))
             navigate('/')
         }
 
