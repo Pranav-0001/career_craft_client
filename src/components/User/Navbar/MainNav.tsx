@@ -115,7 +115,7 @@ function MainNav() {
                         <p className='text-sm'>{userEmail}</p>
                     </div>
                 </div>
-                
+                 
                 <ul className={`mt-4 font-work text-2xl cursor-pointer overflow-hidden  `}>
                     <li className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faFile} />  Saved Jobs</li>
                     <li className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faCircleQuestion} /> Learn and Share</li>

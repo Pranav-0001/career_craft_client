@@ -3,7 +3,7 @@ import { QuestionTypes } from "./Questions"
 export type ExamType={
     _id?:string,
     questions?:QuestionTypes[],
-    answer?:[{queId:string,userAns:string}],
+    answer?:[{queId:string,userAns:string,status?:boolean}],
     candidate?:string,
     employer?:string,
     startedAt?:string,

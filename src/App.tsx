@@ -30,6 +30,9 @@ import EmpExamResult from './Pages/EmpExamResult';
 import VideoChatPage from './Pages/VideoChatPage';
 import EmpVideoChatPage from './Pages/EmpVideoChatPage';
 import PremiumPage from './Pages/PremiumPage';
+import MockTestPage from './Pages/MockTestPage';
+import LASHomepage from './Pages/LASHomepage';
+import AskPublicQuestionPage from './Pages/AskPublicQuestionPage';
 
 
 function App() {
@@ -56,6 +59,9 @@ function App() {
 
       <Route path='/videochat/:id' element={<CandidateProtect><VideoChatPage/></CandidateProtect>} />
       <Route path='/premium' element={<PremiumPage/>}/>
+      <Route path='/mock-test/:id' element={<MockTestPage/>}/>
+      <Route path='/Learn-and-share' element={<LASHomepage/>}/>
+      <Route path='/askpublicquestion' element={<AskPublicQuestionPage/>}/>
       
 
 

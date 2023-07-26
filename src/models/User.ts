@@ -13,7 +13,12 @@ export interface User{
     basic?:BasicType,
     profile?:ProfileType,
     education?:EducationType,
-    professional?:ProfessionalType
+    professional?:ProfessionalType,
+    subscribedDate?:string,
+    Expiry?:string,
+    subscriptionStatus?:string,
+    mockPer?:number
+
 }
 
 export interface BasicType{
