@@ -33,6 +33,7 @@ import PremiumPage from './Pages/PremiumPage';
 import MockTestPage from './Pages/MockTestPage';
 import LASHomepage from './Pages/LASHomepage';
 import AskPublicQuestionPage from './Pages/AskPublicQuestionPage';
+import PublicQuestionViewPage from './Pages/PublicQuestionViewPage';
 
 
 function App() {
@@ -58,10 +59,11 @@ function App() {
       <Route path='/exam/:id' element={<CandidateProtect><CandidateExamPage/></CandidateProtect>}/>
 
       <Route path='/videochat/:id' element={<CandidateProtect><VideoChatPage/></CandidateProtect>} />
-      <Route path='/premium' element={<PremiumPage/>}/>
-      <Route path='/mock-test/:id' element={<MockTestPage/>}/>
-      <Route path='/Learn-and-share' element={<LASHomepage/>}/>
-      <Route path='/askpublicquestion' element={<AskPublicQuestionPage/>}/>
+      <Route path='/premium' element={<CandidateProtect><PremiumPage/></CandidateProtect>}/>
+      <Route path='/mock-test/:id' element={<CandidateProtect><MockTestPage/></CandidateProtect>}/>
+      <Route path='/Learn-and-share' element={<CandidateProtect><LASHomepage/></CandidateProtect>}/>
+      <Route path='/askpublicquestion' element={<CandidateProtect><AskPublicQuestionPage/></CandidateProtect>}/>
+      <Route path='/publicquestion/:id' element={<CandidateProtect><PublicQuestionViewPage/></CandidateProtect>}/>
       
 
 
