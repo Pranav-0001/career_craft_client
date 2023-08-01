@@ -1,17 +1,42 @@
 import { faMessage } from '@fortawesome/free-regular-svg-icons'
-import { faBookmark, faBriefcase, faUser, faUserGraduate } from '@fortawesome/free-solid-svg-icons'
+import { faBookmark, faBriefcase, faTrophy, faUser, faUserGraduate } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
+import { fetchDashBoard } from '../../../services/candidate/profile';
+import { appliedJobsByUser } from '../../../models/applicationModel';
 
 function Dashboard() {
+  const { userId,userEmail,username ,image} = useSelector((state:any) => state.user);
+  const [applications,setApplications]=useState(0)
+  const [chat,setchat]=useState(0)
+  const [saved,setsaved]=useState(0)
+  const [LAS,setLAS]=useState(0)
+  const [apply,setApply]=useState<appliedJobsByUser[]>([])
+  useEffect(() => {
+   const fetch=async()=>{
+    const data=await fetchDashBoard(userId)
+    console.log(data);
+    
+    setApplications(data.applications)
+    setchat(data.chat.count)
+    setsaved(data.saved.count)
+    setLAS(data.LAS.totalMarks)
+    setApply(data.applied)
+    
+   }
+   fetch()
+  }, [])
+  
+
   return (
-    <div className='lg:pe-20 w-full h-10 '>
+    <div className='lg:pe-20 w-full mb-10 '>
       <div className='w-full  h-5 mt-10 md:mt-20'>
         <div className="flex items-center gap-4">
-          <img src="https://res.cloudinary.com/pranav123/image/upload/v1687687065/ajeszycb6mkshn1rued3.jpg" className='rounded-md h-24' alt="" />
+          <img src={image} className='rounded-md h-24' alt="" />
           <div className=''>
             <p className='font-exo text-sm'>Hello,</p>
-            <h1 className='font-exo text-2xl text-primary-900'>Pranav C</h1>
+            <h1 className='font-exo text-2xl text-primary-900'>{username}</h1>
           </div>
 
         </div>
@@ -23,7 +48,7 @@ function Dashboard() {
             <div className='flex items-center'>
               <div>
                 <h1 className='text-gray-400'>Total Applied</h1>
-                <h1 className='text-xl font-bold'>250</h1>
+                <h1 className='text-xl font-bold'>{applications}  </h1>
               </div>
             </div>
           </div>
@@ -35,7 +60,7 @@ function Dashboard() {
             <div className='flex items-center'>
               <div>
                 <h1 className='text-gray-400'>Saved Jobs</h1>
-                <h1 className='text-xl font-bold'>250</h1>
+                <h1 className='text-xl font-bold'>{saved}</h1>
               </div>
             </div>
           </div>
@@ -47,47 +72,47 @@ function Dashboard() {
             <div className='flex items-center'>
               <div>
                 <h1 className='text-gray-400'>Messages</h1>
-                <h1 className='text-xl font-bold'>250</h1>
+                <h1 className='text-xl font-bold'>{chat}</h1>
               </div>
             </div>
           </div>
 
           <div className='border  rounded-sm  w-full   flex'>
             <div className='px-2 py-2'>
-              <FontAwesomeIcon className='bg-sky-200 border border-sky-400 text-3xl px-4 py-4' icon={faUserGraduate} />
+              <FontAwesomeIcon className='bg-sky-200 border border-sky-400 text-3xl px-4 py-4' icon={faTrophy} />
             </div>
             <div className='flex items-center'>
               <div>
-                <h1 className='text-gray-400'>Review CV</h1>
-                <h1 className='text-xl font-bold'>250</h1>
+                <h1 className='text-gray-400'>LAS Point</h1>
+                <h1 className='text-xl font-bold'>{LAS}</h1>
               </div>
             </div>
           </div>
 
         </div>
 
-        <div className='mt-10'>
+        <div className='mt-10 ' style={{paddingBottom:'6rem'}}>
           <h1 className='font-exo text-xl mb-8'>Current Applied Jobs:</h1>
           <div className='w-full'>
-            <table className='w-full font-exo'>
+            <table className='w-full font-exo pb-10'>
               <thead>
                 <tr className='text-left bg-primary-800 text-white border '>
                   <th className='ps-2'>Job</th>
-                  <th>Apply Date</th>
+                  <th>Deadline</th>
                   <th>Company</th>
                   <th>Status</th>
                 </tr>
               </thead>
               <tbody>
-                <tr  className='border-b-2  border-x-2'>
+                {apply.map((obj)=><tr  className='border-b-2  border-x-2 h-14'>
                   <td className='ps-2'>
-                    <h1 className=''>React Developer</h1>
-                    <p className='text-xs'>Delhi,Haryana</p>
+                    <h1 className=''>{obj.job[0].title}</h1>
+                    <p className='text-xs'>{obj.employer[0].location}</p>
                   </td>
-                  <td>1/10/2022</td>
-                  <td>Netflix</td>
-                  <td>Viewed</td>
-                </tr>
+                  <td>{obj.job[0].deadline}</td>
+                  <td>{obj.employer[0].company}</td>
+                  <td>{obj.status}</td>
+                </tr>)}
               </tbody>
             </table>
           </div>

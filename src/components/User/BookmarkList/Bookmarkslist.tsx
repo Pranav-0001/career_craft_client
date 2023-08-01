@@ -32,7 +32,7 @@ function Bookmarklist() {
   return (
     <>
       <h1 className='font-exo text-xl'>Bookmarked Jobs</h1>
-      <div className='grid md:grid-cols-2 gap-2 pb-8'>
+      <div className='grid md:grid-cols-2 gap-2 pb-8 pe-8'>
 
         {jobs.length>0 ? jobs.map(obj=><div className='w-full border  rounded-md shadow-md shadow-primary-200'>
           <div className='flex justify-between px-4 py-2'>

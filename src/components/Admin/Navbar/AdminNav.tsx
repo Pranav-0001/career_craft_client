@@ -39,7 +39,7 @@ function AdminNav({page}:AdminNavProps) {
               <FontAwesomeIcon className='text-xl' icon={faUsers}/>
               <h1>Users</h1>
             </div>
-            <div className='admin-nav-item'>
+            <div onClick={()=>navigate('/admin/subscription')} className={`${page==='sub'?'bg-purple-400 border border-purple-400 text-white':''} admin-nav-item `}>
               <FontAwesomeIcon className='text-2xl' icon={faCartShopping}/>
               <h1>Subscription</h1>
             </div>

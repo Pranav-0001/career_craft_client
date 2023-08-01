@@ -17,8 +17,19 @@ export interface User{
     subscribedDate?:string,
     Expiry?:string,
     subscriptionStatus?:string,
-    mockPer?:number
+    mockPer?:number,
+    facebook?:string,
+    instagram?:string,
+    linkedIn?:string,
+    gitHub?:string
 
+}
+
+export interface socialType{
+    facebook?:string
+    instagram?:string
+    linkedIn?:string
+    gitHub?:string
 }
 
 export interface BasicType{
@@ -62,4 +73,11 @@ export interface ProfessionalType{
 export interface ProjectType{
     title?:string
     desc?:string
+}
+
+export interface SubscriptionHistory{
+orderId?:string
+status?: string
+time?:string
+user?:User
 }

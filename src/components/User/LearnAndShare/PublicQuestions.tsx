@@ -41,7 +41,12 @@ const PublicQuestions = () => {
                 <div className='col-span-3'>
                     <div className='flex items-center justify-between'>
                         <h1 className='text-2xl py-6' >Questions</h1>
-                        <button className='bg-primary-900 text-white px-4 py-1 rounded'>Ask</button>
+                        <div className='flex gap-2'>
+                            <button className='bg-primary-900 text-white px-4 py-1 rounded'>Ask</button>
+                            <button className='bg-primary-900 text-white px-4 py-1 rounded'>LAS Profile</button>
+
+                        </div>
+                        
                     </div>
                     {questions?.map((obj)=><div  className='border shadow flex items-center justify-between px-4 py-3 rounded-md mb-2'>
 

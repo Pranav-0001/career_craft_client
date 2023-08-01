@@ -1,7 +1,7 @@
 
 import axios from "axios"
 import { api } from "../axios"
-import { ProjectType } from "../../models/User"
+import { ProjectType, socialType } from "../../models/User"
 
 
 
@@ -64,5 +64,24 @@ export const fetchUserData=async(userId:string)=>{
         return data.user
     }catch(err){
         
+    }
+}
+
+export const fetchDashBoard=async(userId:string)=>{
+    try {
+        const {data}=await api.get(`/dashboard/${userId}`)
+        return data
+    } catch (error) {
+        
+    }
+}
+
+export const UpdateMyProfile=async(userId:string,userName:string,profileImg:string,social:socialType)=>{
+    try {
+        
+        const {data}=await api.put(`/myprofile`,{userId,userName,profileImg,facebook:social.facebook,instagram:social.instagram,linkedIn:social.linkedIn,gitHub:social.gitHub})
+        return data
+    }catch(err){
+
     }
 }

@@ -34,6 +34,9 @@ import MockTestPage from './Pages/MockTestPage';
 import LASHomepage from './Pages/LASHomepage';
 import AskPublicQuestionPage from './Pages/AskPublicQuestionPage';
 import PublicQuestionViewPage from './Pages/PublicQuestionViewPage';
+import MyLASPage from './Pages/MyLASPage';
+import MyProfilePage from './Pages/MyProfilePage';
+import AdminSubscriptionHist from './Pages/AdminSubscriptionHist';
 
 
 function App() {
@@ -64,7 +67,8 @@ function App() {
       <Route path='/Learn-and-share' element={<CandidateProtect><LASHomepage/></CandidateProtect>}/>
       <Route path='/askpublicquestion' element={<CandidateProtect><AskPublicQuestionPage/></CandidateProtect>}/>
       <Route path='/publicquestion/:id' element={<CandidateProtect><PublicQuestionViewPage/></CandidateProtect>}/>
-      
+      <Route path='/my-las' element={<CandidateProtect><MyLASPage/></CandidateProtect>} />
+      <Route path='/my-profile' element={<CandidateProtect><MyProfilePage/></CandidateProtect>}/>
 
 
 
@@ -83,6 +87,8 @@ function App() {
       <Route path='/admin/login' element={<AdminLoginPage/>}/>
       <Route path='/admin/' element={<AdminProtected><AdminHomePage/></AdminProtected>}/>
       <Route path='/admin/userlist' element={<AdminProtected><AdminUserListPage/></AdminProtected>}/>
+      <Route path='/admin/subscription' element={<AdminProtected><AdminSubscriptionHist/></AdminProtected>}/>
+    
     </Routes>
     </>
   );

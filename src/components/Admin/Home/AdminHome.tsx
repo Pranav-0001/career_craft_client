@@ -1,16 +1,62 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './adminhome.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCrown, faSignal, faUsers, faUsersGear } from '@fortawesome/free-solid-svg-icons'
 import { Doughnut, Bar } from 'react-chartjs-2'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title } from "chart.js";
+import { fetchDashData } from '../../../services/admin/fetchUsers'
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title);
 function AdminHome() {
+    const [dashBoard,setDashBoard]=useState<{users:number,prime:number,Emp?:number,revenue?:number}>({users:0,prime:0,Emp:0,revenue:0})
+    const [subscrption,setSubscription]=useState<{time:string}[]>([])
+    useEffect(() => {
+        const fetch=async()=>{
+            const data=await fetchDashData()
+            console.log(data.subscription);
+            setDashBoard({...dashBoard,users:data.users,prime:data.premium,Emp:data.emp,revenue:data.revenue})
+            setSubscription(data.subscription)
+            
+        }
+        fetch()
+    }, [])
+    const arr=subscrption.map(obj=>parseInt(obj.time.split('-')[1]))
+    console.log(arr);
+    
+    const months = [ "January", "February", "March","April",  "May", "June","July", "August", "September", "October", "November", "December" ];
+    
+      
+      // Function to get month and year from the 'time' field
+      function getMonthYear(time:string) {
+        const date = new Date(time);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1; // Months are zero-indexed, so add 1
+        return month;
+      }
+      
+      // Calculate month-wise total price
+      const monthWiseTotalPrice:any = {};
+      subscrption.forEach((item) => {
+        const monthYear = getMonthYear(item.time);
+        if (!monthWiseTotalPrice[monthYear]) {
+          monthWiseTotalPrice[monthYear] = 0;
+        }
+        monthWiseTotalPrice[monthYear] += 29;
+      });
+      
+      // Create an array with month and total price pairs
+      const resultArray = Object.entries(monthWiseTotalPrice).map(([monthYear, totalPrice]) => ({
+        monthYear:months[parseInt(monthYear)],
+        totalPrice,
+      }));
+      
+      console.log({resultArray});
+    
+    
     const Doughnutdata = {
         labels: ['Non-Premium users', 'Premium users'],
         datasets: [
             {
-                data: [30, 20],
+                data: [dashBoard.users-dashBoard.prime, dashBoard.prime],
                 backgroundColor: ['#FF6384', '#FFCE56'],
                 hoverBackgroundColor: ['#FF6384', '#FFCE56'],
             },
@@ -18,11 +64,11 @@ function AdminHome() {
     };
 
     const BarData = {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+        labels: [...resultArray.map(obj=>obj.monthYear)],
         datasets: [
             {
                 label: 'Sales',
-                data: [120, 150, 200, 180, 220, 190],
+                data: [...resultArray.map(obj=>obj.totalPrice)],
                 backgroundColor: 'rgba(54, 162, 235, 0.5)',
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1,
@@ -46,14 +92,14 @@ function AdminHome() {
                     <div className='border px-4 py-4 shadow-md flex items-center'>
                         <FontAwesomeIcon icon={faSignal} className='px-2 border bg-purple-200 border-purple-600  py-2 text-4xl' />
                         <div className='font-exo px-4'>
-                            <h1 className='text-lg font-bold'>₹50,000</h1>
+                            <h1 className='text-lg font-bold'>${dashBoard.revenue}</h1>
                             <p className='text-sm text-gray-400'>Total Revenue</p>
                         </div>
                     </div>
                     <div className='border px-4 py-4 shadow-md flex items-center'>
                         <FontAwesomeIcon icon={faUsers} className='px-2 border bg-green-200 border-green-600  py-2 text-4xl' />
                         <div className='font-exo px-4'>
-                            <h1 className='text-lg font-bold'>50</h1>
+                            <h1 className='text-lg font-bold'>{dashBoard.users}</h1>
                             <p className='text-sm text-gray-400'>Total Users</p>
                         </div>
                     </div>
@@ -61,7 +107,7 @@ function AdminHome() {
                     <div className='border px-4 py-4 shadow-md flex items-center'>
                         <FontAwesomeIcon icon={faCrown} className='px-2 border bg-orange-200 border-orange-600  py-2 text-4xl' />
                         <div className='font-exo px-4'>
-                            <h1 className='text-lg font-bold'>20</h1>
+                            <h1 className='text-lg font-bold'>{dashBoard.prime}</h1>
                             <p className='text-sm text-gray-400'>Premium Users</p>
                         </div>
                     </div>
@@ -69,7 +115,7 @@ function AdminHome() {
                     <div className='border px-4 py-4 shadow-md flex items-center'>
                         <FontAwesomeIcon icon={faUsersGear} className='px-2 border bg-blue-200 border-blue-600  py-2 text-4xl' />
                         <div className='font-exo px-4'>
-                            <h1 className='text-lg font-bold'>15</h1>
+                            <h1 className='text-lg font-bold'>{dashBoard.Emp}</h1>
                             <p className='text-sm text-gray-400'>Total Employers</p>
                         </div>
                     </div>
@@ -84,104 +130,7 @@ function AdminHome() {
                         <Bar data={BarData} options={options} />
                     </div>
                 </div>
-                <div className='mx-4 grid md:grid-cols-2 gap-2'>
-                    <div className='mb-8 '>
-                        <h1 className='mb-2 font-exo text-2xl pt-6 '>Users</h1>
-                        <div className='flex justify-around border-2 font-bold font-exo border-gray-400 rounded-t-md py-2'>
-                            <h1>S.No</h1>
-                            <h1>Profile</h1>
-                            <h1>LAS Points</h1>
-                        </div>
-                        <div className='adminpanel-users-row'>
-                            <h1>1</h1>
-                            <div className='flex items-center gap-2'>
-                                <img src="Images/a.jpg" className='w-10 rounded-md' alt="" />
-                                <h1>Pranav</h1>
-                            </div>
-                            <h1>112 pts</h1>
-                        </div>
-                        <div className='adminpanel-users-row'>
-                            <h1>2</h1>
-                            <div className='flex items-center gap-2'>
-                                <img src="Images/a.jpg" className='w-10 rounded-md' alt="" />
-                                <h1>Pranav</h1>
-                            </div>
-                            
-                            <h1>112 pts</h1>
-                        </div>
-                        <div className='adminpanel-users-row'>
-                            <h1>2</h1>
-                            <div className='flex items-center gap-2'>
-                                <img src="Images/a.jpg" className='w-10 rounded-md' alt="" />
-                                <h1>Pranav</h1>
-                            </div>
-                            
-                            <h1>112 pts</h1>
-                        </div>
-                        <div className='adminpanel-users-row'>
-                            <h1>2</h1>
-                            <div className='flex items-center gap-2'>
-                                <img src="Images/a.jpg" className='w-10 rounded-md' alt="" />
-                                <h1>Pranav</h1>
-                            </div>
-                            
-                            <h1>112 pts</h1>
-                        </div>
-                        <div className='adminpanel-users-row'>
-                            <h1>2</h1>
-                            <div className='flex items-center gap-2'>
-                                <img src="Images/a.jpg" className='w-10 rounded-md' alt="" />
-                                <h1>Pranav</h1>
-                            </div>
-                            
-                            <h1>112 pts</h1>
-                        </div>
-                    </div>
-                    <div className='mb-8'>
-                    <h1 className='mb-2 font-exo text-2xl pt-6 '>Subscription History</h1>
-                        <div className='flex justify-around border-2 font-exo font-bold border-gray-400 rounded-t-md py-2'>
-                            <h1>Uers</h1>
-                            <h1>Date</h1>
-                            <h1>Status</h1>
-                        </div>
-                        <div className='adminpanel-users-row'>
-                            <h1>Pranav</h1>
-                            <h1>10 oct 2016</h1>
-                            <h1>Paid</h1>
-                        </div>
-                        <div className='adminpanel-users-row'>
-                            <h1>Pranav</h1>
-                            <h1>10 oct 2016</h1>
-                            <h1>Paid</h1>
-                        </div>
-                        <div className='adminpanel-users-row'>
-                            <h1>Pranav</h1>
-                            <h1>10 oct 2016</h1>
-                            <h1>Paid</h1>
-                        </div>
-                        <div className='adminpanel-users-row'>
-                            <h1>Pranav</h1>
-                            <h1>10 oct 2016</h1>
-                            <h1>Paid</h1>
-                        </div>
-                        <div className='adminpanel-users-row'>
-                            <h1>Pranav</h1>
-                            <h1>10 oct 2016</h1>
-                            <h1>Paid</h1>
-                        </div>
-                        <div className='adminpanel-users-row'>
-                            <h1>Pranav</h1>
-                            <h1>10 oct 2016</h1>
-                            <h1>Paid</h1>
-                        </div>
-                        <div className='adminpanel-users-row'>
-                            <h1>Pranav</h1>
-                            <h1>10 oct 2016</h1>
-                            <h1>Paid</h1>
-                        </div>
-                        
-                    </div>
-                </div>
+                
             </div>
         </>
     )

@@ -22,5 +22,18 @@ export type PublicAnswer={
     likedBy?:string[],
     status?:boolean,
     createdAt?:string,
-    answer?:string
+    answer?:string,
+    questionId?:string
+}
+
+export type PublicAnswerWithQUe={
+    _id?:string
+    addedBy?:User
+    code?:string,
+    likes?:number,
+    likedBy?:string[],
+    status?:boolean,
+    createdAt?:string,
+    answer?:string,
+    questionId?:PublicQuestion
 }
