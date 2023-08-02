@@ -38,7 +38,7 @@ const SideMenu:React.FC<SideMenuProps>= ({page}) =>{
                 <FontAwesomeIcon icon={faEye}/>
                 <h1>View Resume</h1>
             </div>
-            <div className={`flex items-center gap-3 py-3 cursor-pointer px-6`}>
+            <div onClick={()=>navigate('/settings')} className={`${page==="settings"?'bg-primary-900 text-white':''} flex items-center gap-3 py-3 cursor-pointer px-6`}>
                 <FontAwesomeIcon icon={faGear}/>
                 <h1>Settings</h1>
             </div>

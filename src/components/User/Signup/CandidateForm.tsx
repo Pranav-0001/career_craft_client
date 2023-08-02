@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 
 import { api } from '../../../services/axios';
 import { emailValidation, fnamesValidation, lnamesValidation, passValidation, unameValidation } from '../../../utils/user/signupVali';
@@ -15,6 +15,8 @@ import 'react-toastify/dist/ReactToastify.css';
 function CandidateForm() {
     const navigate=useNavigate()
     const dispatch=useDispatch()
+    const [timeoutId,setTimeoutId]=useState<NodeJS.Timeout>()
+    const [resend,setResend]=useState(false)
     const [firstname, setFirstname] = useState('')
     const [lastname, setLastname] = useState('')
     const [email, setEmail] = useState('')
@@ -63,6 +65,20 @@ function CandidateForm() {
 
         }
     }
+    const handleTimeout=()=>{
+        setResend(true)
+
+    }
+
+    useEffect(() => {
+        const id = setTimeout(handleTimeout, 3*60*1000); 
+        setTimeoutId(id);
+    
+        
+        return () => {
+          clearTimeout(timeoutId);
+        };
+      }, []);
 
 
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
@@ -72,6 +88,7 @@ function CandidateForm() {
               try{
                 const { data } = await api.post('/generate-otp', { email }, { withCredentials: true })
                 setOTP(data)
+                setResend(false)
               }catch(err){
                 console.log(err);
               }
@@ -163,6 +180,12 @@ function CandidateForm() {
                                 <p className='text-xs'>An OTP has been sent to your email.</p>
                             </div>
                             <div className='mt-2 md:mt-4 mb-1'>
+                                {resend?
+                                <>
+                                <h1>OTP Expired</h1>
+                                <button  className='bg-primary-800 rounded px-2 py-1 shadow text-white'>Resend</button>
+                                </>
+                                :<>
                                 <p>Enter OTP</p>
                                 <div className='flex justify-center '>
                                     <input className='signupFormInput' type="number" name='otp' required onChange={(e)=>setUserOTP(e.target.value)}/>
@@ -171,6 +194,7 @@ function CandidateForm() {
                                 <div className='flex justify-center mb-5'>
                                     <button type='submit' className='py-2 px-6 rounded-md mt-4 bg-primary-700 text-white'>Verify</button>
                                 </div>
+                                </>}
                             </div>
                         </div>
 

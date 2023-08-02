@@ -2,23 +2,27 @@ import React, { useEffect, useState } from 'react'
 import './chat.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
-import { Chats } from '../../../models/chat'
+import { Chats, Message } from '../../../models/chat'
 import { useSelector } from 'react-redux'
 import { fetchAllChats } from '../../../services/Chats/Chat'
 import SingleChat from '../SingleChat/SingleChat'
+import { useSocket } from '../../../context/socketContext'
 
 interface role {
     role: string
 }
 
 const Chat: React.FC<role> = ({ role }) => {
-
+    const socket=useSocket()
     const { EmployerId } = useSelector((state: any) => state.employer);
     const { userId } = useSelector((state: any) => state.user);
 
     const [chats, setChats] = useState<Chats[]>([])
     const [selectedUser, setselectedUser] = useState<Chats>()
+    const [lastMessage, setLastMessage] = useState<Message>()
+   
     const currentUserId = (role === 'employer') ? EmployerId : userId
+    
 
     const selectChat=(user:Chats)=>{
         setselectedUser(user)
@@ -29,14 +33,10 @@ const Chat: React.FC<role> = ({ role }) => {
         const fetch = async () => {
             let Id = (role === 'employer') ? EmployerId : userId
             const allChats = await fetchAllChats(Id)
-           
-            
             setChats(allChats)
-
-
         }
         fetch()
-    }, [])
+    }, [lastMessage])
 
     return (
         <div className='h-4/5'>
@@ -65,7 +65,7 @@ const Chat: React.FC<role> = ({ role }) => {
                         {selectedUser
                             ?
                             <div className={`col-span-3 ${selectedUser ?'block' :'hidden'} lg:block`}>
-                            <SingleChat  user={selectedUser} currentUserId={currentUserId}/>
+                            <SingleChat setLastMessage={setLastMessage} user={selectedUser} currentUserId={currentUserId}/>
                             </div>
                             :
                             <div className='h-screen col-span-3'>

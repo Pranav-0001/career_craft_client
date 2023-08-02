@@ -66,7 +66,7 @@ const Premium = () => {
         </div>
         <div className='shadow border rounded-md  lg:px-10 md:px-6 px-4'>
           <div className='w-full flex items-center py-4'>
-            <h1 className='text-4xl'><FontAwesomeIcon className='text-yellow-500' icon={faTrophy}/>{user?.mockPer}<span className='text-lg'>/100pts</span> </h1>
+            <h1 className='text-4xl'><FontAwesomeIcon className='text-yellow-500' icon={faTrophy}/>{user?.mockPer?.toFixed(2)??0}<span className='text-lg'>/100pts</span> </h1>
           </div>
           <div>
           <h1 className='text-xl font-bold '>Subscription Data</h1>

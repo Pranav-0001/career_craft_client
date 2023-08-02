@@ -163,11 +163,11 @@ const sendOffer = async () => {
           <video className='rounded-md shadow' ref={user1Ref} muted autoPlay playsInline ></video>
 
           <div className='flex justify-center gap-3 py-2'>
-            <button onClick={sendOffer}>Start</button>
-            {offerRec&&<button onClick={sendAnswer}>accept</button>}
-            <button><FontAwesomeIcon className='px-4 py-2 bg-blue-500 text-white rounded-full' icon={faMicrophone} /></button>
-            <button><FontAwesomeIcon className='px-4 py-2 bg-blue-500 text-white rounded-full' icon={faVideo} /></button>
-            <button><FontAwesomeIcon className='px-4 py-2 bg-red-500 text-white rounded-full' icon={faPhoneSlash} /></button>
+            {role==='employer'&&<button className='px-4  text-white bg-blue-500 rounded-full' onClick={sendOffer}>Start</button>}
+            {/* {offerRec&&<button onClick={sendAnswer}>accept</button>} */}
+            {/* <button><FontAwesomeIcon className='px-4 py-2 bg-blue-500 text-white rounded-full' icon={faMicrophone} /></button>
+            <button><FontAwesomeIcon className='px-4 py-2 bg-blue-500 text-white rounded-full' icon={faVideo} /></button>*/}
+            <button><FontAwesomeIcon className='px-4 py-2 bg-red-500 text-white rounded-full' icon={faPhoneSlash} /></button> 
           </div>
         </div>
       </div>

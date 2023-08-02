@@ -29,7 +29,10 @@ const QuestionForm: React.FC<queModel> = ({ role }) => {
             const {question,answer,difficulty,option1,option2,option3,code,addedBy,role } = questions
             if(question&&answer&&option1&&option2&&option3&&difficulty){
                const res= await postQuestion(questions)
-               if(res) navigate('/employer/questions')
+               if(res){
+                if(role==='employer') navigate('/employer/questions')
+                if(role==='admin') navigate('/admin/questions')
+               }
                 
             }
         }

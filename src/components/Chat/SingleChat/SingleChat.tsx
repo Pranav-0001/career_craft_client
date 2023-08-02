@@ -15,11 +15,12 @@ import { useSocket } from '../../../context/socketContext';
 interface selectedUser {
   user: Chats
   currentUserId: string 
+  setLastMessage:Function
 }
 
 
 
-const SingleChat: React.FC<selectedUser> = ({ user, currentUserId }) => {
+const SingleChat: React.FC<selectedUser> = ({ user, currentUserId ,setLastMessage }) => {
   const navigate = useNavigate()
   const [message, setMessage] = useState<string>('')
   const [messages, setMessages] = useState<Message[]>([])
@@ -42,6 +43,7 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId }) => {
       setMessage('')
       console.log(res.msg);
       socket?.emit('new message', res.msg)
+      setLastMessage(res.msg)
       setMessages([...messages, res.msg])
 
     }

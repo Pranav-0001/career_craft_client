@@ -38,7 +38,7 @@ function MainNav() {
                 <div className=" md:flex items-center  ">
                     {userId &&
                         <div className='hidden md:block'>
-                            <h1 className='nav-item'>Dashboard</h1>
+                            <h1 onClick={()=>navigate('/dashboard')} className='nav-item'>Dashboard</h1>
                         </div>
                     }
                     <div className='hidden md:block'>
@@ -46,7 +46,7 @@ function MainNav() {
                     </div>
                     {userId &&
                         <div className='hidden md:block'>
-                            <h1 className='nav-item'>Chats</h1>
+                            <h1 onClick={()=>navigate('/chat')} className='nav-item'>Chats</h1>
                         </div>
                     }
                     {userId &&
@@ -120,7 +120,7 @@ function MainNav() {
                     <li className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faFile} />  Saved Jobs</li>
                     <li className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faCircleQuestion} /> Learn and Share</li>
                     <li className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faEye} /> View Resume</li>
-                    <li className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faCrown} className='text-yellow-400' /> Mock Test</li>
+                    <li onClick={()=>navigate('/premium')} className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faCrown} className='text-yellow-400' /> Mock Test</li>
                     <li className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faEdit} /> Edit Resume</li>
                     <li className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faBusinessTime} /> Applied Jobs</li>
                     <li className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faGears} /> Settings</li>

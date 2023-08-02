@@ -38,8 +38,8 @@ function EmpHome() {
                         </div>
                     </div>
                     <div className=''>
-                        <button className='hidden border border-primary-400 rounded-lg px-4 py-2 md:flex items-center'><FontAwesomeIcon className='p-2 me-2 bg-primary-500 rounded-md ' icon={faEdit} /> Edit Profile</button>
-                        <button className=' border border-primary-400 rounded-lg ps-2 pt-1 md:hidden items-center'><FontAwesomeIcon className='p-2 me-2 bg-primary-500 rounded-md ' icon={faEdit} /> </button>
+                        {/* <button className='hidden border border-primary-400 rounded-lg px-4 py-2 md:flex items-center'><FontAwesomeIcon className='p-2 me-2 bg-primary-500 rounded-md ' icon={faEdit} /> Edit Profile</button>
+                        <button className=' border border-primary-400 rounded-lg ps-2 pt-1 md:hidden items-center'><FontAwesomeIcon className='p-2 me-2 bg-primary-500 rounded-md ' icon={faEdit} /> </button> */}
 
                     </div>
                 </div>

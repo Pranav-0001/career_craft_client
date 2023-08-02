@@ -10,4 +10,5 @@ export  interface QuestionTypes{
     code?:string
     role?:string
     options?:string[]
+    status?:boolean
 }

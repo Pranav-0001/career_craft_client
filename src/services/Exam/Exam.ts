@@ -27,3 +27,22 @@ export const postAnwer=async(answer:{ queId?: string, userAns?: string }[],id?:s
    return data
    
 }
+
+export const enableQueByAdmin=async(qId?:string)=>{
+   const {data}=await api.post('/admin/enable-question',{qId})
+   return data
+}
+
+export const disableQueByAdmin=async(qId?:string)=>{
+   const {data}=await api.post('/admin/disable-question',{qId})
+   return data
+}
+export const enableQueByEmp=async(qId?:string)=>{
+   const {data}=await api.post('/employer/enable-question',{qId})
+   return data
+}
+
+export const disableQueByEmp=async(qId?:string)=>{
+   const {data}=await api.post('/employer/disable-question',{qId})
+   return data
+}

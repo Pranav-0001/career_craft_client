@@ -5,12 +5,14 @@ import React, { useEffect, useState } from 'react'
 import { QuestionTypes } from '../../../models/Questions'
 import { getAllQuestions } from '../../../services/question/question'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 interface queModel{
     role:string
 }
 
 const Questions:React.FC<queModel>=({role})=>{
+    const navigate=useNavigate()
     const [questions,setQuestions]=useState<QuestionTypes[]>([])
     const [pages,setPages]=useState<number[]>([])
     const [selectedPage,setSelectedPage]=useState<number>(1)
@@ -32,7 +34,7 @@ const Questions:React.FC<queModel>=({role})=>{
     <>
     <div className='w-full font-exo'>
         <div className='w-full flex items-center justify-end mb-4'>
-            <button className='text-white bg-primary-900 px-2 py-1 rounded-md'>Add Question</button>
+            <button onClick={()=>navigate('/employer/add-question')} className='text-white bg-primary-900 px-2 py-1 rounded-md'>Add Question</button>
         </div>
         <div className='w-full ' >
             <div className='rounded-md overflow-hidden shadow hidden lg:block'>

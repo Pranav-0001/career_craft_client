@@ -37,6 +37,10 @@ import PublicQuestionViewPage from './Pages/PublicQuestionViewPage';
 import MyLASPage from './Pages/MyLASPage';
 import MyProfilePage from './Pages/MyProfilePage';
 import AdminSubscriptionHist from './Pages/AdminSubscriptionHist';
+import EmpProfilePage from './Pages/EmpProfilePage';
+import AdminQuestionsPage from './Pages/AdminQuestionsPage';
+import AdminQuestionAddPage from './Pages/AdminQuestionAddPage';
+import CandidateSettingsPage from './Pages/CandidateSettingsPage';
 
 
 function App() {
@@ -55,11 +59,12 @@ function App() {
       <Route path='/findjobs' element={<JoblistPage/>}/>
       <Route path='/editResume' element={<CandidateProtect><EditResumePage/></CandidateProtect>}/>
       <Route path='/bookmarks' element={<CandidateProtect><BookmarkJobsPage/></CandidateProtect>}/>
-      <Route path='/job-details/:id' element={<JobDetailPage/>} />
-      <Route path='/view-resume' element={<ViewResumePage/>} />
-      <Route path='/my-applications' element={<AppliedJobsPage/>} />
+      <Route path='/job-details/:id' element={<CandidateProtect><JobDetailPage/></CandidateProtect> } />
+      <Route path='/view-resume' element={<CandidateProtect><ViewResumePage/></CandidateProtect>} />
+      <Route path='/my-applications' element={<CandidateProtect><AppliedJobsPage/></CandidateProtect>} />
       <Route path='/chat' element={<CandidateProtect><ChatPage role={'candidate'} /></CandidateProtect>} />
       <Route path='/exam/:id' element={<CandidateProtect><CandidateExamPage/></CandidateProtect>}/>
+      <Route path='/settings' element={<CandidateProtect><CandidateSettingsPage/></CandidateProtect>}/>
 
       <Route path='/videochat/:id' element={<CandidateProtect><VideoChatPage/></CandidateProtect>} />
       <Route path='/premium' element={<CandidateProtect><PremiumPage/></CandidateProtect>}/>
@@ -83,11 +88,15 @@ function App() {
       <Route path='/employer/add-question' element={<EmployerProtected><EmpAddQuestion role='employer'/></EmployerProtected>} />
       <Route path='/employer/result/:id' element={<EmployerProtected><EmpExamResult/></EmployerProtected>} />
       <Route path='/employer/videochat/:id' element={<EmployerProtected><EmpVideoChatPage/></EmployerProtected>} />
+      <Route path='/employer/profile/' element={<EmployerProtected><EmpProfilePage/></EmployerProtected>} />
       
       <Route path='/admin/login' element={<AdminLoginPage/>}/>
       <Route path='/admin/' element={<AdminProtected><AdminHomePage/></AdminProtected>}/>
       <Route path='/admin/userlist' element={<AdminProtected><AdminUserListPage/></AdminProtected>}/>
       <Route path='/admin/subscription' element={<AdminProtected><AdminSubscriptionHist/></AdminProtected>}/>
+      <Route path='/admin/questions' element={<AdminProtected><AdminQuestionsPage/></AdminProtected>}/>
+      <Route path='/admin/add-question' element={<AdminProtected><AdminQuestionAddPage/></AdminProtected>}/>
+
     
     </Routes>
     </>
