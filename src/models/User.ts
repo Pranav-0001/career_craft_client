@@ -22,6 +22,7 @@ export interface User{
     instagram?:string,
     linkedIn?:string,
     gitHub?:string
+    isGoogle?:boolean
 
 }
 

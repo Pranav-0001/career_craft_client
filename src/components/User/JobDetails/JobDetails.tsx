@@ -105,7 +105,7 @@ function JobDetails() {
                     <div className='flex items-center gap-1'>
                         <img className='w-14 h-14  border-2 rounded-full' src={jobData?.Employer[0].profileImg} alt="" />
                         <div className='font-exo'>
-                            <h1 >{jobData?.title}</h1>
+                            <h1 className='cursor-pointer'>{jobData?.Employer[0].username}</h1>
                             <p className='text-xs font-exo text-gray-500'>{jobData?.Employer[0].company}</p>
                         </div>
                     </div>
@@ -129,7 +129,9 @@ function JobDetails() {
 
                 <div className='grid md:grid-cols-4 grid-cols-3 px-4 mt-8'>
                     <div className='col-span-2 md:col-span-3 md:pe-20'>
-                        <h1 className='text-xl mb-2 font-exo'>Job Description</h1>
+                        <h1 className='text-xl mb-2 font-exo'>Job Position </h1>
+                        <h1 className='font-exo'> {jobData?.title}</h1>
+                        <h1 className='text-xl mb-2 font-exo mt-4'>Job Description</h1>
                         <p className='text-sm font-exo'>{jobData?.desc}</p>
 
                         <h1 className='text-xl mb-2 font-exo mt-8'>Educational Requirements</h1>

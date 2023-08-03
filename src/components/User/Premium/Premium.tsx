@@ -112,7 +112,7 @@ const Premium = () => {
           </table>
         </div>
         <div className='col-span-2 flex justify-end'>
-        {mockTests.length>5&&<p className='text-blue-500 cursor-pointer hover:underline '>Show More...</p>}
+        {mockTests.length>=5&&<p className='text-blue-500 cursor-pointer hover:underline '>Show More...</p>}
       </div>
       </div>
       

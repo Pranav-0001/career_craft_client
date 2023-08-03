@@ -19,3 +19,8 @@ export const generateMockTest=async(candidate:string)=>{
     const {data}=await api.post('/submitmocktest',{answer,exam:id,userId})
    return data
  }
+
+ export const getMockTests=async(userId:string,page:number)=>{
+   const {data}= await api.get(`/getallmocktests?userId=${userId}&page=${page}`)
+   return data
+ }

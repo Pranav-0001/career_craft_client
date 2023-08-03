@@ -19,10 +19,10 @@ function Dashboard() {
     console.log(data);
     
     setApplications(data.applications)
-    setchat(data.chat.count)
-    setsaved(data.saved.count)
-    setLAS(data.LAS.totalMarks)
-    setApply(data.applied)
+    if(data?.chat?.count) setchat(data.chat.count)
+    if(data?.saved?.count) setsaved(data.saved.count)
+    if(data.LAS.totalMarks) setLAS(data.LAS.totalMarks)
+    if(data.applied) setApply(data.applied)
     
    }
    fetch()

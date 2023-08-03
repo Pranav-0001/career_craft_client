@@ -17,6 +17,11 @@ export const fetchResults=async(id:string)=>{
    return data
 }
 
+export const fetchMockResults=async(id:string)=>{
+   const {data}=await api.get(`/get-results/${id}`)
+   return data
+}
+
 export const setattended=async(id:string)=>{
    const {data}=await api.post(`/setattended`,{exam:id})
    return data

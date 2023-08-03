@@ -1,14 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './home.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircle, faUserGear ,faFile ,faBriefcase ,faFilePen} from '@fortawesome/free-solid-svg-icons'
+import { jobData } from '../../../models/jobDetails'
+import { getJobs } from '../../../services/Employer/fetJobs'
+import { useNavigate } from 'react-router-dom'
+
 
 
 function Home() {
+  const navigate=useNavigate()
+  const [jobs,setJobs]=useState<jobData[]>()
+  useEffect(() => {
+    const fetch=async () => {
+      const data=await getJobs(1,null,null,null,null)
+      if(data){
+        data.jobs.shift()
+        setJobs(data.jobs)
+      }
+      
+    }
+    fetch()
+  }, [])
+  
   return (
     <div>
       <main>
-        <div className='w-full   class main-banner lg:flex lg:justify-between  ' >
+        <div className='w-full   class main-banner lg:flex lg:justify-between  overflow-hidden' >
           <div className='font-bold font-exo text-3xl lg:text-6xl h-full lg:flex lg:items-center lg:ms-12 lg:mx-0 mx-4 '>
             <div className='mt-4 lg:mt-0'>
               <h1 className='text-center '>To Choose The <span className='text-primary-900'>Right Jobs.</span> </h1>
@@ -17,9 +35,9 @@ function Home() {
               <div>
                 <img className='lg:hidden' src="Images/bannerImage.png" alt="" />
               </div>
-              <div className='text-sm bg-white px-2 py-2 h-14 rounded-lg font-normal flex justify-between w-full lg:w-3/4'>
-                <input className='w-full h-full bg-gray-100 shadow-inner  outline-none px-2 rounded-lg' type="text" placeholder='Search here' />
-                <button className='px-2 bg-primary-900 text-white ms-2 rounded-lg'>Search</button>
+              <div className='text-sm bg-white    h-10 rounded-lg font-normal flex justify-between w-fit '>
+               
+                <button className='px-2 bg-primary-900 text-white shadow  rounded-lg'>Find Jobs</button>
               </div>
             </div>
 
@@ -66,115 +84,40 @@ function Home() {
 
 
 
-            <div className='card-featured border shadow-md bg-white rounded-lg pb-3'>
+            {jobs?.map((obj)=><div className='card-featured border shadow-md bg-white rounded-lg pb-3'>
               <div className='px-4 pt-3'>
-                <img className='rounded-md' src="Images/uiux.png" alt="" />
+                <img className='rounded-md' src="https://t3.ftcdn.net/jpg/03/75/87/98/360_F_375879843_w8vvVF6YIgt0i6tVg8Ik5jMbuyPsgseT.jpg" alt="" />
               </div>
               <div className='flex items-center  ms-4 mt-2'>
                 <div className='border-2 w-12 h-12 flex items-center rounded-full'>
-                  <img className='rounded-full' src="Images/Netflix.png" alt="avatar" />
+                  <img className='rounded-full' src={obj.Employer[0].profileImg} alt="avatar" />
                 </div>
                 <div className='ms-2'>
-                  <h1 className='font-work font-bold'>UI/UX Designer</h1>
-                  <h1 className='font-exo text-xs '>Netflix Entertainment</h1>
+                  <h1 className='font-work font-bold'>{obj.title}</h1>
+                  <h1 className='font-exo text-xs '>{obj.Employer[0].company}</h1>
 
                 </div>
 
               </div>
               <div className='w-3/4 mx-12 mt-4    border '></div>
               <div className='px-6 mt-4 mb-4'>
-                <h1 className='text-lg '><FontAwesomeIcon className='text-gray-400 text-xs pe-2 mt-1' icon={faCircle} />Salary     : 3-4 Lpa</h1>
-                <h1 className='text-lg '><FontAwesomeIcon className='text-gray-400 text-xs pe-2 mt-1' icon={faCircle} />Experience : 3-3.5 Years</h1>
-                <h1 className='text-lg '><FontAwesomeIcon className='text-gray-400 text-xs pe-2 mt-1' icon={faCircle} />Location   : Delhi, Haryana</h1>
+                <h1 className='text-lg '><FontAwesomeIcon className='text-gray-400 text-xs pe-2 mt-1' icon={faCircle} />Salary     : {obj.salaryTo} LPA</h1>
+                <h1 className='text-lg '><FontAwesomeIcon className='text-gray-400 text-xs pe-2 mt-1' icon={faCircle} />Experience : {obj.experience} Years</h1>
+                <h1 className='text-lg '><FontAwesomeIcon className='text-gray-400 text-xs pe-2 mt-1' icon={faCircle} />Location   : {obj.Employer[0].location}</h1>
               </div>
               <div className='px-4 flex justify-between '>
                 <h1 className='mx-3 bg-orange-100 w-24 px-4 md:px-5 rounded-full text-sm md:text-md ' >Full Time</h1>
-                <h1 className='text-primary-900'>Apply Now</h1>
+                <h1 className='text-primary-900 cursor-pointer' onClick={()=>navigate(`/job-details/${obj._id}`)}>Apply Now</h1>
               </div>
-            </div>
+            </div>)}
 
-            <div className='card-featured border shadow-md bg-white rounded-lg pb-3'>
-              <div className='px-4 pt-3'>
-                <img className='rounded-md' src="Images/uiux.png" alt="" />
-              </div>
-              <div className='flex items-center  ms-4 mt-2'>
-                <div className='border-2 w-12 h-12 flex items-center rounded-full'>
-                  <img className='rounded-full' src="Images/Netflix.png" alt="avatar" />
-                </div>
-                <div className='ms-2'>
-                  <h1 className='font-work font-bold'>UI/UX Designer</h1>
-                  <h1 className='font-exo text-xs '>Netflix Entertainment</h1>
-
-                </div>
-
-              </div>
-              <div className='w-3/4 mx-12 mt-4    border '></div>
-              <div className='px-6 mt-4 mb-4'>
-                <h1 className='text-lg '><FontAwesomeIcon className='text-gray-400 text-xs pe-2 mt-1' icon={faCircle} />Salary     : 3-4 Lpa</h1>
-                <h1 className='text-lg '><FontAwesomeIcon className='text-gray-400 text-xs pe-2 mt-1' icon={faCircle} />Experience : 3-3.5 Years</h1>
-                <h1 className='text-lg '><FontAwesomeIcon className='text-gray-400 text-xs pe-2 mt-1' icon={faCircle} />Location   : Delhi, Haryana</h1>
-              </div>
-              <div className='px-4 flex justify-between '>
-                <h1 className='mx-3 bg-orange-100 w-24 px-4 md:px-5 rounded-full text-sm md:text-md ' >Full Time</h1>
-                <h1 className='text-primary-900'>Apply Now</h1>
-              </div>
-            </div>
+            
 
 
-            <div className='card-featured border shadow-md bg-white rounded-lg pb-3'>
-              <div className='px-4 pt-3'>
-                <img className='rounded-md' src="Images/uiux.png" alt="" />
-              </div>
-              <div className='flex items-center  ms-4 mt-2'>
-                <div className='border-2 w-12 h-12 flex items-center rounded-full'>
-                  <img className='rounded-full' src="Images/Netflix.png" alt="avatar" />
-                </div>
-                <div className='ms-2'>
-                  <h1 className='font-work font-bold'>UI/UX Designer</h1>
-                  <h1 className='font-exo text-xs '>Netflix Entertainment</h1>
-
-                </div>
-
-              </div>
-              <div className='w-3/4 mx-12 mt-4    border '></div>
-              <div className='px-6 mt-4 mb-4'>
-                <h1 className='text-lg '><FontAwesomeIcon className='text-gray-400 text-xs pe-2 mt-1' icon={faCircle} />Salary     : 3-4 Lpa</h1>
-                <h1 className='text-lg '><FontAwesomeIcon className='text-gray-400 text-xs pe-2 mt-1' icon={faCircle} />Experience : 3-3.5 Years</h1>
-                <h1 className='text-lg '><FontAwesomeIcon className='text-gray-400 text-xs pe-2 mt-1' icon={faCircle} />Location   : Delhi, Haryana</h1>
-              </div>
-              <div className='px-4 flex justify-between '>
-                <h1 className='mx-3 bg-orange-100 w-24 px-4 md:px-5 rounded-full text-sm md:text-md ' >Full Time</h1>
-                <h1 className='text-primary-900'>Apply Now</h1>
-              </div>
-            </div>
+            
 
 
-            <div className='card-featured border shadow-md bg-white rounded-lg pb-3'>
-              <div className='px-4 pt-3'>
-                <img className='rounded-md' src="Images/uiux.png" alt="" />
-              </div>
-              <div className='flex items-center  ms-4 mt-2'>
-                <div className='border-2 w-12 h-12 flex items-center rounded-full'>
-                  <img className='rounded-full' src="Images/Netflix.png" alt="avatar" />
-                </div>
-                <div className='ms-2'>
-                  <h1 className='font-work font-bold'>UI/UX Designer</h1>
-                  <h1 className='font-exo text-xs '>Netflix Entertainment</h1>
-
-                </div>
-
-              </div>
-              <div className='w-3/4 mx-12 mt-4    border '></div>
-              <div className='px-6 mt-4 mb-4'>
-                <h1 className='text-lg '><FontAwesomeIcon className='text-gray-400 text-xs pe-2 mt-1' icon={faCircle} />Salary     : 3-4 Lpa</h1>
-                <h1 className='text-lg '><FontAwesomeIcon className='text-gray-400 text-xs pe-2 mt-1' icon={faCircle} />Experience : 3-3.5 Years</h1>
-                <h1 className='text-lg '><FontAwesomeIcon className='text-gray-400 text-xs pe-2 mt-1' icon={faCircle} />Location   : Delhi, Haryana</h1>
-              </div>
-              <div className='px-4 flex justify-between '>
-                <h1 className='mx-3 bg-orange-100 w-24 px-4 md:px-5 rounded-full text-sm md:text-md ' >Full Time</h1>
-                <h1 className='text-primary-900'>Apply Now</h1>
-              </div>
-            </div>
+            
 
 
 

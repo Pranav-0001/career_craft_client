@@ -20,6 +20,10 @@ export interface resultTypes{
     answers:{queId:string,userAns:string,status:boolean},
     question:QuestionTypes[]
 }
-export interface donutType{
-    
+export interface MockresultTypes{
+    _id:string,
+    answers:{queId:string,userAns:string,status:boolean}[],
+    questions:QuestionTypes[]
+    mark:number
+
 }

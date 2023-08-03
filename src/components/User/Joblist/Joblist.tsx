@@ -86,8 +86,10 @@ function Joblist() {
                 <h1 className='font-exo text-2xl  md:text-3xl'>Find Jobs</h1>
             </div>
             <div className='md:px-20 px-2 w-full mt-5'>
-                <div className='  w-full h-20 flex justify-end items-center'>
-                    
+                <div className='  w-full h-20 flex justify-end items-center gap-2'>
+                    <div>
+                        <input placeholder='Search...' type="text" className='border border-primary-200 outline-primary-700 px-2 py-1 rounded shadow font-exo' />
+                    </div>
                    <h1 className='font-bold'>Sort By : </h1> <select name="" id="" className='bg-transparent outline-none' onChange={(e)=>setSort(e.target.value)}>
                     <option >Default</option>
 
@@ -151,7 +153,7 @@ function Joblist() {
                     </div>
                 </div>
                 <div className='col-span-3 md:col-span-2  px-4  '>
-                    {jobs.map((obj, index) =>
+                    {jobs.length>0 ? jobs.map((obj, index) =>
                         <div className='  w-full my-2 border-2 rounded-md font-exo px-4 py-2' key={index}>
                             <div className='w-full flex  my-4'>
                                 <div className='flex w-full gap-4'>
@@ -194,7 +196,11 @@ function Joblist() {
                                 
                             </div>
                         </div>
-                    )}
+                    ):
+                    <div className='w-full flex justify-center'>
+                    <h1 className='font-exo text-2xl pt-10 font-bold'>No Results Found...</h1>
+                    </div>
+                    }
                 </div>
             </div>
             <div className='lg:mx-20 mx-4 flex justify-end gap-2 mb-6 '>

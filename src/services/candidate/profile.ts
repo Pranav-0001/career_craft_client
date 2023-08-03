@@ -85,3 +85,12 @@ export const UpdateMyProfile=async(userId:string,userName:string,profileImg:stri
 
     }
 }
+
+export const changePassword=async(userId:string,newPassword:string,password:string)=>{
+    try {
+        const {data}=await api.put('/changepassword',{password,newPassword,userId})
+        return data
+    } catch (error) {
+        
+    }
+}

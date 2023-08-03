@@ -41,6 +41,8 @@ import EmpProfilePage from './Pages/EmpProfilePage';
 import AdminQuestionsPage from './Pages/AdminQuestionsPage';
 import AdminQuestionAddPage from './Pages/AdminQuestionAddPage';
 import CandidateSettingsPage from './Pages/CandidateSettingsPage';
+import MockTestHistoryPage from './Pages/MockTestHistoryPage';
+import MockTestResultPage from './Pages/MockTestResultPage';
 
 
 function App() {
@@ -65,6 +67,8 @@ function App() {
       <Route path='/chat' element={<CandidateProtect><ChatPage role={'candidate'} /></CandidateProtect>} />
       <Route path='/exam/:id' element={<CandidateProtect><CandidateExamPage/></CandidateProtect>}/>
       <Route path='/settings' element={<CandidateProtect><CandidateSettingsPage/></CandidateProtect>}/>
+      <Route path='/premium/test-history' element={<CandidateProtect><MockTestHistoryPage/></CandidateProtect>}/>
+      <Route path='/premium/test-result/:id' element={<CandidateProtect><MockTestResultPage/></CandidateProtect>}/>
 
       <Route path='/videochat/:id' element={<CandidateProtect><VideoChatPage/></CandidateProtect>} />
       <Route path='/premium' element={<CandidateProtect><PremiumPage/></CandidateProtect>}/>

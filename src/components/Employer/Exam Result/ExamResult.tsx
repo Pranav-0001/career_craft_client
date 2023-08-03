@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { fetchExam, fetchResults } from '../../../services/Exam/Exam'
-import { ExamType, donutType, resultTypes } from '../../../models/Exam'
+import { ExamType, resultTypes } from '../../../models/Exam'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { googlecode } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { Doughnut, Bar } from 'react-chartjs-2'
