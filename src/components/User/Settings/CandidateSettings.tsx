@@ -4,12 +4,16 @@ import { changePassword, fetchUserData } from '../../../services/candidate/profi
 import { useSelector } from 'react-redux'
 import { User } from '../../../models/User'
 import { ToastContainer, toast } from 'react-toastify'
+import PasswordModal from './PasswordModal'
+import WarningModal from './WarningModal'
 
 const CandidateSettings = () => {
     const [newPassword, setPassword] = useState<{ current: string, newP: string, confirm: string }>({ current: '', newP: '', confirm: '' })
     const [err, setErr] = useState<{ current: string, newP: string, confirm: string }>({ current: '', newP: '', confirm: '' })
     const { userId, userEmail } = useSelector((state: any) => state.user);
     const [user,setUser]=useState<User>()
+    const [passwordModalOpen,setPasswordModalOpen]=useState(false)
+    const [warning,setwarning]=useState(false)
 
     useEffect(() => {
      const fetch=async()=>{
@@ -62,6 +66,13 @@ const CandidateSettings = () => {
         }
 
     }
+    const handleModal=()=>{
+        if(user?.isGoogle){
+            setwarning(true)
+        }else{
+            setPasswordModalOpen(true)
+        }
+    }
 
     return (
         <div className='md:pe-10 px-2 font-exo  mt-20'>
@@ -72,7 +83,7 @@ const CandidateSettings = () => {
             <div>
                 <p className='my-2 text-justify text-sm'>Please note that during this period, all your account data and information will be temporarily hidden from other users. However, your data will be securely stored, and you will have the option to reactivate your account at any time.</p>
                 <p  className='my-2 text-justify text-sm'>If you wish to regain access to your account, please contact our administration team at <span className='font-bold'>careercraft666@gmail.com</span> . They will assist you in reactivating your account and restoring your profile and content.</p>
-                <button  className='px-4 py-1 bg-red-600 shadow text-white rounded'>Deactivate</button>
+                <button onClick={handleModal}  className='px-4 py-1 bg-red-600 shadow text-white rounded'>Deactivate</button>
             </div>
             </div>
             {user?.isGoogle?null:<div className='border border-primary-200  rounded shadow px-8 py-6'>
@@ -102,6 +113,8 @@ const CandidateSettings = () => {
                     </div>
                 </form>
             </div>}
+           {passwordModalOpen&& <PasswordModal setModal={setPasswordModalOpen}/>}
+           {warning && <WarningModal setModal={setwarning}/>}
             <ToastContainer/>
         </div>
     )

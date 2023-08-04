@@ -29,6 +29,8 @@ function Login() {
         const email=result.email
         const password='123Google@@'
         const {data}=await api.post('/login',{email,password},{withCredentials:true})
+        if(data.message) toast.error(data.message);
+        
         if(data?.user?.role==='candidate'){
             const {accessToken,user}=data
             localStorage.setItem('user',accessToken)

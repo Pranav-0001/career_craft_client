@@ -94,3 +94,29 @@ export const changePassword=async(userId:string,newPassword:string,password:stri
         
     }
 }
+
+export const changeEmpPassword=async(userId:string,newPassword:string,password:string)=>{
+    try {
+        const {data}=await api.put('/employer/changepassword',{password,newPassword,userId})
+        return data
+    } catch (error) {
+        
+    }
+}
+
+export const deactivateAccount=async(userId:string,password:string)=>{
+    try {
+        const {data}=await api.put('/deactivate',{userId,password})
+        return data
+    } catch (error) {
+        
+    }
+}
+
+export const userLogout=async(userId:string)=>{
+        
+    const {data}=await api.post('/logout',{userId},{withCredentials:true})
+    
+    return data
+
+}

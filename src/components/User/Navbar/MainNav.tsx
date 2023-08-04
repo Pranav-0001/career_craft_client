@@ -22,6 +22,7 @@ function MainNav() {
                 setMenu(false)
                 dispatch(updateUser({}))
                 localStorage.removeItem('user')
+                navigate('/login')
             }
             
         })

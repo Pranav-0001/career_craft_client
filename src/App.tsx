@@ -43,6 +43,9 @@ import AdminQuestionAddPage from './Pages/AdminQuestionAddPage';
 import CandidateSettingsPage from './Pages/CandidateSettingsPage';
 import MockTestHistoryPage from './Pages/MockTestHistoryPage';
 import MockTestResultPage from './Pages/MockTestResultPage';
+import EpmployerSettings from './Pages/EpmployerSettings';
+import EmployerFindCandidates from './Pages/EmployerFindCandidates';
+import EmpEditQuestionPage from './Pages/EmpEditQuestionPage';
 
 
 function App() {
@@ -93,6 +96,9 @@ function App() {
       <Route path='/employer/result/:id' element={<EmployerProtected><EmpExamResult/></EmployerProtected>} />
       <Route path='/employer/videochat/:id' element={<EmployerProtected><EmpVideoChatPage/></EmployerProtected>} />
       <Route path='/employer/profile/' element={<EmployerProtected><EmpProfilePage/></EmployerProtected>} />
+      <Route path='/employer/settings/' element={<EmployerProtected><EpmployerSettings/></EmployerProtected>} />
+      <Route path='/employer/findcandidates/' element={<EmployerProtected><EmployerFindCandidates/></EmployerProtected>} />
+      <Route path='/employer/edit-question/:id' element={<EmployerProtected><EmpEditQuestionPage/></EmployerProtected>} />
       
       <Route path='/admin/login' element={<AdminLoginPage/>}/>
       <Route path='/admin/' element={<AdminProtected><AdminHomePage/></AdminProtected>}/>

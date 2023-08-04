@@ -19,8 +19,9 @@ function ResumeEmp() {
     const fetchData = async () => {
       if (userId) {
         const user: User = await fetchUserData(userId)
-
-        if (user.basic && user.profile && user.education) {
+        console.log({user});
+        
+        if (user?.basic && user.profile && user.education) {
           setShow(true)
           setUserData(user)
         }

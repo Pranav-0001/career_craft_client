@@ -47,10 +47,10 @@ function AdminNav({page}:AdminNavProps) {
               <FontAwesomeIcon className='text-xl ps-2' icon={faQuestion}/>
               <h1 className='ps-1'>Questions</h1>
             </div>
-            <div className='admin-nav-item'>
+            {/* <div className='admin-nav-item'>
               <FontAwesomeIcon className='text-xl' icon={faRankingStar}/>
               <h1>Ranking</h1>
-            </div>
+            </div> */}
             <div className='admin-nav-item border-0 ' onClick={adminLogout}>
               <FontAwesomeIcon className='text-xl' icon={faArrowRightFromBracket}/>
               <h1>Logout</h1>

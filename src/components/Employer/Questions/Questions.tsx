@@ -56,7 +56,7 @@ const Questions:React.FC<queModel>=({role})=>{
                         </td>
                         <td className='ps-1 flex items-center gap-2 py-4'>
                             <FontAwesomeIcon icon={faEyeSlash} className='bg-red-600 text-white px-2 py-2 shadow rounded-md cursor-pointer' />
-                            <FontAwesomeIcon icon={faEdit}  className='bg-blue-600 text-white px-2 py-2 shadow rounded-md cursor-pointer'/>
+                            <FontAwesomeIcon onClick={()=>navigate(`/employer/edit-question/${obj._id}`)} icon={faEdit}  className='bg-blue-600 text-white px-2 py-2 shadow rounded-md cursor-pointer'/>
                         </td>  
                     </tr>)}
                 </tbody>

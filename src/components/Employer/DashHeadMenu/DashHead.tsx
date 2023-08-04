@@ -39,7 +39,7 @@ const DashHead:React.FC<TopMenuProps>=({page}) =>{
                         <FontAwesomeIcon icon={faBriefcase}/>
                         <h1 className='hidden lg:block'>Applied List</h1>
                     </div>
-                    <div className={`flex items-center justify-center gap-3 ${page==="settings" && 'bg-primary-800 text-white '}  h-full w-full cursor-pointer`}>
+                    <div onClick={()=>navigate('/employer/settings')} className={`flex items-center justify-center gap-3 ${page==="settings" && 'bg-primary-800 text-white '}  h-full w-full cursor-pointer`}>
                         <FontAwesomeIcon icon={faGears}/>
                         <h1 className='hidden lg:block'>Settings</h1>
                     </div>
