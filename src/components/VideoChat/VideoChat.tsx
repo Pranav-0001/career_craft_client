@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react'
 import { createAnswer, createOffer, init } from '../../services/Video/VideoChat'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMicrophone, faPhone, faPhoneSlash, faVideo } from '@fortawesome/free-solid-svg-icons'
+import { faMicrophone, faMicrophoneSlash, faPhone, faPhoneSlash, faVideo, faVideoSlash } from '@fortawesome/free-solid-svg-icons'
 import { io } from 'socket.io-client'
 import { useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Peer from '../../services/Video/Peer'
 import { useSocket } from '../../context/socketContext'
 import { fetchUserData } from '../../services/candidate/profile'
@@ -13,11 +13,19 @@ import { fetchUserData } from '../../services/candidate/profile'
 const VideoChat: React.FC<{ role: string }> = ({ role }) => {
   // const [user1, setUser1] = useState()
   const [myStream, setMyStream] = useState<MediaStream>()
+  const [videobtn,setvideoButton]=useState(true)
+  const [audiobtn,setaudioButton]=useState(true)
+  const [start,setStart]=useState(true)
   const [remoteStreamS, setRemoteStream] = useState<MediaStream>()
   const[acceptBtn,setAcceptBtn]=useState(false)
   const [offerRec, setOffer] = useState<any>()
   const user1Ref = useRef<HTMLVideoElement>(null)
   const user2Ref = useRef<HTMLVideoElement>(null)
+  const streamRef = useRef<MediaStream|null>(null)
+  const navigate=useNavigate()
+
+  
+
   const ENDPOINT = process.env.REACT_APP_BASE_URL as string
   const socket = useSocket()
   const { EmployerId } = useSelector((state: any) => state.employer)
@@ -49,9 +57,9 @@ const VideoChat: React.FC<{ role: string }> = ({ role }) => {
   }, [])
 
   const sendStreams = useCallback((stream: any) => {
-    if (stream) {
-      for (const track of stream.getTracks()) {
-        Peer.peer.addTrack(track, stream);
+    if (streamRef.current) {
+      for (const track of streamRef.current.getTracks()) {
+        Peer.peer.addTrack(track, streamRef.current);
       }
     }
   }, []);
@@ -77,11 +85,24 @@ const VideoChat: React.FC<{ role: string }> = ({ role }) => {
     }   
   }, [])
 
+  const handleDisconnect=useCallback((data:any)=>{
+    console.log({disconnect:data});
+    if(data && streamRef.current){
+      streamRef.current.getTracks().forEach(track=>track.stop())
+      console.log(streamRef.current,"kkk");
+    }
+    if(role==='employer') navigate('/employer/chat')
+    else navigate('/chat')
+    
+    
+  },[])
+
   useEffect(() => {
     socket.on("joined", handleUserJoined);
     socket.on("offer:recieved", handleOfferRecieved)
     socket.on('answer:recieved', handleAnswerRecieved)
     socket.on('candidate', handleIceCandidate)
+    socket.on('disconnect call',handleDisconnect)
 
     return () => {
       socket.off("user:joined", handleUserJoined);
@@ -93,31 +114,38 @@ const VideoChat: React.FC<{ role: string }> = ({ role }) => {
   }, [socket]);
 
 const sendOffer = async () => {
+  
     const offer = await Peer.getOffer()
     console.log(offer);
     socket.emit('offer', ({ offer, roomId: id }))
+    // setStart(false)
 
   }
+ 
 
   useEffect(() => {
     const call = async () => {
-      const stream = await navigator.mediaDevices.getUserMedia({
+      streamRef.current = await navigator.mediaDevices.getUserMedia({
         audio: true, video: true
       })
-      if (user1Ref.current && stream) {
-        user1Ref.current.srcObject = stream;
+      // setMyStream(stream)
+      // streamRef.current=stream
+      
+      if (user1Ref.current && streamRef.current) {
+        user1Ref.current.srcObject = streamRef.current;
       }
-      sendStreams(stream)
+      sendStreams(streamRef.current)
     }
     call()
-  }, [sendOffer])
+    
+  }, [])
 
   
   const sendAnswer = async (offers:any) => {
     if (role === 'candidate') {
       const answer = await Peer.getAnswer(offers)
       console.log(answer);
-      // sendStreams()
+     
       socket.emit('answer', ({ answer, roomId: id }))
     }
   }
@@ -147,6 +175,45 @@ const sendOffer = async () => {
       }
     }
   },[] )
+
+  const callEnd=()=>{
+    
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track=>track.stop())
+      
+      console.log(streamRef.current,"kkk");
+      socket.emit('call end',id)
+      if(role==='employer') navigate('/employer/chat')
+      else navigate('/chat')
+      
+      
+    }
+  }
+
+  const videoPause=()=>{
+    if (streamRef.current) {
+      setvideoButton(false)
+      streamRef.current.getVideoTracks()[0].enabled=false
+    }
+  }
+  const videoPlay=()=>{
+    if (streamRef.current) {
+      setvideoButton(true)
+      streamRef.current.getVideoTracks()[0].enabled=true
+    }
+  }
+  const audioPause=()=>{
+    if (streamRef.current) {
+      setaudioButton(false)
+      streamRef.current.getAudioTracks()[0].enabled=false
+    }
+  }
+  const audioPlay=()=>{
+    if (streamRef.current) {
+      setaudioButton(true)
+      streamRef.current.getAudioTracks()[0].enabled=true
+    }
+  }
   
   
   
@@ -163,11 +230,11 @@ const sendOffer = async () => {
           <video className='rounded-md shadow' ref={user1Ref} muted autoPlay playsInline ></video>
 
           <div className='flex justify-center gap-3 py-2'>
-            {role==='employer'&&<button className='px-4  text-white bg-blue-500 rounded-full' onClick={sendOffer}>Start</button>}
+            {role==='employer'&&start&&<button className='px-4  text-white bg-blue-500 rounded-full' onClick={sendOffer}>Start</button>}
             {/* {offerRec&&<button onClick={sendAnswer}>accept</button>} */}
-            {/* <button><FontAwesomeIcon className='px-4 py-2 bg-blue-500 text-white rounded-full' icon={faMicrophone} /></button>
-            <button><FontAwesomeIcon className='px-4 py-2 bg-blue-500 text-white rounded-full' icon={faVideo} /></button>*/}
-            <button><FontAwesomeIcon className='px-4 py-2 bg-red-500 text-white rounded-full' icon={faPhoneSlash} /></button> 
+            {audiobtn ? <button onClick={audioPause}><FontAwesomeIcon  className='px-4 py-2 bg-red-500 text-white rounded-full' icon={faMicrophoneSlash} /></button> : <button onClick={audioPlay}><FontAwesomeIcon className='px-4 py-2 bg-blue-500 text-white rounded-full' icon={faMicrophone} /></button>  }
+            {videobtn?<button><FontAwesomeIcon onClick={videoPause} className='px-4 py-2 bg-red-500 text-white rounded-full' icon={faVideoSlash} /></button>:<button><FontAwesomeIcon onClick={videoPlay} className='px-4 py-2 bg-blue-500 text-white rounded-full' icon={faVideo} /></button>}
+            <button><FontAwesomeIcon className='px-4 py-2 bg-red-500 text-white rounded-full' onClick={callEnd} icon={faPhoneSlash} /></button> 
           </div>
         </div>
       </div>

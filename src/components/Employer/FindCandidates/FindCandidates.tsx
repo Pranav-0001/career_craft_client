@@ -6,9 +6,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faGithub, faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons'
 import { faCrown, faTrophy } from '@fortawesome/free-solid-svg-icons'
 import { faPaperPlane } from '@fortawesome/free-regular-svg-icons'
+import { useSelector } from 'react-redux'
+import { createChatFromCandidates } from '../../../services/Chats/Chat'
 
 const FindCandidates = () => {
     const navigate=useNavigate()
+   const {EmployerId}  = useSelector((state: any) => state.employer);
+
     const [user,setUser]=useState<User[]>([])
     const [pagination,setPagination]=useState([])
     const {search}=useLocation()
@@ -24,6 +28,11 @@ const FindCandidates = () => {
         }
         fetch()
     }, [page])
+
+    const chat=async(userId:string)=>{
+      const data=await createChatFromCandidates(userId,EmployerId)
+      navigate('/employer/chat')
+    }
     
   return (
     <div className='lg:px-16 md:px-8 px-2 font-exo'>
@@ -56,7 +65,7 @@ const FindCandidates = () => {
             {obj.basic&&obj.education&&obj.profile&&
                 <button className='bg-blue-600 text-white px-2 py-1 rounded shadow' onClick={()=>navigate(`/employer/view-resume?user=${obj._id}`)}>View Resume</button>
             }
-            <button className='bg-primary-600 px-4 rounded shadow text-white py-1'><FontAwesomeIcon icon={faPaperPlane}/> Chat</button>
+            <button onClick={()=>chat(obj._id)} className='bg-primary-600 px-4 rounded shadow text-white py-1'><FontAwesomeIcon icon={faPaperPlane}/> Chat</button>
             </div>
             </div>
             <div>

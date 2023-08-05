@@ -6,6 +6,7 @@ import { QuestionTypes } from '../../../models/Questions'
 import { getAllQuestions } from '../../../services/question/question'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { disableQueByEmp, enableQueByEmp } from '../../../services/Exam/Exam'
 
 interface queModel{
     role:string
@@ -28,6 +29,39 @@ const Questions:React.FC<queModel>=({role})=>{
       }
       fetch()
     }, [selectedPage])
+
+    const disableQue=async(id?:string)=>{
+        if(id){
+            const data=await disableQueByEmp(id)
+            if(data){
+                let arr=questions.map((obj)=>{
+                    if(obj._id===id){
+                        return {...obj,status:false}
+                    }else{
+                        return obj
+                    }
+                })
+                setQuestions(arr)
+            }
+
+        }
+
+    }
+    const enableQue=async(id?:string)=>{
+        if(id){
+            const data=await enableQueByEmp(id)
+            if(data){
+                let arr=questions.map((obj)=>{
+                    if(obj._id===id){
+                        return {...obj,status:true}
+                    }else{
+                        return obj
+                    }
+                })
+                setQuestions(arr)
+            }
+        }
+    }
     
   return (
     
@@ -55,7 +89,7 @@ const Questions:React.FC<queModel>=({role})=>{
                             {obj.options?.map((ele)=>{return  ele!==obj.answer ?  <><li>{ele}</li></> : ""})}
                         </td>
                         <td className='ps-1 flex items-center gap-2 py-4'>
-                            <FontAwesomeIcon icon={faEyeSlash} className='bg-red-600 text-white px-2 py-2 shadow rounded-md cursor-pointer' />
+                            {obj.status?<FontAwesomeIcon onClick={()=>disableQue(obj._id)} icon={faEyeSlash} className='bg-red-600 text-white px-2 py-2 shadow rounded-md cursor-pointer' />:<FontAwesomeIcon onClick={()=>enableQue(obj._id)} icon={faEye} className='bg-green-600 text-white px-2 py-2 shadow rounded-md cursor-pointer' />}
                             <FontAwesomeIcon onClick={()=>navigate(`/employer/edit-question/${obj._id}`)} icon={faEdit}  className='bg-blue-600 text-white px-2 py-2 shadow rounded-md cursor-pointer'/>
                         </td>  
                     </tr>)}

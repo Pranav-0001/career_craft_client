@@ -50,11 +50,11 @@ function MainNav() {
                             <h1 onClick={()=>navigate('/chat')} className='nav-item'>Chats</h1>
                         </div>
                     }
-                    {userId &&
+                    {/* {userId &&
                         <div className='hidden md:block'>
                             <h1 className='nav-item text-lg'><FontAwesomeIcon icon={faBell} /></h1>
                         </div>
-                    }
+                    } */}
                     {userId &&
                         <div className='flex items-center me-4 pt-2 md:pt-0'>
                             <h1 className='nav-item me-1'>{username}</h1>
@@ -118,13 +118,13 @@ function MainNav() {
                 </div>
                  
                 <ul className={`mt-4 font-work text-2xl cursor-pointer overflow-hidden  `}>
-                    <li className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faFile} />  Saved Jobs</li>
-                    <li className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faCircleQuestion} /> Learn and Share</li>
-                    <li className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faEye} /> View Resume</li>
+                    <li onClick={()=>navigate('/bookmarks')} className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faFile} />  Saved Jobs</li>
+                    <li onClick={()=>navigate('/learn-and-share')} className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faCircleQuestion} /> Learn and Share</li>
+                    <li onClick={()=>navigate('/view-resume')} className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faEye} /> View Resume</li>
                     <li onClick={()=>navigate('/premium')} className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faCrown} className='text-yellow-400' /> Mock Test</li>
-                    <li className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faEdit} /> Edit Resume</li>
-                    <li className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faBusinessTime} /> Applied Jobs</li>
-                    <li className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faGears} /> Settings</li>
+                    <li onClick={()=>navigate('/editresume')} className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faEdit} /> Edit Resume</li>
+                    <li onClick={()=>navigate('/my-applications')} className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faBusinessTime} /> Applied Jobs</li>
+                    <li onClick={()=>navigate('/settings')} className='border-b-2 ps-4 pb-2 pt-2 hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faGears} /> Settings</li>
                     <li onClick={userLogout} className='border-b-2 ps-4 pb-2 pt-2 shadow-md hover:scale-105 transition duration-150 ease-in-out w-96'><FontAwesomeIcon icon={faPersonWalkingArrowRight} /> Logout</li>
                 </ul>
             </div>

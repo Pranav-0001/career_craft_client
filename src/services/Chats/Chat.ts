@@ -14,3 +14,8 @@ export const fetchAllMessages=async(chatId:string)=>{
     const {data}= await api.get(`/msg/${chatId}`)
     return data.messages
 }
+
+export const createChatFromCandidates=async(userId:string, empId:string)=>{
+    const {data}=await api.post('/employer/create-chat',{userId,empId})
+    return data 
+}

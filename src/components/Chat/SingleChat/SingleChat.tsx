@@ -51,9 +51,9 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId ,setLastMessag
   useEffect(() => {
 
     socket.emit('setup', currentUserId)
-    // return () => {
-    //   socket.disconnect();
-    // }
+    return () => {
+      socket.disconnect();
+    }
   }, [currentUserId, socket])
 
   useEffect(() => {
@@ -70,6 +70,7 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId ,setLastMessag
       scrollDownRef.current.scrollTo(0, scrollDownRef.current.scrollHeight)
     }
   }, [messages])
+
   const generateExam = async () => {
     const candidate = user.users[0]._id === currentUserId ? user.users[1]._id : user.users[0]._id
     const exam = await generateNewExam(candidate, currentUserId)
@@ -136,7 +137,7 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId ,setLastMessag
 
   return (
     <div className='col-span-3 h-screen'>
-      <div className='rounded-md bg-gray-100  h-3/4  shadow relative'>
+      <div className='rounded-md bg-gray-100  h-4/5  shadow relative'>
         <div className='w-full  bg-primary-900 rounded-t-md flex items-center gap-2 px-4 py-2 font-bold'>
           <img src={user.users[0]._id === currentUserId ? user.users[1].profileImg : user.users[0].profileImg} className='h-7 rounded-full' alt="" />
           <h1 className='text-white'>{user.users[0]._id === currentUserId ? user.users[1].firstname + ' ' + user.users[1].lastname : user.users[0].firstname + ' ' + user.users[0].lastname}</h1>

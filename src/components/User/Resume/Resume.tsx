@@ -119,8 +119,8 @@ function Resume() {
         </div>
         :
         <div className='px-2 lg:px-28'>
-          <div className=' px-4 '>
-            <h1 className='text-center py-2 text-2xl font-exo'>Profile is not Updated!!</h1>       
+          <div className=' px-4 border py-2 rounded shadow border-primary-200'>
+            <h1 className='text-center py-2 text-2xl font-exo'>Profile is not Updated!!⚠️</h1>       
             <p className='text-justify text-lg'>Please update your profile before generating the CV to ensure accurate and relevant information. Thank you!</p>
           </div>
         </div>

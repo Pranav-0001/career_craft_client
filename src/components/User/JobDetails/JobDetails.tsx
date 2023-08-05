@@ -127,12 +127,12 @@ function JobDetails() {
                     </div>
                 </div>
 
-                <div className='grid md:grid-cols-4 grid-cols-3 px-4 mt-8'>
+                <div className='lg:grid md:grid-cols-4 grid-cols-3 px-4 mt-8'>
                     <div className='col-span-2 md:col-span-3 md:pe-20'>
                         <h1 className='text-xl mb-2 font-exo'>Job Position </h1>
                         <h1 className='font-exo'> {jobData?.title}</h1>
                         <h1 className='text-xl mb-2 font-exo mt-4'>Job Description</h1>
-                        <p className='text-sm font-exo'>{jobData?.desc}</p>
+                        <p className='text-sm font-exo text-justify'>{jobData?.desc}</p>
 
                         <h1 className='text-xl mb-2 font-exo mt-8'>Educational Requirements</h1>
                         <p className='text-sm font-exo'>{jobData?.qualification}</p>

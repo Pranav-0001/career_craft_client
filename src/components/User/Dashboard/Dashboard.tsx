@@ -21,7 +21,7 @@ function Dashboard() {
     setApplications(data.applications)
     if(data?.chat?.count) setchat(data.chat.count)
     if(data?.saved?.count) setsaved(data.saved.count)
-    if(data.LAS.totalMarks) setLAS(data.LAS.totalMarks)
+    if(data?.LAS?.totalMarks) setLAS(data.LAS.totalMarks)
     if(data.applied) setApply(data.applied)
     
    }

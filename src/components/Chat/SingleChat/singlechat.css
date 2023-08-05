@@ -2,7 +2,7 @@
     max-height: 100vw;
 }
 .chatpage{
-    max-height: 75vh;
+    max-height: 85vh;
 }
 .chats::-webkit-scrollbar{
     display: none;
