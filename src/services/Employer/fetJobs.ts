@@ -2,6 +2,8 @@ import { api } from "../axios";
 
 export const getJobs=async(pageNo:number,filterDomain:string|null,filterType:string|null,filterSalary:string|null,sort:string|null)=>{
     try{
+        console.log(`/alljobs?page=${pageNo}&domain=${filterDomain}&type=${filterType}&salary=${filterSalary}&sort=${sort}`);
+        
         const { data } = await api.get(`/alljobs?page=${pageNo}&domain=${filterDomain}&type=${filterType}&salary=${filterSalary}&sort=${sort}`, { withCredentials: true })
         return {jobs:data.jobs,pages:data.pagecount}
     }catch(err){
