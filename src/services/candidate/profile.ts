@@ -120,3 +120,25 @@ export const userLogout=async(userId:string)=>{
     return data
 
 }
+
+export const forgotPasswordOTP=async(email:string)=>{
+    const {data}=await api.post('/forgotpassword',{email})
+    return data
+}
+
+export const forgotPasswordOTPSubmit=async(email:string,otp:string)=>{
+    const {data}=await api.post('/forgotsubmitOtp',{email,otp})
+    return data
+}
+
+export const updatenewpassword=async(email:string,password:string)=>{
+    try {
+        
+        
+        const {data}=await api.post('/updatenewpassword',{email,password})
+        return data
+    } catch (error) {
+        console.log(error);
+        
+    }
+}

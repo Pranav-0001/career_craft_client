@@ -35,3 +35,21 @@ export const fetchJobById=async(id:string|undefined)=>{
         
     }
 }
+
+export const updateJobTrue=async(id:string)=>{
+    try {
+        const {data}=await api.put(`/employer/job-true`,{job:id})
+        return data
+    } catch (error) {
+        
+    }
+}
+
+export const updateJobfalse=async(id:string)=>{
+    try {
+        const {data}=await api.put(`/employer/job-false`,{job:id})
+        return data
+    } catch (error) {
+        
+    }
+}

@@ -3,7 +3,7 @@ import { faClose } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { fetchApplicationByEmp } from '../../../services/Employer/applications'
+import { fetchApplicationByEmp, fetchApplicationCountByEmp } from '../../../services/Employer/applications'
 import { appliedJobsByEmp } from '../../../models/applicationModel'
 import { useNavigate } from 'react-router-dom'
 import { acceptUserApplication } from '../../../services/Employer/fetJobs'
@@ -13,6 +13,7 @@ function EmpApplied() {
   const [applications,setApplications]=useState<appliedJobsByEmp[]>()
   const [pages,setPages]=useState<number[]>([])
   const [page,setPage]=useState(1)
+  
   const {EmployerId}  = useSelector((state: any) => state.employer);
 
 
@@ -36,8 +37,10 @@ function EmpApplied() {
     
     const fetch=async()=>{
       const data=await fetchApplicationByEmp(EmployerId,page)
+      
       setApplications(data.applications)
       setPages(data.pagecount)
+      
       
       
     }
@@ -46,7 +49,7 @@ function EmpApplied() {
   }, [page])
   
   return (
-    <div className='px-1 md:px-6 lg:px-20'>
+    <div className='px-1 md:px-6 lg:px-20 pb-8'>
       <div className='overflow-auto rounded-md shadow hidden md:block'>
         <table className='w-full font-exo'>
           <thead className='bg-primary-800 text-white border-b-2 border-gray-500'>
@@ -88,8 +91,8 @@ function EmpApplied() {
           </tbody>
         </table>
       </div>
-      <div className='grid grid-cols-1 gap-4 md:hidden font-exo'>
-      {applications?.map((obj,i)=><div className='bg-white p-4 rounded-lg shadow'>
+      <div className='grid grid-cols-1 gap-4 md:hidden font-exo '>
+      {applications?.map((obj,i)=><div className='bg-white p-4 rounded-lg shadow '>
           <div className='flex items-center space-x-2'>
             <div>
               <span className=''>{i+1}</span>

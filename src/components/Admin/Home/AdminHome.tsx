@@ -29,7 +29,7 @@ function AdminHome() {
       function getMonthYear(time:string) {
         const date = new Date(time);
         const year = date.getFullYear();
-        const month = date.getMonth() + 1; // Months are zero-indexed, so add 1
+        const month = date.getMonth() + 1; 
         return month;
       }
       
@@ -43,7 +43,7 @@ function AdminHome() {
         monthWiseTotalPrice[monthYear] += 29;
       });
       
-      // Create an array with month and total price pairs
+      
       const resultArray = Object.entries(monthWiseTotalPrice).map(([monthYear, totalPrice]) => ({
         monthYear:months[parseInt(monthYear)],
         totalPrice,

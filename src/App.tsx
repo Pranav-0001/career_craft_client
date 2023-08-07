@@ -46,6 +46,7 @@ import MockTestResultPage from './Pages/MockTestResultPage';
 import EpmployerSettings from './Pages/EpmployerSettings';
 import EmployerFindCandidates from './Pages/EmployerFindCandidates';
 import EmpEditQuestionPage from './Pages/EmpEditQuestionPage';
+import ForgotPasswordPage from './Pages/ForgotPasswordPage';
 
 
 function App() {
@@ -81,6 +82,7 @@ function App() {
       <Route path='/publicquestion/:id' element={<CandidateProtect><PublicQuestionViewPage/></CandidateProtect>}/>
       <Route path='/my-las' element={<CandidateProtect><MyLASPage/></CandidateProtect>} />
       <Route path='/my-profile' element={<CandidateProtect><MyProfilePage/></CandidateProtect>}/>
+      <Route path='/forgotpassword' element={<ForgotPasswordPage/>}/>
 
 
 

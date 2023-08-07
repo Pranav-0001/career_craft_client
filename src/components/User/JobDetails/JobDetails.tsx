@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux'
 import { Job } from '../../../models/Jobmodel'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import EmployerCard from './EmployerCard'
 
 function JobDetails() {
     const navigate=useNavigate()
@@ -238,6 +239,7 @@ function JobDetails() {
                 </div>
 
             </div>
+            {/* <EmployerCard user={jobData?.Employer[0]}/> */}
             <ToastContainer/>
         </div>
     )

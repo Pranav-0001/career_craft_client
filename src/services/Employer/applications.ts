@@ -6,3 +6,9 @@ export const fetchApplicationByEmp=async(empId:string,page:number)=>{
     return data
     
 }
+
+export const fetchApplicationCountByEmp=async(empId:string)=>{
+    const {data}=await api.get(`/employer/getappliedcount/${empId}`)
+    return data
+    
+}
