@@ -4,6 +4,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react'
 import { getPublicQue, updatepublicquestion } from '../../../services/LAS/LAS'
 import { PublicQuestion } from '../../../models/PublicQuestion'
 import { validatePublicQue } from '../../../utils/user/validatePublicQue'
+import Loader from '../../Loader/Loader'
 
 interface editModalType{
     setEditModal:Function,
@@ -15,12 +16,15 @@ interface editModalType{
 const EditModal:React.FC<editModalType> = ({setEditModal,questionId,questions,setQuestions}) => {
     const [question,setQuestion]=useState<PublicQuestion>()
     const [err,setErr]=useState<PublicQuestion>({title:'',language:'',question:''})
+    const [isLoading,setIsLoading]=useState(false)
     useEffect(() => {
         const fetch=async()=>{
+            setIsLoading(true)
             const data=await getPublicQue(questionId)
             
             
             setQuestion(data)
+            setIsLoading(false)
         }
         fetch()
     }, [])
@@ -48,7 +52,9 @@ const EditModal:React.FC<editModalType> = ({setEditModal,questionId,questions,se
       }
   return (
     <div className='w-full flex justify-center  fixed top-16 items-center font-exo ' style={{height:'90vh'}}>
-        <div className='bg-white px-2 py-2 rounded shadow-md '>
+        {isLoading?
+        <Loader/>
+        :<div className='bg-white px-2 py-2 rounded shadow-md '>
             <div className='w-full flex justify-end '>
                 <FontAwesomeIcon className='font-bold text-xl cursor-pointer' onClick={()=>setEditModal(false)} icon={faClose}/>
             </div>
@@ -81,7 +87,7 @@ const EditModal:React.FC<editModalType> = ({setEditModal,questionId,questions,se
 
             </div>
         </form>
-        </div>
+        </div>}
     </div>
   )
 }

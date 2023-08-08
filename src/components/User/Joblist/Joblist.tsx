@@ -10,6 +10,7 @@ import { getDomains, getJobs } from '../../../services/Employer/fetJobs'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { jobSearch, removeSaved, saveJob } from '../../../services/candidate/job'
+import Loader from '../../Loader/Loader'
 
 function Joblist() {
     const navigate = useNavigate()
@@ -26,6 +27,7 @@ function Joblist() {
     const [search, setSearch] = useState<string>('')
     const jobtype = ['Full Time', 'Part Time', 'Remote', 'Internship']
     const Salary = ['1 - 3', '3 - 6', '6 - 9 ', '9 - 12', '12 - 16', '16 - 20', '20+']
+    const [isLoading,setIsLoading]=useState(false)
     const [sort, setSort] = useState<string | null>('')
 
     const filterSelect = (e: ChangeEvent<HTMLInputElement>) => {
@@ -69,6 +71,7 @@ function Joblist() {
     useEffect(() => {
         const fetchJobs = async () => {
             try {
+                setIsLoading(true)
                 const domains = await getDomains()
                 const jobs = await getJobs(pageNo, filterDomain, filterType, filterSalary, sort)
 
@@ -76,6 +79,7 @@ function Joblist() {
                 setJobs(jobs?.jobs)
                 setPages(jobs?.pages)
                 setDomain(domains);
+                setIsLoading(false)
             } catch (err) {
                 console.log(err);
             }
@@ -200,7 +204,12 @@ function Joblist() {
 
                     </div>
                 </div>
-                <div className='col-span-3 md:col-span-2  md:px-4 px-1  '>
+                {isLoading?
+                <div className='col-span-3 md:col-span-2  md:px-4 px-1 '>
+                    <Loader />
+                </div>
+                
+                :<div className='col-span-3 md:col-span-2  md:px-4 px-1  '>
                     {jobs.length > 0 ? jobs.map((obj, index) =>
                         <div className='  w-full my-2 border-2 rounded-md font-exo px-4 py-2' key={index}>
                             <div className='w-full flex  my-4'>
@@ -249,7 +258,7 @@ function Joblist() {
                             <h1 className='font-exo text-2xl pt-10 font-bold'>No Results Found...</h1>
                         </div>
                     }
-                </div>
+                </div>}
             </div>
             <div className='lg:mx-20 mx-4 flex justify-end gap-2 mb-6 '>
                 {pages.map(num =>

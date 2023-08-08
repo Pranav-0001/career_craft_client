@@ -5,8 +5,10 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { fetchDashBoard } from '../../../services/candidate/profile';
 import { appliedJobsByUser } from '../../../models/applicationModel';
+import Loader from '../../Loader/Loader';
 
 function Dashboard() {
+  const [isLoading,setIsLoading]=useState(false)
   const { userId,userEmail,username ,image} = useSelector((state:any) => state.user);
   const [applications,setApplications]=useState(0)
   const [chat,setchat]=useState(0)
@@ -15,6 +17,7 @@ function Dashboard() {
   const [apply,setApply]=useState<appliedJobsByUser[]>([])
   useEffect(() => {
    const fetch=async()=>{
+    setIsLoading(true)
     const data=await fetchDashBoard(userId)
     console.log(data);
     
@@ -23,7 +26,7 @@ function Dashboard() {
     if(data?.saved?.count) setsaved(data.saved.count)
     if(data?.LAS?.totalMarks) setLAS(data.LAS.totalMarks)
     if(data.applied) setApply(data.applied)
-    
+    if(data) setIsLoading(false)
    }
    fetch()
   }, [])
@@ -31,7 +34,9 @@ function Dashboard() {
 
   return (
     <div className='lg:pe-20 w-full mb-10 '>
-      <div className='w-full  h-5 mt-10 md:mt-20'>
+      {isLoading? 
+      <Loader/>
+      :<div className='w-full  h-5 mt-10 md:mt-20'>
         <div className="flex items-center gap-4">
           <img src={image} className='rounded-md h-24' alt="" />
           <div className=''>
@@ -120,7 +125,7 @@ function Dashboard() {
 
 
 
-      </div>
+      </div>}
     </div>
   )
 }

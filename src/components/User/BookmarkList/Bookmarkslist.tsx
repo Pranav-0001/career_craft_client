@@ -6,9 +6,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark } from '@fortawesome/free-solid-svg-icons';
 import './bookmark.css'
 import { useNavigate } from 'react-router-dom';
+import Loader from '../../Loader/Loader';
 
 function Bookmarklist() {
   const [jobs,setJobs]= useState<Job[] | []>([])
+  const [isLoading,setIsLoading]=useState(false)
   const navigate=useNavigate()
   const { userId } = useSelector((state:any) => state.user);
   const removeBookmark=async(id:string)=>{
@@ -22,9 +24,13 @@ function Bookmarklist() {
   
   useEffect(() => {
     const getJobs=async()=>{
+      setIsLoading(true)
+
       const data=await fetchsavedJobs(userId)
       console.log(data);
       setJobs(data)
+      setIsLoading(false)
+
     }
     getJobs()
   }, [])
@@ -32,7 +38,9 @@ function Bookmarklist() {
   return (
     <>
       <h1 className='font-exo text-xl'>Bookmarked Jobs</h1>
-      <div className='grid md:grid-cols-2 gap-2 pb-8 pe-8'>
+      {isLoading?
+      <Loader/>
+      :<div className='grid md:grid-cols-2 gap-2 pb-8 pe-8'>
 
         {jobs.length>0 ? jobs.map(obj=><div className='w-full border  rounded-md shadow-md shadow-primary-200'>
           <div className='flex justify-between px-4 py-2'>
@@ -63,7 +71,7 @@ function Bookmarklist() {
         <button onClick={()=>navigate('/findjobs')} className='col-span-2 text-center  text-white'><span className='bg-primary-800 px-3 py-2 rounded-md hover:shadow-lg '> Find Jobs</span></button>
         </>
         }
-      </div>
+      </div>}
     </>
   )
 }

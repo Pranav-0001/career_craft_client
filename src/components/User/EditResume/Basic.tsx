@@ -8,9 +8,11 @@ import { BasicType, User } from '../../../models/User'
 import { basicDataValidation } from '../../../utils/user/basicDataVali'
 import { ToastContainer, toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
+import Loader from '../../Loader/Loader'
 
 function Basic() {
   const [imgurl, setImgUrl] = useState<string>()
+  const [isLoading,setIsLoading]=useState(false)
   const [imgUp,setImgUp]=useState(false)
   const [basic,setBasic] = useState<BasicType>()
   const [err,setErr] = useState<BasicType>()
@@ -21,11 +23,13 @@ function Basic() {
     const fetchData=async()=>{
         const user:User=await fetchUserData(userId)
         
-        
+        setIsLoading(true)
+
         if(user?.basic) {
           setBasic(user.basic)
           setImgUrl(user.basic.imageURL)
           setErr({firstname:'',lastname:'',phone:'',about:'',objective:'',qualification:'',email:''})
+          setIsLoading(false)
         }
         
     }
@@ -81,7 +85,9 @@ function Basic() {
   
   return (
     <>
-      <div className='w-full lg:ps-10 lg:pe-20 mt-10'>
+      {isLoading?
+      <Loader/>
+      :<div className='w-full lg:ps-10 lg:pe-20 mt-10'>
         <div className='w-full  border-primary border-200 shadow-sm shadow-primary-600 rounded-md px-2 mb-8 pb-8'>
         <div className='w-full md:hidden'>
                 <div className="flex items-center justify-end w-full py-2 ">
@@ -208,7 +214,7 @@ function Basic() {
 
           </form>
         </div>
-      </div>
+      </div>}
       <ToastContainer/>
     </>
   )

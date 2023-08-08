@@ -3,11 +3,13 @@ import { EducationType, User } from '../../../models/User'
 import { educationDataValidation } from '../../../utils/user/eduDataVali'
 import { useSelector } from 'react-redux'
 import { fetchUserData, updateEducationalInfo } from '../../../services/candidate/profile'
+import Loader from '../../Loader/Loader'
 
 function Education() {
     const [edu,setEdu]=useState<EducationType>()
     const [err,setErr]=useState<EducationType>()
     const { userId } = useSelector((state:any) => state.user);
+    const [isLoading,setIsLoading]=useState(false)
 
     const eduForm=(e:React.ChangeEvent<HTMLInputElement>)=>{
         const {name,value}=e.target
@@ -26,11 +28,13 @@ function Education() {
     }
     useEffect(() => {
         const fetchData=async()=>{
+        setIsLoading(true)
         const user:User=await fetchUserData(userId)
           if(user?.education){
             setEdu(user.education)
             setErr({education:'',institute:'',result:'',starting:'',ending:''})
           }
+          setIsLoading(false)
 
         }
         fetchData()
@@ -40,7 +44,9 @@ function Education() {
         <>
             <div className='w-full lg:ps-10 lg:pe-20 mt-10'>
                 <div className='w-full  border-primary border-200 shadow-sm shadow-primary-600 rounded-md px-2 mb-8 pb-8 pt-4'>
-                    <form onSubmit={handleSubmit} className='md:grid grid-cols-1 md:grid-cols-2 gap-2 items-center font-exo '>
+                    {isLoading?
+                    <Loader/>
+                    :<form onSubmit={handleSubmit} className='md:grid grid-cols-1 md:grid-cols-2 gap-2 items-center font-exo '>
                         <div className='col-span-2'>
                             <h1 className='font-exo text-xl'>Qualification</h1>
                             <h1 className='text-sm text-gray-500 mt-4'>Acadamic Information</h1>
@@ -79,7 +85,7 @@ function Education() {
                         <div className='mt-4 ms-1'>
                             <button className='bg-primary-1000 text-white px-4 py-2 rounded-md'>Update Change</button>
                         </div>
-                    </form>
+                    </form>}
                 </div>
             </div>
         </>

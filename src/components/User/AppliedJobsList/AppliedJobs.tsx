@@ -3,6 +3,7 @@ import "./applied.css"
 import { useSelector } from 'react-redux';
 import { fetchUserApplied } from '../../../services/candidate/job';
 import { appliedJobsByUser } from '../../../models/applicationModel';
+import Loader from '../../Loader/Loader';
 
 function AppliedJobs() {
   const [applied,setApplied]=useState<appliedJobsByUser[]>()
@@ -26,19 +27,7 @@ function AppliedJobs() {
       <h1 className='text-xl lg:text-2xl mb-2 '>Applied Jobs</h1>
       <div className={`lg:pe-24 ${isLoading? 'flex justify-center' :''}`}>
         {isLoading?
-        <div className="spinner-container">
-        <div className="spinner2">
-         <div className="spinner2">
-          <div className="spinner2">
-            <div className="spinner2">
-              <div className="spinner2">
-                  <div className="spinner2"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        <Loader/>
         :
         <table className='w-full rounded-md'>
             <thead className='bg-primary-800   text-white border-b-2 border-gray-600'>

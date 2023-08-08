@@ -6,18 +6,22 @@ import { url } from 'inspector';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import { faPhone } from '@fortawesome/free-solid-svg-icons';
+import Loader from '../../Loader/Loader';
 
 function Resume() {
   const { userId } = useSelector((state: any) => state.user);
   const [userData, setUserData] = useState<User>()
   const [show,setShow]=useState(false)
+  const [isLoading,setIsLoading]=useState(false)
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true)
       const user:User = await fetchUserData(userId)
       
       if(user.basic && user.profile && user.education){
         setShow(true)
         setUserData(user)
+        setIsLoading(false)
       }
     }
     fetchData()
@@ -26,7 +30,9 @@ function Resume() {
 
   return (
     <>
-      <div className='w-full lg:pe-20 font-exo'>
+      {isLoading ?
+      <Loader/>
+      : <div className='w-full lg:pe-20 font-exo'>
         {show ? <div className='w-full border shadow-md rounded-md  grid grid-cols-3 mb-8'>
           <div className='bg-cvPrimary px-2 py-2 overflow-hidden rounded-sm'>
             <div>
@@ -125,7 +131,7 @@ function Resume() {
           </div>
         </div>
         }
-      </div>
+      </div>}
     </>
   )
 }

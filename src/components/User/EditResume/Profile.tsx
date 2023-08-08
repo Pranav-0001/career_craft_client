@@ -19,9 +19,11 @@ function Profile() {
   const [project,setProject]=useState<ProjectType>()
   const [projectErr,setProjectErr]=useState<ProjectType>()
   const [isProjectModal,setisProjectModal]=useState(false)
+  const [isLoading,setIsLoading]=useState(false)
 
   useEffect(() => {
     const fetchData=async()=>{
+        setIsLoading(true)
         const user:User=await fetchUserData(userId)
         if(user.profile) {
           SetProfile(user.profile)
@@ -30,6 +32,7 @@ function Profile() {
           console.log(user.profile.projects,"kkkk")
           if(user.profile?.projects) setProjects(user.profile.projects)
         }
+    setIsLoading(false)
         
     }
     fetchData()

@@ -13,11 +13,14 @@ import { User } from '../../../models/User'
 function EditResume() {
     const [page,setPage]=useState('basic')
     
+    
     const { userId } = useSelector((state:any) => state.user);
 
     useEffect(() => {
         const fetchData=async()=>{
+            
             const user:User=await fetchUserData(userId)
+           
             
             
         }

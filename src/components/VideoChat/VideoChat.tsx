@@ -221,13 +221,13 @@ const VideoChat: React.FC<{ role: string }> = ({ role }) => {
   return (
     <div className='lg:px-20 h-full mt-4  px-2'>
       <div className='lg:grid grid-cols-3 gap-2 lg:relative absolute'>
-        <div className='col-span-2 w-full '>
+        <div className='col-span-2 w-full ' >
           <video className='col-span-3 lg:w-full rounded-md lg:h-fit  object-cover ' style={{height:'78vh'}}  autoPlay playsInline ref={user2Ref}></video>
         </div>
 
         <div>
 
-          <video className='rounded-md shadow lg:relative lg:h-96 object-cover absolute bottom-16 lg:bottom-0 lg:right-0 right-3 h-20 ' ref={user1Ref} muted autoPlay playsInline ></video>
+          <video className='rounded-md shadow lg:relative lg:h-96 object-cover absolute bottom-16 lg:bottom-0 lg:right-0 right-3 h-40 ' ref={user1Ref} muted autoPlay playsInline ></video>
 
           <div className='flex justify-center gap-3 py-2'>
             {role === 'employer' && start && <button className='px-4  text-white bg-blue-500 rounded-full' onClick={sendOffer}>Start</button>}

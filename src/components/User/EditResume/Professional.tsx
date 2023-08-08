@@ -3,11 +3,13 @@ import { ProfessionalType, User } from '../../../models/User'
 import { profValidate } from '../../../utils/user/profVali'
 import { fetchUserData, updateProfessionalInfo } from '../../../services/candidate/profile'
 import { useSelector } from 'react-redux'
+import Loader from '../../Loader/Loader'
 
 function Professional() {
     const [prof,setProf]=useState<ProfessionalType>({experience:"1"})
     const [err,setErr]=useState<ProfessionalType>()
     const { userId } = useSelector((state:any) => state.user);
+    const [isLoading,setIsLoading]=useState(false)
 
 
     const profForm=(e:React.ChangeEvent<HTMLInputElement | HTMLSelectElement>)=>{
@@ -29,13 +31,13 @@ function Professional() {
 
     useEffect(() => {
       const fetch=async()=>{
+        setIsLoading(true)
         const user:User=await fetchUserData(userId)
         if(user?.professional){
             setProf(user.professional)
             setErr({company:"",designation:"",experience:""})
         }
-
-        
+        setIsLoading(false)
       } 
       fetch()
     }, [])
@@ -45,6 +47,9 @@ function Professional() {
         <>
             <div className='w-full lg:ps-10 lg:pe-20 mt-10'>
                 <div className='w-full  border-primary border-200 shadow-sm shadow-primary-600 rounded-md px-2 mb-8 pb-8 pt-4'>
+                    {isLoading?
+                    <Loader/>
+                    :
                     <form onSubmit={handleSubmit} className='md:grid grid-cols-1 md:grid-cols-2 gap-2 items-center font-exo '>
                         <div className='col-span-2'>
                             <h1 className='text-xl'>Add Your Experiences <span className='text-gray-400 text-sm'>(optional)</span></h1>
@@ -75,7 +80,7 @@ function Professional() {
                         <button className='bg-primary-1000 text-white px-4 py-2 rounded-md'>Update Change</button>
 
                         </div>
-                    </form>
+                    </form>}
                 </div>
             </div>
         </>

@@ -4,6 +4,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { PublicQuestion } from '../../../models/PublicQuestion'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClose } from '@fortawesome/free-solid-svg-icons'
+import Loader from '../../Loader/Loader'
 
 const PublicQuestions = () => {
     const navigate=useNavigate()
@@ -13,6 +14,7 @@ const PublicQuestions = () => {
     const [pages,setPages]=useState<number[]>()
     const [languages,setLanguages]=useState<string[]>([])
     const location = useLocation();
+    const [isLoading,setIsLoading]=useState(false)
     const queryParams = new URLSearchParams(location.search);
     const page = queryParams.get('page');
     
@@ -25,11 +27,13 @@ const PublicQuestions = () => {
     }
     useEffect(() => {
         const fetch=async()=>{
+            setIsLoading(true)
             const data=await getPublicQuestions(currentPage,filter)
             console.log(data);
             setQuestions(data.questions)
             setPages(data.pageArr)
             setLanguages(data.languages)
+            setIsLoading(false)
         }
         fetch()
     }, [currentPage,filter])
@@ -48,6 +52,10 @@ const PublicQuestions = () => {
                         </div>
                         
                     </div>
+                    {isLoading ?
+                    <Loader/>
+                    :
+                    <>
                     {questions?.map((obj)=><div  className='border shadow flex items-center justify-between px-4 py-3 rounded-md mb-2'>
 
                         <div className='flex items-center'>
@@ -65,6 +73,7 @@ const PublicQuestions = () => {
                             <h1 className='text-xs text-end text-gray-500 lg:w-36'>Posted On : {obj.createdAt?.split('T')[0]}</h1>
                         </div>
                     </div>)}
+                    </>}
                     <div className='w-full flex justify-end gap-2'>
                         {
                             pages?.map((val)=>

@@ -9,6 +9,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { googlecode } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import { validatePublicQue } from '../../../utils/user/validatePublicQue'
 import { useSelector } from 'react-redux'
+import Loader from '../../Loader/Loader'
 
 
 const PublicQuestionview = () => {
@@ -19,6 +20,7 @@ const PublicQuestionview = () => {
   const [answerModal, setAnswerModal] = useState(false)
   const [PublicAnswers, setPublicAnswers] = useState<PublicAnswer[]>([])
   const [editModal, setEditModal] = useState(false)
+  const [isLoading,setIsLoading]=useState(false)
   const [myanswer, setMyanswer] = useState<PublicAnswer>({ questionId: id })
   const [editmyanswer, setEditMyanswer] = useState<PublicAnswer>({ questionId: id })
   const [err, setErr] = useState('')
@@ -29,17 +31,19 @@ const PublicQuestionview = () => {
   useEffect(() => {
     async function fetch() {
       if (id) {
+        setIsLoading(true)
         const data = await getPublicQue(id)
         const myans = await getMyAnswer(id, userId)
         const answer = await getAnswers(id)
         const top=await getPublicQuestions(1)
-        console.log(top);
+  
         setQuestion(data)
         setMyanswer(myans)
         setEditMyanswer(myans)
         setTopQuestion(top.questions)
         const pAns = answer.filter((obj: PublicAnswer) => obj.addedBy?._id !== userId)
         setPublicAnswers(pAns)
+        setIsLoading(false)
       }
 
     }
@@ -136,7 +140,11 @@ const PublicQuestionview = () => {
   }
 
   return (
-    <div>
+    <>
+
+    {isLoading ? 
+    <Loader/>
+    :<div>
       <div className='lg:grid grid-cols-4 lg:px-20 md:px-8 px-2 font-exo gap-3'>
         <div className='col-span-3 pt-6 '>
           <div className='border-b-2'>
@@ -294,7 +302,8 @@ const PublicQuestionview = () => {
           </div>
         </form>
       </div>}
-    </div>
+    </div>}
+    </>
   )
 }
 

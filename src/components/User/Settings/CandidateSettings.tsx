@@ -6,6 +6,7 @@ import { User } from '../../../models/User'
 import { ToastContainer, toast } from 'react-toastify'
 import PasswordModal from './PasswordModal'
 import WarningModal from './WarningModal'
+import Loader from '../../Loader/Loader'
 
 const CandidateSettings = () => {
     const [newPassword, setPassword] = useState<{ current: string, newP: string, confirm: string }>({ current: '', newP: '', confirm: '' })
@@ -14,11 +15,15 @@ const CandidateSettings = () => {
     const [user,setUser]=useState<User>()
     const [passwordModalOpen,setPasswordModalOpen]=useState(false)
     const [warning,setwarning]=useState(false)
+    const [isLoading,setIsLoading]=useState(false)
 
     useEffect(() => {
      const fetch=async()=>{
+        setIsLoading(true)
+
         const data=await fetchUserData(userId)
         setUser(data)
+        setIsLoading(false)
         
      }
      fetch()
@@ -76,6 +81,7 @@ const CandidateSettings = () => {
 
     return (
         <div className='md:pe-10 px-2 font-exo  mt-20'>
+            {isLoading?<Loader/> :<>
             <div className='border border-primary-200  rounded shadow px-8 py-6 mb-4'>
             <div className=''>
                     <h1 className='text-xl'>Deactivate Account </h1>
@@ -116,6 +122,7 @@ const CandidateSettings = () => {
            {passwordModalOpen&& <PasswordModal setModal={setPasswordModalOpen}/>}
            {warning && <WarningModal setModal={setwarning}/>}
             <ToastContainer/>
+            </>}
         </div>
     )
 }

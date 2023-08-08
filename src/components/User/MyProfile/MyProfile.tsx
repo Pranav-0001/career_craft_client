@@ -8,10 +8,11 @@ import { UpdateMyProfile, fetchUserData, handleImgUrl } from '../../../services/
 import { User } from '../../../models/User';
 import { ToastContainer, toast } from 'react-toastify';
 import { updateUser } from '../../../redux/user/userSlice';
+import Loader from '../../Loader/Loader';
 
 const MyProfile = () => {
   const dispatch=useDispatch()
-  
+  const [isLoading,setIsLoading]=useState(false)
   const { userId, userEmail, username, image ,isPrime } = useSelector((state: any) => state.user);
   const [profile, setProfile] = useState<User>()
   const [imageUp, setImgUp] = useState(false)
@@ -20,8 +21,10 @@ const MyProfile = () => {
 
   useEffect(() => {
     const fetch = async () => {
+      setIsLoading(true)
       const data = await fetchUserData(userId)
       setProfile(data)
+      setIsLoading(false)
 
     }
     fetch()
@@ -90,6 +93,9 @@ const MyProfile = () => {
     <div className='lg:pe-8 font-exo'>
       <div className='border shadow mt-20 rounded-md overflow-hidden '>
         <div className='w-full h-2 bg-primary-900'> </div>
+        {isLoading?
+        <Loader/>
+        :<>
         <div className='flex gap-2 items-center px-10 mt-10'>
           <div className=''>
             {imageUp?<div>
@@ -161,6 +167,7 @@ const MyProfile = () => {
             <button className='bg-primary-900 my-8 px-2 py-1 text-white rounded shadow'>Submit</button>
           </div>
         </form>
+        </>}
       </div>
       <ToastContainer/>
     </div>
