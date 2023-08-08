@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux'
 import { fetchAllChats } from '../../../services/Chats/Chat'
 import SingleChat from '../SingleChat/SingleChat'
 import { useSocket } from '../../../context/socketContext'
+import ChatLoader from '../../Loader/ChatLoader'
 
 interface role {
     role: string
@@ -16,7 +17,7 @@ const Chat: React.FC<role> = ({ role }) => {
     const socket=useSocket()
     const { EmployerId } = useSelector((state: any) => state.employer);
     const { userId } = useSelector((state: any) => state.user);
-
+    const [isLoading,setIsLoading]=useState(false)
     const [chats, setChats] = useState<Chats[]>([])
     const [Schats, setSChats] = useState<Chats[]>([])
     const [selectedUser, setselectedUser] = useState<Chats>()
@@ -33,10 +34,12 @@ const Chat: React.FC<role> = ({ role }) => {
 
     useEffect(() => {
         const fetch = async () => {
+            setIsLoading(true)
             let Id = (role === 'employer') ? EmployerId : userId
             const allChats = await fetchAllChats(Id)
             setChats(allChats)
             setSChats(allChats)
+            setIsLoading(false)
         }
         fetch()
     }, [lastMessage])
@@ -69,6 +72,9 @@ const Chat: React.FC<role> = ({ role }) => {
                             <div className='px-2 flex gap-2 py-2 bg-primary-700'>
                             <input placeholder='Search....' onChange={(e)=>search(e.target.value)} type="text" className='w-2/3 outline-primary-600 px-3 border rounded-full border-primary-200 py-1' />
                             </div>
+                            {isLoading?
+                            <ChatLoader/>
+                            :<>
                             {chats.length>0 ? chats.map((obj) => <div key={obj._id} className='px-2 py-3' onClick={()=>selectChat(obj)}>
                                 <div className='w-full  h-16 bg-white  flex items-center border-b-2 pb-2'>
                                     <div className='py-2 px-2'>
@@ -83,6 +89,7 @@ const Chat: React.FC<role> = ({ role }) => {
                             </div>):
                             <h1>No Chats Found</h1>
                             }
+                            </>}
                         </div>
 
                         {selectedUser
