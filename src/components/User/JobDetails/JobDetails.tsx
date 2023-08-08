@@ -156,7 +156,7 @@ function JobDetails() {
 
 
                 </div>
-                <div className='mt-8 ps-4 font-exo'>
+                {/* <div className='mt-8 ps-4 font-exo'>
                     <h1 className='text-xl mb-2 mt-24'>Related Jobs : </h1>
                     <div className='w-full grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-2 mb-10'>
                         <div className='border px-4 py-3 rounded-md bg-orange-50 mb-6'>
@@ -236,7 +236,7 @@ function JobDetails() {
 
                         </div>
                     </div>
-                </div>
+                </div> */}
 
             </div>
             {/* <EmployerCard user={jobData?.Employer[0]}/> */}

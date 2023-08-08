@@ -105,12 +105,12 @@ function Joblist() {
             <div className='bg-top-text-bg w-full h-20 md:h-40 mt-2 flex justify-center items-center shadow-sm'>
                 <h1 className='font-exo text-2xl  md:text-3xl'>Find Jobs</h1>
             </div>
-            <div className='md:px-20 px-2 w-full mt-5 '>
+            <div className='lg:px-20 px-2 w-full mt-5 '>
                 <div className=' relative w-full h-20 flex justify-end items-center gap-2'>
-                    <div>
+                    <div >
                         <input placeholder='Search...' onChange={serachJob} type="text" className='border border-primary-200 outline-primary-700 px-2 py-1 rounded shadow font-exo' />
                     </div>
-                    <h1 className='font-bold'>Sort By : </h1> <select name="" id="" className='bg-transparent outline-none' onChange={(e) => setSort(e.target.value)}>
+                    <h1 className='font-bold'>Sort By : </h1> <select name="" id="" className='text-xs lg:text-sm bg-transparent outline-none' onChange={(e) => setSort(e.target.value)}>
                         <option >Default</option>
 
                         <option value="low">Salary: Low to High</option>
@@ -118,7 +118,7 @@ function Joblist() {
                     </select>
                     {search.trim().length > 0 && <div className='absolute top-16 w-full max-h-96 overflow-y-scroll rounded shadow md:w-1/2 lg:w-1/3  py-2 bg-white'>
                         {searchJobs.length > 0 ?
-                            searchJobs.map((obj) => <div onClick={()=>navigate(`/job-details/${obj._id}`)} className='cursor-pointer border-y-2 px-4 py-2'>
+                            searchJobs.map((obj) => <div onClick={()=>navigate(`/job-details/${obj._id}`)} className='cursor-pointer border-y-2 px-1 py-2'>
                                 <div className=' flex justify-between'>
 
 
@@ -149,7 +149,7 @@ function Joblist() {
             <div className='flex'>
 
             </div>
-            <div className='grid grid-cols-3 mt-2 lg:mx-16 mx-4'>
+            <div className='grid grid-cols-3 mt-2 lg:mx-16 mx-1'>
                 <div className='my-2 bg-gray-100 shadow-md rounded-md  px-2 py-2 hidden md:block'>
                     <div className='w-full bg-white rounded-md px-3 pb-5' >
                         <div className='flex items-center gap-2'>
@@ -200,7 +200,7 @@ function Joblist() {
 
                     </div>
                 </div>
-                <div className='col-span-3 md:col-span-2  px-4  '>
+                <div className='col-span-3 md:col-span-2  md:px-4 px-1  '>
                     {jobs.length > 0 ? jobs.map((obj, index) =>
                         <div className='  w-full my-2 border-2 rounded-md font-exo px-4 py-2' key={index}>
                             <div className='w-full flex  my-4'>
