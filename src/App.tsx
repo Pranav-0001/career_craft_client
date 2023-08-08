@@ -47,6 +47,7 @@ import EpmployerSettings from './Pages/EpmployerSettings';
 import EmployerFindCandidates from './Pages/EmployerFindCandidates';
 import EmpEditQuestionPage from './Pages/EmpEditQuestionPage';
 import ForgotPasswordPage from './Pages/ForgotPasswordPage';
+import NotFound from './Pages/Error Pages/NotFound';
 
 
 function App() {
@@ -108,6 +109,8 @@ function App() {
       <Route path='/admin/subscription' element={<AdminProtected><AdminSubscriptionHist/></AdminProtected>}/>
       <Route path='/admin/questions' element={<AdminProtected><AdminQuestionsPage/></AdminProtected>}/>
       <Route path='/admin/add-question' element={<AdminProtected><AdminQuestionAddPage/></AdminProtected>}/>
+
+      <Route path='*' element={<NotFound/>} />
 
     
     </Routes>

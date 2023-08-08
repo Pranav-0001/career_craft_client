@@ -11,8 +11,10 @@ import { Job } from '../../../models/Jobmodel'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import EmployerCard from './EmployerCard'
+import Loader from '../../Loader/Loader'
 
 function JobDetails() {
+    const [isLoading,setIsLoading]=useState(false)
     const navigate=useNavigate()
     const [jobData, setJobData] = useState<jobData >()
     const { id } = useParams<{ id: string }>()
@@ -22,10 +24,12 @@ function JobDetails() {
 
     useEffect(() => {
         const fetchJob = async () => {
+            setIsLoading(true)
             if (id) {
                 const res: jobData = await getSingleJob(id)
                 setJobData(res)
             }
+            setIsLoading(false)
         }
         fetchJob()
 
@@ -98,6 +102,9 @@ function JobDetails() {
 
     return (
         <div>
+            {isLoading?
+            <Loader/>
+            :<>
             <div className='bg-top-text-bg w-full h-20 md:h-40 mt-2 flex justify-center items-center shadow-sm'>
                 <h1 className='font-exo text-2xl  md:text-3xl'>Job Details</h1>
             </div>
@@ -241,6 +248,7 @@ function JobDetails() {
             </div>
             {/* <EmployerCard user={jobData?.Employer[0]}/> */}
             <ToastContainer/>
+            </>}
         </div>
     )
 }
