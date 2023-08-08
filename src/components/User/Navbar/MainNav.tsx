@@ -83,25 +83,25 @@ function MainNav() {
             <div className='w-full bg-gray-200  shadow-md h-10 md:hidden'>
                 <div className=" flex items-center md:hidden justify-end pt-2">
                     <div>
-                        <h1 className='nav-item'>Find Jobs</h1>
+                        <h1 onClick={()=>navigate('/findjobs')} className='nav-item'>Find Jobs</h1>
                     </div>
                     {userId&&
                     <div className=''>
-                        <h1 className='nav-item'>Dashboard</h1>
+                        <h1 onClick={()=>navigate('/dashboard')} className='nav-item'>Dashboard</h1>
                     </div>
                     }{userId&&
                     <div>
-                        <h1 className='nav-item'>Chats</h1>
+                        <h1 onClick={()=>navigate('/chat')} className='nav-item'>Chats</h1>
                     </div>
                     }
-                    {userId&&
+                    {/* {userId&&
                     <div>
                         <h1 className='nav-item text-lg'><FontAwesomeIcon icon={faBell} /></h1>
                     </div>
-                    }
+                    } */}
                     {userId&&
                     <div className='nav-item'>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                        <svg  onClick={()=>setMenu(!sideMenu)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                         </svg>
                     </div>
