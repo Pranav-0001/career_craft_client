@@ -104,7 +104,7 @@ const Premium = () => {
                 <td>{ele.mark}</td>
                 <td>{ele.mark?10-ele.mark:10}</td>
                 <td>
-                  <button className='border px-2 rounded py-1 bg-primary-600 text-white border-primary-900'>Results</button>
+                  <button onClick={()=>navigate(`premium/test-result/${ele._id}`)} className='border px-2 rounded py-1 bg-primary-600 text-white border-primary-900'>Results</button>
                 </td>
               </tr>)}
               
@@ -112,7 +112,7 @@ const Premium = () => {
           </table>
         </div>
         <div className='col-span-2 flex justify-end'>
-        {mockTests.length>=5&&<p className='text-blue-500 cursor-pointer hover:underline '>Show More...</p>}
+        {mockTests.length>=5&&<p onClick={()=>navigate('/premium/test-history')} className='text-blue-500 cursor-pointer hover:underline '>Show More...</p>}
       </div>
       </div>
       
