@@ -4,6 +4,7 @@ import { User } from '../../../models/User'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
 import Loader from '../../Loader/Loader'
+import { blockUser, unBlockUser } from '../../../services/admin/userVerificarion'
 
 function NonPrimeUsers() {
     const [users,SetUsers]=useState<User[]>([])
@@ -21,6 +22,17 @@ function NonPrimeUsers() {
      fetchData()
     }, [])
     console.log(users,"dsd");
+    const block=async(userId:string)=>{
+      const data=await blockUser(userId)
+      const updatedUsers=users.map(user=>user._id === userId ?{ ...user, status: false }:user)
+      SetUsers(updatedUsers)
+    }
+
+    const unBlock=async(userId:string)=>{
+      const data=await unBlockUser(userId)
+      const updatedUsers=users.map(user=>user._id === userId ?{ ...user, status: true }:user)
+      SetUsers(updatedUsers)
+    }
     
     
   return (
@@ -54,7 +66,7 @@ function NonPrimeUsers() {
             <td>100</td>
             <td>10</td>
             <td>{obj.status?"Active" : "Banned"}</td>
-            <td>{obj.status?<FontAwesomeIcon className='bg-red-500 text-white px-3 py-2 rounded-lg'  icon={faEyeSlash}/> : <FontAwesomeIcon className='bg-green-500 text-white px-3 py-2 rounded-lg' icon={faEye}/>}</td>
+            <td>{obj.status?<FontAwesomeIcon className='bg-red-500 text-white px-3 py-2 rounded-lg' onClick={()=>block(obj._id)}  icon={faEyeSlash}/> : <FontAwesomeIcon onClick={()=>unBlock(obj._id)} className='bg-green-500 text-white px-3 py-2 rounded-lg' icon={faEye}/>}</td>
           </tr>)}
         </tbody>
       </table>

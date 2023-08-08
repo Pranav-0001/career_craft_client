@@ -3,7 +3,7 @@ import { fetchEmp } from '../../../services/admin/fetchUsers'
 import { User } from '../../../models/User'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faCircleXmark } from '@fortawesome/free-regular-svg-icons'
-import { verifyEmp } from '../../../services/admin/userVerificarion'
+import { blockUser, verifyEmp } from '../../../services/admin/userVerificarion'
 import { toast } from 'react-toastify'
 import Loader from '../../Loader/Loader'
 
@@ -29,6 +29,12 @@ function AllEmployers() {
      }
      fetchData()
     }, [])
+
+    const block=async(userId:string)=>{
+      const data=await blockUser(userId)
+      const updatedUsers=users.map(user=>user._id === userId ?{ ...user, status: false }:user)
+      SetUsers(updatedUsers)
+    }
   return (
     <>    
     {isLoading ? 
@@ -62,7 +68,7 @@ function AllEmployers() {
             <td>{obj.location}</td>
             <td>100</td>
             <td>{obj.status?"Verified" : "Not Verified"}</td>
-            <td className=''>{obj.status?<FontAwesomeIcon className='cursor-pointer bg-red-500 text-white px-3 py-2 rounded-lg'  icon={faCircleXmark}/> :  <FontAwesomeIcon onClick={()=>verifyEmployer(obj._id,obj.email)} className='cursor-pointer bg-green-500 text-white px-3 py-2 rounded-lg' icon={faCircleCheck}/>}</td>
+            <td className=''>{obj.status?<FontAwesomeIcon onClick={()=>block(obj._id)} className='cursor-pointer bg-red-500 text-white px-3 py-2 rounded-lg'  icon={faCircleXmark}/> :  <FontAwesomeIcon onClick={()=>verifyEmployer(obj._id,obj.email)} className='cursor-pointer bg-green-500 text-white px-3 py-2 rounded-lg' icon={faCircleCheck}/>}</td>
           </tr>)}
         </tbody>
       </table>
@@ -92,7 +98,7 @@ function AllEmployers() {
            
             
             <td>{obj.status?"Verified" : "Not Verified"}</td>
-            <td className=''>{obj.status?<FontAwesomeIcon className='cursor-pointer bg-red-500 text-white px-3 py-2 rounded-lg'  icon={faCircleXmark}/> :  <FontAwesomeIcon onClick={()=>verifyEmployer(obj._id,obj.email)} className='cursor-pointer bg-green-500 text-white px-3 py-2 rounded-lg' icon={faCircleCheck}/>}</td>
+            <td className=''>{obj.status?<FontAwesomeIcon onClick={()=>block(obj._id)} className='cursor-pointer bg-red-500 text-white px-3 py-2 rounded-lg'  icon={faCircleXmark}/> :  <FontAwesomeIcon onClick={()=>verifyEmployer(obj._id,obj.email)} className='cursor-pointer bg-green-500 text-white px-3 py-2 rounded-lg' icon={faCircleCheck}/>}</td>
           </tr>)}
         </tbody>
       </table>
