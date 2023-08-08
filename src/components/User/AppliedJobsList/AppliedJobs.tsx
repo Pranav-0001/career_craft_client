@@ -43,7 +43,7 @@ function AppliedJobs() {
         <table className='w-full rounded-md'>
             <thead className='bg-primary-800   text-white border-b-2 border-gray-600'>
                 <tr className='text-xs md:text-base lg:text-xl text-left '>
-                    <th className='px-2 py-3'>No.</th>
+                    {/* <th className='px-2 py-3'>No.</th> */}
                     <th className='px-2 py-3'>Job</th>
                     <th className='px-2 py-3'>Applied On</th>
                     <th className='px-2 py-3'>Domain</th>
@@ -52,7 +52,7 @@ function AppliedJobs() {
             </thead>
             <tbody className='bg-gray-100'>
                 {applied?.map((obj,i)=><tr key={obj.jobId} className='text-xs md:text-base lg:text-lg overflow-auto'>
-                    <td className='table-data'>{i+1}</td>
+                    {/* <td className='table-data'>{i+1}</td> */}
                   <td className='table-data flex items-center gap-2'>
                     <img className='h-10 hidden lg:block' src={obj.employer[0].profileImg} alt="" />
                     <div>
