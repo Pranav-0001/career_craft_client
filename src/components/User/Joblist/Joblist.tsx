@@ -211,7 +211,7 @@ function Joblist() {
                                         <p className='text-sm'>{obj.Employer[0].company}</p>
                                     </div>
                                 </div>
-                                <div className='w-full'>
+                                <div className='w-full hidden md:block'>
                                     <h1 className='text-lg'>Salary : {obj.salaryType === 'Range' ? `${obj.salaryFrom} -  ${obj.salaryTo}` : obj.fixedSalary} Lpa</h1>
                                     <p className='text-sm'>Deadline : {obj.deadline}</p>
                                 </div>
