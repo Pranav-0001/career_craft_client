@@ -29,9 +29,9 @@ function EmpNavbar() {
                 </div>
             </nav>
             <div className='w-full h-10 bg-gray-400 shadow-md md:hidden flex justify-end items-center text-white'>
-                <h1 className='nav-item'>Find Candidates</h1>
-                <h1 className='nav-item text-lg'><FontAwesomeIcon icon={faBell} /></h1>
-                <h1 className='nav-item'>Chats</h1>
+                <h1 onClick={()=>navigate('/employer/findcandidates')} className='nav-item'>Find Candidates</h1>
+                {/* <h1 className='nav-item text-lg'><FontAwesomeIcon icon={faBell} /></h1> */}
+                <h1 onClick={()=>navigate('/employer/chat')} className='nav-item'>Chats</h1>
             </div>
 
         </>
