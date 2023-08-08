@@ -9,15 +9,18 @@ import { api } from '../../../services/axios'
 import { Job } from '../../../models/Jobmodel'
 import { updateJobTrue, updateJobfalse } from '../../../services/Employer/fetJobs'
 import { fetchApplicationCountByEmp } from '../../../services/Employer/applications'
+import Loader from '../../Loader/Loader'
 
 function EmpHome() {
     const navigate = useNavigate()
     const { EmpUsername, EmpImage ,EmployerId } = useSelector((state: any) => state.employer);
     const [jobs,setJobs]=useState<Job[]>([])
     const [appliedCount,setAppliedCount]=useState<number>(0)
+    const [isLoading,setIsLoading]=useState(false)
     useEffect(() => {
       const fetchData=async()=>{
         try{
+            setIsLoading(true)
         const {data} = await api.get(`/employer/employer-jobs/${EmployerId}`,{withCredentials:true})
         const count=await fetchApplicationCountByEmp(EmployerId)
         if (data.newAccessToken) localStorage.setItem('user',data.newAccessToken)
@@ -25,6 +28,9 @@ function EmpHome() {
         setAppliedCount(count)
         }catch(err){
             setJobs([])
+        }
+        finally{
+            setIsLoading(false)
         }
       }
       fetchData()
@@ -67,7 +73,9 @@ function EmpHome() {
     return (
         <>
            
-            <div className='w-full '>
+            {isLoading?
+            <Loader/>
+            :<div className='w-full '>
                 <div className='flex justify-between mx-3 md:mx-16 lg:mx-16 mt-4'>
                     <div className='flex'>
                         <img src={EmpImage} alt="" className='w-20' />
@@ -189,7 +197,7 @@ function EmpHome() {
                         </tr>)}
                     </table>
                 </div>
-            </div>
+            </div>}
         </>
     )
 }

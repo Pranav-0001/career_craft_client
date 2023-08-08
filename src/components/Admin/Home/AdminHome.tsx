@@ -5,17 +5,20 @@ import { faCrown, faSignal, faUsers, faUsersGear } from '@fortawesome/free-solid
 import { Doughnut, Bar } from 'react-chartjs-2'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title } from "chart.js";
 import { fetchDashData } from '../../../services/admin/fetchUsers'
+import Loader from '../../Loader/Loader'
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title);
 function AdminHome() {
     const [dashBoard,setDashBoard]=useState<{users:number,prime:number,Emp?:number,revenue?:number}>({users:0,prime:0,Emp:0,revenue:0})
     const [subscrption,setSubscription]=useState<{time:string}[]>([])
+    const [isLoading,setIsLoading]=useState(false)
     useEffect(() => {
         const fetch=async()=>{
+            setIsLoading(true)
             const data=await fetchDashData()
             console.log(data.subscription);
             setDashBoard({...dashBoard,users:data.users,prime:data.premium,Emp:data.emp,revenue:data.revenue})
             setSubscription(data.subscription)
-            
+            setIsLoading(false)
         }
         fetch()
     }, [])
@@ -84,7 +87,9 @@ function AdminHome() {
     };
     return (
         <>
-            <div className=' w-full '>
+            {isLoading?
+            <Loader/>
+            :<div className=' w-full '>
                 <div className='md:pt-6 px-2 pt-2 mb-6'>
                     <h1 className='text-xl md:text-2xl lg:text-3xl font-exo'>Dashboard</h1>
                 </div>
@@ -131,7 +136,7 @@ function AdminHome() {
                     </div>
                 </div>
                 
-            </div>
+            </div>}
         </>
     )
 }

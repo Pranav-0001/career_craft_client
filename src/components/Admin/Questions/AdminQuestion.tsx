@@ -6,6 +6,7 @@ import { faEdit, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
 import { getAllQuestionsAdmin } from '../../../services/question/question'
 import { useSelector } from 'react-redux'
 import { disableQueByAdmin, enableQueByAdmin } from '../../../services/Exam/Exam'
+import Loader from '../../Loader/Loader'
 
 const AdminQuestion = () => {
     const navigate=useNavigate()
@@ -13,11 +14,14 @@ const AdminQuestion = () => {
     const [pages,setPages]=useState<number[]>([])
     const [selectedPage,setSelectedPage]=useState<number>(1)
     const {AdminId}=useSelector((state:any)=>state.admin)
+    const [isLoading,setIsLoading]=useState(false)
     useEffect(() => {
         const fetch = async () => {
+            setIsLoading(true)
             const data = await getAllQuestionsAdmin(selectedPage)
             setQuestions(data.questions)
             setPages(data.pagination)
+            setIsLoading(false) 
             
         }
         fetch()
@@ -52,7 +56,9 @@ const AdminQuestion = () => {
     
   return (
     <>
-    <div className='w-full font-exo px-4 mb-8'>
+    {isLoading?
+    <Loader/>
+    :<div className='w-full font-exo px-4 mb-8'>
         <div className='w-full flex items-center justify-end mb-4'>
             <button onClick={()=>navigate('/admin/add-question')} className='text-white bg-primary-900 px-2 py-1 rounded-md'>Add Question</button>
         </div>
@@ -104,7 +110,7 @@ const AdminQuestion = () => {
         </div>
         </div>
         
-    </div>
+    </div>}
     </>
   )
 }

@@ -3,15 +3,19 @@ import { fetchNonPrime } from '../../../services/admin/fetchUsers'
 import { User } from '../../../models/User'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
+import Loader from '../../Loader/Loader'
 
 function NonPrimeUsers() {
     const [users,SetUsers]=useState<User[]>([])
+    const [isLoading,setIsLoading]=useState(false)
     useEffect(() => {
      const fetchData=async()=>{
+      setIsLoading(true)
       const nonPrime=await fetchNonPrime()
     
       
       SetUsers(nonPrime)
+      setIsLoading(false)
       
      }
      fetchData()
@@ -21,6 +25,9 @@ function NonPrimeUsers() {
     
   return (
     <div className='md:ps-20 mt-10 '>
+      {isLoading?
+      <Loader/>
+      :<>
       <div className='hidden lg:block'>
       <table className='w-full '>
         <thead className='border '>
@@ -84,11 +91,7 @@ function NonPrimeUsers() {
           </tr>)}
         </tbody>
       </table>
-
-
-
-
-
+      </>}
     </div>
   )
 }

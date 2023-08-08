@@ -3,13 +3,17 @@ import {  fetchPrime } from '../../../services/admin/fetchUsers'
 import { User } from '../../../models/User'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
+import Loader from '../../Loader/Loader'
 
 function Premium() {
     const [users,SetUsers]=useState<User[]>([])
+    const [isLoading,setIsLoading]=useState(false)
     useEffect(() => {
      const fetchData=async()=>{
+      setIsLoading(true)
       const Prime=await fetchPrime()
       SetUsers(Prime)
+      setIsLoading(false)
       
      }
      fetchData()
@@ -20,7 +24,10 @@ function Premium() {
   return (
 
     <div className='md:ps-20 mt-10 '>
-        <div className='hidden lg:block'>
+      {isLoading?
+      <Loader/>
+      :<>
+      <div className='hidden lg:block'>
       <table className='w-full '>
         <thead className='border '>
           <tr className='text-left ps-10 bg-blue-200 h-12 border '>
@@ -80,6 +87,7 @@ function Premium() {
           </tr>)}
         </tbody>
       </table>
+    </>}
     </div>
   )
 }

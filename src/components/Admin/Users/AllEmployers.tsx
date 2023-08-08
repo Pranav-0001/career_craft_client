@@ -5,9 +5,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faCircleXmark } from '@fortawesome/free-regular-svg-icons'
 import { verifyEmp } from '../../../services/admin/userVerificarion'
 import { toast } from 'react-toastify'
+import Loader from '../../Loader/Loader'
 
 function AllEmployers() {
     const [users,SetUsers]=useState<User[]>([])
+    const [isLoading,setIsLoading]=useState(false)
     const verifyEmployer=async(empId:string,email:string)=>{
         const res=await verifyEmp(empId,email)
         if(res.modifiedCount===1){
@@ -18,16 +20,20 @@ function AllEmployers() {
     }
     useEffect(() => {
      const fetchData=async()=>{
+      setIsLoading(true)
       const emp=await fetchEmp()
     
       
       SetUsers(emp)
-      
+      setIsLoading(false)
      }
      fetchData()
     }, [])
   return (
-    <div className='md:ps-20 mt-10 '>
+    <>    
+    {isLoading ? 
+    <Loader/>
+    :<div className='md:ps-20 mt-10 '>
         <div className='hidden lg:block'>
       <table className='w-full  '>
         <thead className='border '>
@@ -90,7 +96,9 @@ function AllEmployers() {
           </tr>)}
         </tbody>
       </table>
-    </div>
+    </div>}
+    </>
+
   )
 }
 

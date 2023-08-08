@@ -4,6 +4,7 @@ import { QuestionFormVali } from '../../../utils/Questions/QuestionValidation'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getQuestionAdmin, getQuestionEmp, updateQuestionAdmin, updateQuestionEmp } from '../../../services/question/question'
 import { async } from 'q'
+import Loader from '../../Loader/Loader'
 
 interface editQue{
     role:string
@@ -13,10 +14,12 @@ const EditQuestion:React.FC<editQue> = ({role}) => {
     const {id}=useParams() 
     const [questions,setQuestion]=useState<QuestionTypes>()
     const [err,setErr] = useState<QuestionTypes>({question:'',answer:'',option1:'',option2:'',option3:''})
+    const [isLoading,setIsLoading]=useState(false)
     const navigate=useNavigate()
 
     useEffect(() => {
         const fetch=async()=>{
+            setIsLoading(true)
             if(role==='employer'&&id){
                 let {data}=await getQuestionEmp(id)
                 console.log(data);
@@ -31,6 +34,7 @@ const EditQuestion:React.FC<editQue> = ({role}) => {
                 setQuestion(data)
 
             }
+            setIsLoading(false)
         }
         fetch()
     }, [])
@@ -73,6 +77,9 @@ const EditQuestion:React.FC<editQue> = ({role}) => {
   return (
     <>
             <div className='font-exo w-full lg:px-60 mt-4'>
+                {isLoading?
+                <Loader/>
+                :
                 <div className='border mb-8 rounded shadow'>
                     <h1 className='text-center text-xl mt-3'>Edit Question</h1>
                     <form className='grid lg:grid-cols-2 grid-cols-1 lg:px-20 px-2 gap-2' onSubmit={handleSubmit} >
@@ -125,7 +132,7 @@ const EditQuestion:React.FC<editQue> = ({role}) => {
 
 
                     </form>
-                </div>
+                </div>}
             </div>
         </>
   )

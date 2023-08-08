@@ -7,6 +7,7 @@ import { getAllQuestions } from '../../../services/question/question'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { disableQueByEmp, enableQueByEmp } from '../../../services/Exam/Exam'
+import Loader from '../../Loader/Loader'
 
 interface queModel{
     role:string
@@ -17,14 +18,17 @@ const Questions:React.FC<queModel>=({role})=>{
     const [questions,setQuestions]=useState<QuestionTypes[]>([])
     const [pages,setPages]=useState<number[]>([])
     const [selectedPage,setSelectedPage]=useState<number>(1)
+    const [isLoading,setIsLoading]=useState(false)
     const {EmployerId}  = useSelector((state: any) => state.employer);
 
     useEffect(() => {
       const fetch=async()=>{
+        setIsLoading(true)
        const data =await getAllQuestions(selectedPage,EmployerId)
        setQuestions(data.questions)
 
        setPages(data.pagecount)
+       setIsLoading(false)
        
       }
       fetch()
@@ -66,6 +70,9 @@ const Questions:React.FC<queModel>=({role})=>{
   return (
     
     <>
+    {isLoading?
+    <Loader/>
+    :
     <div className='w-full font-exo'>
         <div className='w-full flex items-center justify-end mb-4'>
             <button onClick={()=>navigate('/employer/add-question')} className='text-white bg-primary-900 px-2 py-1 rounded-md'>Add Question</button>
@@ -116,7 +123,7 @@ const Questions:React.FC<queModel>=({role})=>{
         </div>
         </div>
         
-    </div>
+    </div>}
     </>
   )
 }

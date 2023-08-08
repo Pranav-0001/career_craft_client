@@ -15,16 +15,19 @@ const FindCandidates = () => {
 
     const [user,setUser]=useState<User[]>([])
     const [pagination,setPagination]=useState([])
+    const [isLoading,setIsLoading]=useState(false)
     const {search}=useLocation()
     const queryParams = new URLSearchParams(search);
     const page= queryParams.get("page")
     useEffect(() => {
         const fetch=async () => {
+          setIsLoading(true)
             let p=page ? parseInt(page) : 1
             const data=await fetchAllCandidates(p)
             console.log(data);
             setUser(data.users)
             setPagination(data.pagination)
+            setIsLoading(false) 
         }
         fetch()
     }, [page])

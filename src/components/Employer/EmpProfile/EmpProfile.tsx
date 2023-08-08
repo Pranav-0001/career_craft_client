@@ -10,6 +10,7 @@ import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import { updateEmployer } from '../../../services/Employer/profile';
 import { ToastContainer, toast } from 'react-toastify';
 import { updateEmp } from '../../../redux/employer/employerSlice';
+import Loader from '../../Loader/Loader';
 
 const EmpProfile = () => {
   const dispatch=useDispatch()
@@ -17,14 +18,16 @@ const EmpProfile = () => {
   const [emp,setEmp]=useState<User>()
   const [err,setErr]=useState({firstname:'',lastname:'',username:'',company:'',location:'',facebook:'',instagram:'',linkedIn:''})
   const [imageUp,setImgUp]=useState(false)
+  const [isLoading,setIsLoading]=useState(false)
 
 
     useEffect(() => {
       const fetch=async()=>{
+        setIsLoading(true)
         const data=await fetchUserData(EmployerId)
         console.log(data);
         setEmp(data)
-        
+        setIsLoading(false)
         
       }
       fetch()
@@ -69,7 +72,9 @@ const EmpProfile = () => {
     
   return (
     <div className='w-full font-exo '>
-      <form onSubmit={handleSubmit} className='border md:grid grid-cols-2 px-4 md:gap-2 rounded shadow mb-10 '>
+      {isLoading?
+      <Loader/>
+      : <form onSubmit={handleSubmit} className='border md:grid grid-cols-2 px-4 md:gap-2 rounded shadow mb-10 '>
         <div className='col-span-2'>
             <h1 className='text-2xl py-2 '>Employer Information</h1>
         </div>
@@ -162,7 +167,7 @@ const EmpProfile = () => {
         <div  className='col-span-2 flex  w-full justify-center my-2 mb-6'>
             <button className='bg-primary-900 px-3 py-2 rounded text-white shadow'>Submit</button>
         </div>
-      </form>
+      </form>}
       <ToastContainer />
     </div>
   )

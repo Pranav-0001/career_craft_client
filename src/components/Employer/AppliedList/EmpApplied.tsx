@@ -7,12 +7,14 @@ import { fetchApplicationByEmp, fetchApplicationCountByEmp } from '../../../serv
 import { appliedJobsByEmp } from '../../../models/applicationModel'
 import { useNavigate } from 'react-router-dom'
 import { acceptUserApplication } from '../../../services/Employer/fetJobs'
+import Loader from '../../Loader/Loader'
 
 function EmpApplied() {
   const navigate=useNavigate()
   const [applications,setApplications]=useState<appliedJobsByEmp[]>()
   const [pages,setPages]=useState<number[]>([])
   const [page,setPage]=useState(1)
+  const [isLoading,setIsLoading]=useState(false)
   
   const {EmployerId}  = useSelector((state: any) => state.employer);
 
@@ -36,10 +38,12 @@ function EmpApplied() {
     console.log(EmployerId);
     
     const fetch=async()=>{
+      setIsLoading(true)
       const data=await fetchApplicationByEmp(EmployerId,page)
       
       setApplications(data.applications)
       setPages(data.pagecount)
+      setIsLoading(false)
       
       
       
@@ -51,7 +55,10 @@ function EmpApplied() {
   return (
     <div className='px-1 md:px-6 lg:px-20 pb-8'>
       <div className='overflow-auto rounded-md shadow hidden md:block'>
-        <table className='w-full font-exo'>
+        {isLoading?
+        <Loader/>
+        :
+          <table className='w-full font-exo'>
           <thead className='bg-primary-800 text-white border-b-2 border-gray-500'>
             <tr>
               <th className='w-20 p-3  tracking-wide text-left'>S.No</th>
@@ -89,7 +96,7 @@ function EmpApplied() {
             </tr>)}
             
           </tbody>
-        </table>
+        </table>}
       </div>
       <div className='grid grid-cols-1 gap-4 md:hidden font-exo '>
       {applications?.map((obj,i)=><div className='bg-white p-4 rounded-lg shadow '>
