@@ -222,7 +222,7 @@ const VideoChat: React.FC<{ role: string }> = ({ role }) => {
     <div className='lg:px-20 h-full mt-4  px-2'>
       <div className='lg:grid grid-cols-3 gap-2 lg:relative absolute'>
         <div className='col-span-2 w-full '>
-          <video className='col-span-3 w-full rounded-md '  autoPlay playsInline ref={user2Ref}></video>
+          <video className='col-span-3 lg:w-full rounded-md lg:h-fit  object-cover ' style={{height:'78vh'}}  autoPlay playsInline ref={user2Ref}></video>
         </div>
 
         <div>
