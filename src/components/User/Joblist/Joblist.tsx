@@ -229,9 +229,9 @@ function Joblist() {
                             </div>
                             <div className='flex justify-between pt-4 '>
                                 <div className='flex mb-2' >
-                                    <div className='bg-red-200 px-3 rounded-full me-2'>{obj.category}</div>
-                                    <div className='bg-blue-200 px-3 rounded-full me-2'>{obj.jobType}</div>
-                                    <div className='bg-green-200 px-3 rounded-full me-2'>{obj.qualification}</div>
+                                    <div className='bg-red-200 px-3  rounded-full text-xs md:text-lg me-2'>{obj.category}</div>
+                                    <div className='bg-blue-200 px-3 rounded-full text-xs md:text-lg me-2'>{obj.jobType}</div>
+                                    <div className='bg-green-200 px-3 rounded-full text-xs md:text-lg me-2 hidden md:block'>{obj.qualification}</div>
                                 </div>
 
                                 <div>
