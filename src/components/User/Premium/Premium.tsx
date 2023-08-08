@@ -104,7 +104,7 @@ const Premium = () => {
                 <td>{ele.mark}</td>
                 <td>{ele.mark?10-ele.mark:10}</td>
                 <td>
-                  <button onClick={()=>navigate(`premium/test-result/${ele._id}`)} className='border px-2 rounded py-1 bg-primary-600 text-white border-primary-900'>Results</button>
+                  <button onClick={()=>navigate(`/premium/test-result/${ele._id}`)} className='border px-2 rounded py-1 bg-primary-600 text-white border-primary-900'>Results</button>
                 </td>
               </tr>)}
               
