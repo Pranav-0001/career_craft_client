@@ -2,9 +2,11 @@ import { faBell } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 function EmpNavbar() {
     const {EmpUsername,EmpImage } = useSelector((state: any) => state.employer);
+    const navigate= useNavigate()
 
     return (
         <>
@@ -14,10 +16,10 @@ function EmpNavbar() {
                 </div>
                 <div className="flex items-center  ">
                     <div className='hidden md:block'>
-                        <h1 className='nav-item'>Find Candidates</h1>
+                        <h1 onClick={()=>navigate('/employer/findcandidates')} className='nav-item'>Find Candidates</h1>
                     </div>
                     <div className='hidden md:block'>
-                        <h1 className='nav-item'>Chats</h1>
+                        <h1 onClick={()=>navigate('/employer/chat')} className='nav-item'>Chats</h1>
                     </div>
                    
                     <div className='flex items-center me-4 pt-2 md:pt-0 gap-2'>
