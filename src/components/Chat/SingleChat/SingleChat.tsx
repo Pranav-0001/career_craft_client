@@ -1,4 +1,4 @@
-import { faCircleArrowUp, faFilePen, faPaperPlane, faPaperclip, faVideo, faVideoCamera } from '@fortawesome/free-solid-svg-icons';
+import { faCircleArrowUp, faFilePen, faL, faPaperPlane, faPaperclip, faVideo, faVideoCamera } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, useEffect, useRef } from 'react'
 import { Chats, Message } from '../../../models/chat';
@@ -11,6 +11,8 @@ import { generateNewExam } from '../../../services/Exam/Exam';
 import { useNavigate } from 'react-router-dom';
 import { createOffer, init } from '../../../services/Video/VideoChat';
 import { useSocket } from '../../../context/socketContext';
+import ChatLoader from '../../Loader/ChatLoader';
+import MessageLoader from '../../Loader/MessageLoader';
 
 interface selectedUser {
   user: Chats
@@ -26,6 +28,7 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId ,setLastMessag
   const [messages, setMessages] = useState<Message[]>([])
   const scrollDownRef = useRef<HTMLDivElement | null>(null)
   const [isOpen, setisOpen] = useState(false)
+  const [isLoading,setIsLoading]=useState(false)
   const ENDPOINT = process.env.REACT_APP_BASE_URL as string
 
   // let socket: any
@@ -58,10 +61,12 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId ,setLastMessag
 
   useEffect(() => {
     const fetch = async () => {
+      setIsLoading(true)
       const msgs = await fetchAllMessages(user._id)
       console.log(msgs);
       setMessages(msgs)
       socket.emit('join chat', user._id)
+      setIsLoading(false)
     }
     fetch()
   }, [user])
@@ -144,6 +149,12 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId ,setLastMessag
         </div>
         <div className='h-full'>
           <div className='chats h-5/6 overflow-y-scroll w-full ' ref={scrollDownRef}>
+            {isLoading?
+            <div className='w-full'>
+              <MessageLoader/>
+            </div>
+            
+            :<>
             {messages?.map((obj) =>
               <div key={obj._id} className={`w-full flex ${obj.sender._id === currentUserId ? 'justify-end' : 'justify-start ps-2'} `}>
                 <img src={obj.sender.profileImg} alt="" className={`h-5 ${obj.sender._id === currentUserId ? 'hidden' : 'block rounded-full'}`} />
@@ -215,6 +226,7 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId ,setLastMessag
                 </div>
               </div>
             )}
+            </>}
           </div>
           {role === 'employer' && <div className={`${isOpen ? 'h-36' : 'h-0'} bg-white overflow-hidden duration-500 flex  shadow w-60 rounded-md text-white  absolute bottom-12 right-14 justify-center items-center gap-2 `}>
             <div className={`text-center bg-primary-900 p-8 rounded-full cursor-pointer`} onClick={generateExam}>

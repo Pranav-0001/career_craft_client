@@ -2,7 +2,7 @@ import React from 'react'
 
 const ChatLoader = () => {
   return (
-    <div role="status" className="max-w-md p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded shadow animate-pulse -700 md:p-6 -700">
+    <div role="status" className="max-w-md w-full p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded shadow animate-pulse -700 md:p-6 -700">
     <div className="flex items-center justify-between">
         <div>
             <div className="h-2.5 bg-gray-300 rounded-full  w-24 mb-2.5"></div>
