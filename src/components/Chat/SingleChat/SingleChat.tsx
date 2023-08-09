@@ -156,9 +156,9 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId ,setLastMessag
             
             :<>
             {messages?.map((obj) =>
-              <div key={obj._id} className={`w-full flex ${obj.sender._id === currentUserId ? 'justify-end' : 'justify-start ps-2'} `}>
-                <img src={obj.sender.profileImg} alt="" className={`h-5 ${obj.sender._id === currentUserId ? 'hidden' : 'block rounded-full'}`} />
-                <div className={`my-1 overflow-hidden ${obj.sender._id === currentUserId ? 'rounded-s-3xl  rounded-br-3xl bg-green-300 ' : 'bg-primary-400 rounded-e-3xl rounded-bl-3xl '}   mx-2   w-fit max-w-md  ${obj.isExam || obj.isVideo ? 'px-0 py-0' : '  px-4 py-2'} break-all `}>
+              <div key={obj._id} className={`w-full flex ${obj.sender?._id === currentUserId ? 'justify-end' : 'justify-start ps-2'} `}>
+                <img src={obj.sender.profileImg} alt="" className={`h-5 ${obj.sender?._id === currentUserId ? 'hidden' : 'block rounded-full'}`} />
+                <div className={`my-1 overflow-hidden ${obj.sender?._id === currentUserId ? 'rounded-s-3xl  rounded-br-3xl bg-green-300 ' : 'bg-primary-400 rounded-e-3xl rounded-bl-3xl '}   mx-2   w-fit max-w-md  ${obj.isExam || obj.isVideo ? 'px-0 py-0' : '  px-4 py-2'} break-all `}>
                   {obj.isExam ?
                     <div className=''>
 
