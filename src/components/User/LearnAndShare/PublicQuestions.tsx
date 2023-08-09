@@ -44,10 +44,10 @@ const PublicQuestions = () => {
             <div className='grid grid-cols-4 w-full  px-2md:px-10 lg:px-40 font-exo gap-2 mb-8'>
                 <div className='col-span-3'>
                     <div className='flex items-center justify-between'>
-                        <h1 className='text-2xl py-6' >Questions</h1>
+                        <h1 className='text-2xl py-6'  >Questions</h1>
                         <div className='flex gap-2'>
-                            <button className='bg-primary-900 text-white px-4 py-1 rounded'>Ask</button>
-                            <button className='bg-primary-900 text-white px-4 py-1 rounded'>LAS Profile</button>
+                            <button onClick={()=>navigate('/askpublicquestion')} className='bg-primary-900 text-white px-4 py-1 rounded'>Ask</button>
+                            <button onClick={()=>navigate('/my-las')} className='bg-primary-900 text-white px-4 py-1 rounded'>LAS Profile</button>
 
                         </div>
                         

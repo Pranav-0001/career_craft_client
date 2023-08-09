@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { fetchMockResults } from '../../../services/Exam/Exam'
 import { useParams } from 'react-router-dom'
 import { MockresultTypes } from '../../../models/Exam'
+import Loader from '../../Loader/Loader'
 
 const ExamResult = () => {
     const {id}=useParams()
@@ -29,7 +30,9 @@ const ExamResult = () => {
   return (
     <div>
         
-      <div className='lg:grid grid-cols-2 lg:px-20 md:px-10 px-2 font-exo gap-2 mb-14'>
+      {isLoading?
+      <Loader/>
+      :<div className='lg:grid grid-cols-2 lg:px-20 md:px-10 px-2 font-exo gap-2 mb-14'>
         <div className="col-span-2 mt-10 mb-2">
         <h1 className='text-2xl font-bold'>Result</h1>
         
@@ -49,7 +52,7 @@ const ExamResult = () => {
             <p className='rounded bg-green-200 mt-3 border border-green-500 w-1/2 py-2 px-2'>{obj.answer}</p>
 
         </div>)}
-      </div>
+      </div>}
     </div>
   )
 }

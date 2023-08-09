@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 import { useSelector } from 'react-redux';
 import { fetchMockExam, setMockAttended ,postMockAnwer } from '../../../services/Exam/Mock Test';
+import Loader from '../../Loader/Loader';
 
 const MockExam = () => {
     const [exam, setExam] = useState<ExamType>({})
@@ -17,10 +18,14 @@ const MockExam = () => {
     const { id } = useParams()
     const navigate = useNavigate()
     const { userId } = useSelector((state:any) => state.user);
+    const [isLoading,setIsLoading]=useState(false)
+
 
     useEffect(() => {
         const fetch = async () => {
+            
             if (id) {
+                setIsLoading(true)
                 const examData: ExamType = await fetchMockExam(id)
                 console.log(examData);
                 
@@ -43,6 +48,7 @@ const MockExam = () => {
                 else {
                     setMockAttended(id)
                 }
+                setIsLoading(false)
             }
         }
         fetch()
@@ -77,7 +83,7 @@ const MockExam = () => {
 
         {userId=== exam.candidate ? <div>
           
-            <div className={`${exp&&'hidden'} lg:px-80 md:px-20 px-2 my-12`}>
+            {isLoading?<Loader/>:<div className={`${exp&&'hidden'} lg:px-80 md:px-20 px-2 my-12`}>
 
                 {exam.questions?.map((que, i) =>
                     <>
@@ -109,7 +115,7 @@ const MockExam = () => {
                 <div className='w-full flex justify-center mt-6 '>
                     <button onClick={handleSubmit} className='bg-primary-700 px-4 text-white py-2 rounded-md shadow-md'>Submit</button>
                 </div>
-            </div>
+            </div>}
            
         </div>
         :

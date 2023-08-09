@@ -3,6 +3,7 @@ import { ExamType } from '../../../models/Exam'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getMockTests } from '../../../services/Exam/Mock Test';
+import Loader from '../../Loader/Loader';
 
 const TestHistory = () => {
   const { userId, username, image, userEmail, isPrime } = useSelector((state: any) => state.user);
@@ -38,7 +39,7 @@ const TestHistory = () => {
                 <h1 className='text-xl font-bold mb-8'>Test History</h1>
                 
             </div>
-            <div className='rounded overflow-hidden'>
+            {isLoading?<Loader/>:<div className='rounded overflow-hidden'>
                 <table className='w-full'>
                     <thead className='bg-primary-800 text-white h-10'>
                         <tr className=''>
@@ -62,7 +63,7 @@ const TestHistory = () => {
                 <div className='w-full flex justify-end mt-3'>
                     {pagination.map((num)=><button onClick={()=>navigate(`/premium/test-history?page=${num}`)} className={`${currpage===num ? 'bg-primary-600 text-white' : 'border border-primary-600 text-black'} px-4 py-2 `}>{num}</button>)}
                 </div>
-            </div>
+            </div>}
         </div>
     )
 }
