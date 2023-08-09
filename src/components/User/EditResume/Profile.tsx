@@ -6,6 +6,7 @@ import { ProfileType, ProjectType, User } from '../../../models/User';
 import { profileFormValid } from '../../../utils/user/profileDataVali';
 import { fetchUserData, updateProfileInfo } from '../../../services/candidate/profile';
 import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
+import Loader from '../../Loader/Loader';
 
 function Profile() {
   const { userId } = useSelector((state:any) => state.user);
@@ -150,7 +151,9 @@ function Profile() {
 
     return (
         <>
-            <div className={`w-full lg:ps-10 lg:pe-20 mt-10 ${isProjectModal?'blur-sm ':''}`}>
+            {isLoading?
+            <Loader/>
+            :<div className={`w-full lg:ps-10 lg:pe-20 mt-10 ${isProjectModal?'blur-sm ':''}`}>
                 <div className='w-full  border-primary border-200 shadow-sm shadow-primary-600 rounded-md px-2 mb-8 pb-8 pt-4'>
                     <form onSubmit={handleSubmit} className='md:grid grid-cols-1 md:grid-cols-2 gap-2 items-center font-exo  ' >
                         <div className=''>
@@ -258,7 +261,7 @@ function Profile() {
                         </div>
                     </form>
                 </div>
-            </div>
+            </div>}
             {isProjectModal && <div className='fixed px-2 left-0 lg:left-1/4 lg:ps-40  w-full lg:w-4/5 lg:pe-96 top-20 py-36  h-screen'>
                 <form onSubmit={handleProjectFormSubmit} className=' border w-full bg-white border-primary-200 rounded-md px-2  py-4 shadow-md'>
                     <div className='flex justify-end'>
