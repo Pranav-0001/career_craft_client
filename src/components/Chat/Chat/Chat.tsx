@@ -78,12 +78,12 @@ const Chat: React.FC<role> = ({ role }) => {
                             {chats.length>0 ? chats.map((obj) => <div key={obj._id} className='px-2 py-3' onClick={()=>selectChat(obj)}>
                                 <div className='w-full  h-16 bg-white  flex items-center border-b-2 pb-2'>
                                     <div className='py-2 px-2'>
-                                        <img className='h-12 rounded-full' src={obj.users[0]._id === currentUserId ? obj.users[1].profileImg : obj.users[0].profileImg} alt="" />
+                                        <img className='h-12 rounded-full' src={obj.users[0]?._id === currentUserId ? obj.users[1]?.profileImg : obj.users[0]?.profileImg} alt="" />
 
                                     </div>
                                     <div className=''>
-                                        <h1 className='text-xl p-0'>{obj.users[0]._id === currentUserId ? obj.users[1].firstname + ' ' + obj.users[1].lastname : obj.users[0].firstname + ' ' + obj.users[0].lastname}</h1>
-                                        {obj?.latestMessage?.content&&<p className='text-xs p-0 text-gray-400'>{obj.latestMessage.content.substring(0,10)}{obj.latestMessage.content.length>10?'...':''}</p>}
+                                        <h1 className='text-xl p-0'>{obj.users[0]?._id === currentUserId ? obj.users[1]?.firstname + ' ' + obj.users[1]?.lastname : obj.users[0]?.firstname + ' ' + obj.users[0]?.lastname}</h1>
+                                        {obj?.latestMessage?.content&&<p className='text-xs p-0 text-gray-400'>{obj.latestMessage?.content.substring(0,10)}{obj.latestMessage.content?.length>10?'...':''}</p>}
                                     </div>
                                 </div>
                             </div>):
