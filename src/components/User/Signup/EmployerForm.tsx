@@ -173,7 +173,7 @@ const EmployerForm:React.FC<EmployerFormProps>=({setempSuccess})=> {
                             
                         </div>
                         <div className='text-sm flex md:col-span-2 justify-evenly'>
-                            <p>Already have an account ? <span className='cursor-pointer text-primary-1000'>Login </span>here </p>
+                            <p>Already have an account ? <span onClick={()=>navigate('/login')} className='cursor-pointer text-primary-1000'>Login </span>here </p>
                         </div>
                         {/* <div className='md:col-span-2 flex justify-center border-2 border-primary-400 mx-8 md:mx-56 rounded-md cursor-pointer mb-4'> */}
                         {/* <h1> <FontAwesomeIcon icon={faGoogle} className='me-2' />Register with Google </h1> */}

@@ -255,7 +255,7 @@ function CandidateForm() {
 
                             </div>
                             <div className='text-sm flex md:col-span-2 justify-evenly'>
-                                <p>Already have an account ? <span className='cursor-pointer text-primary-1000'>Login </span>here </p>
+                                <p>Already have an account ? <span onClick={()=>navigate('/login')} className='cursor-pointer text-primary-1000'>Login </span>here </p>
                             </div>
                             <div className='md:col-span-2 flex justify-center  mx-8 md:mx-56 rounded-md cursor-pointer mb-4'>
                                 

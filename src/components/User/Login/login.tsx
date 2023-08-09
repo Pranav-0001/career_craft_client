@@ -118,7 +118,7 @@ function Login() {
                             
 
                             <div className='flex justify-center mb-4'>
-                                <p>Don't have an account ? <span className='text-primary-900 cursor-pointer'>Sign Up</span></p>
+                                <p>Don't have an account ? <span onClick={()=>navigate('/register')} className='text-primary-900 cursor-pointer'>Sign Up</span></p>
                             </div>
                             </form>  
                     </div> 
