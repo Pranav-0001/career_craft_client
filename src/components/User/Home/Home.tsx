@@ -66,9 +66,9 @@ function Home() {
             <div className='companies-img-container  me-3'>
               <img className='h-full w-full md:w-80' src="Images/uber.png" alt="" />
             </div>
-            <div className='companies-img-container  me-3'>
+            {/* <div className='companies-img-container  me-3'>
               <img className='h-full w-full md:w-80' src="Images/netflix.png" alt="" />
-            </div>
+            </div> */}
           </div>
         </div>
 
