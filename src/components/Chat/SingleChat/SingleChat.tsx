@@ -63,7 +63,6 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId ,setLastMessag
     const fetch = async () => {
       setIsLoading(true)
       const msgs = await fetchAllMessages(user._id)
-      console.log(msgs);
       setMessages(msgs)
       socket.emit('join chat', user._id)
       setIsLoading(false)
@@ -81,7 +80,7 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId ,setLastMessag
     const exam = await generateNewExam(candidate, currentUserId)
     const res = await sendMessage(exam._id, user._id, currentUserId, true, false)
     socket?.emit('new message', res.msg)
-    console.log("aaa", res);
+   
     setMessages([...messages, res.msg])
   }
   const createVideoCall = async () => {
@@ -99,7 +98,7 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId ,setLastMessag
   useEffect(() => {
     socket.on('message recieved', (newMessage: Message) => {
       if (user._id !== newMessage.chat._id) {
-        console.log(`Message from ${newMessage.sender.firstname} ${newMessage.sender.firstname}`);
+        // console.log(`Message from ${newMessage.sender.firstname} ${newMessage.sender.firstname}`);
 
       } else {
         setMessages((messages) => [...messages, newMessage])
