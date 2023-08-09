@@ -21,8 +21,9 @@ function Resume() {
       if(user.basic && user.profile && user.education){
         setShow(true)
         setUserData(user)
-        setIsLoading(false)
+        
       }
+      setIsLoading(false)
     }
     fetchData()
 
