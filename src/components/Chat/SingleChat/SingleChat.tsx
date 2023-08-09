@@ -135,8 +135,8 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId ,setLastMessag
   const role = user.users[0]._id === currentUserId ? user.users[0].role : user.users[1].role
   let candidate: string
   let employer:string
-  if (role === 'employer') candidate = user.users[0]._id !== currentUserId ? user.users[0]._id : user.users[1]._id
-  if (role === 'candidate') employer = user.users[0]._id !== currentUserId ? user.users[0]._id : user.users[1]._id
+  if (role === 'employer') candidate = user.users[0]?._id !== currentUserId ? user.users[0]?._id : user.users[1]?._id
+  if (role === 'candidate') employer = user.users[0]?._id !== currentUserId ? user.users[0]?._id : user.users[1]?._id
 
  
 
