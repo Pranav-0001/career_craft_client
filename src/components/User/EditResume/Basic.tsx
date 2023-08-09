@@ -21,9 +21,10 @@ function Basic() {
 
   useEffect(() => {
     const fetchData=async()=>{
+      setIsLoading(true)
         const user:User=await fetchUserData(userId)
         
-        setIsLoading(true)
+        
 
         if(user?.basic) {
           setBasic(user.basic)

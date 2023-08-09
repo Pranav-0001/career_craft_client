@@ -32,7 +32,7 @@ function Profile() {
           console.log(user.profile.projects,"kkkk")
           if(user.profile?.projects) setProjects(user.profile.projects)
         }
-    setIsLoading(false)
+       setIsLoading(false)
         
     }
     fetchData()
