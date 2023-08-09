@@ -29,9 +29,9 @@ function Basic() {
           setBasic(user.basic)
           setImgUrl(user.basic.imageURL)
           setErr({firstname:'',lastname:'',phone:'',about:'',objective:'',qualification:'',email:''})
-          setIsLoading(false)
+          
         }
-        
+        setIsLoading(false)
     }
     fetchData()
 }, [])
