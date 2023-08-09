@@ -15,6 +15,8 @@ const Premium = () => {
   const [score,setscore]=useState<number>(0)
   const [mockTests,setmockTests]=useState<ExamType[]>([])
   const [user,setUser]=useState<User>()
+  const [isLoading,setIsLoading]=useState(false)
+
   const navigate=useNavigate()
 
   
@@ -26,6 +28,7 @@ const Premium = () => {
   }
   useEffect(() => {
     const fetch=async()=>{
+      setIsLoading(true)
       const {highscore,mockTests,user}=await premiumPageData(userId)
       setUser(user)
       
@@ -34,6 +37,7 @@ const Premium = () => {
       setscore(mockTests.length > 0 ? mockTests.reduce((t:number,ele:ExamType)=>ele.mark ? t+ele.mark:t+0 ,0) : 0)
       
       console.log();
+      setIsLoading(false)
       
     }
     fetch()

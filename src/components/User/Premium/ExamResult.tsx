@@ -7,14 +7,19 @@ const ExamResult = () => {
     const {id}=useParams()
     const [result,setResult]=useState<MockresultTypes>()
     const [mark,setMark]=useState(0)
+    const [isLoading,setIsLoading]=useState(false)
+
     useEffect(() => {
         const fetch=async()=>{
+
             if(id){
+              setIsLoading(true)
                 const data=await fetchMockResults(id)
                 data.answers.shift()
                 console.log(data);
                 setResult(data)
                 setMark(data.mark??0)
+                setIsLoading(false)
             }
          
         }

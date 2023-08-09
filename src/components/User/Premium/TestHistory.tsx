@@ -10,6 +10,8 @@ const TestHistory = () => {
     const [mockTests, setmockTests] = useState<ExamType[]>([])
     const [pagination,setpagination]=useState<number[]>([])
     const [currpage,setPage]=useState<number>()
+    const [isLoading,setIsLoading]=useState(false)
+
 
     const {search} = useLocation();
     const queryParams = new URLSearchParams(search);
@@ -18,12 +20,14 @@ const TestHistory = () => {
     if(str) page=parseInt(str)
     else  page=1
     useEffect(() => {
+        setIsLoading(true)
         const fetch=async()=>{
             const data=await getMockTests(userId,page)
             console.log(data);
             setmockTests(data.exams)
             setpagination(data.pagination)
             setPage(page)
+            setIsLoading(false)
         }
         fetch()
     }, [page])
