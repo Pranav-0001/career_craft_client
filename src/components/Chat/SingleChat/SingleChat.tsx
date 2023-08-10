@@ -54,10 +54,10 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId ,setLastMessag
   useEffect(() => {
 
     socket.emit('setup', currentUserId)
-    // return () => {
-    //   socket.disconnect();
-    // }
-  }, [currentUserId, socket])
+    return () => {
+      socket.disconnect();
+    }
+  }, [currentUserId])
 
   useEffect(() => {
     const fetch = async () => {
