@@ -33,7 +33,7 @@ function MainNav() {
         
             <nav className='flex align-middle justify-between z-1' >
                 <div className="logo w-20 flex items-center ms-3">
-                    <img src='/Images/BLAC.svg' alt='logo' />
+                    <img onClick={()=>navigate('/')} src='/Images/BLAC.svg' alt='logo' />
                 </div>
 
                 <div className=" md:flex items-center  ">
