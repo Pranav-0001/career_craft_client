@@ -90,7 +90,8 @@ function EmpApplied() {
                 {obj.status==="Accepted" ? 
                 <h1 className='py-1'><span  className='bg-green-500 px-2 py-1 rounded-md text-white cursor-pointer'><FontAwesomeIcon icon={faPaperPlane} /> Go To Chat</span></h1>
                 :obj.status==="Rejected" ? '' :<><h1 className='py-1'><span onClick={()=>acceptApplication(obj.user[0]._id , obj._id)} className='bg-green-500 px-2 py-1 rounded-md text-white cursor-pointer'><FontAwesomeIcon icon={faThumbsUp} /> Accept</span></h1>
-                <h1 className='py-1'><span className='bg-red-500 px-2 py-1 rounded-md text-white cursor-pointer'><FontAwesomeIcon icon={faXmarkCircle} /> Reject</span></h1></>}
+                {/* <h1 className='py-1'><span className='bg-red-500 px-2 py-1 rounded-md text-white cursor-pointer'><FontAwesomeIcon icon={faXmarkCircle} /> Reject</span></h1> */}
+                </>}
 
               </td>
             </tr>)}
