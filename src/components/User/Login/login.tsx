@@ -105,7 +105,7 @@ function Login() {
                         <p className="text-red-500 text-xs ms-4 md:ms-8">{err.password}</p>
 
                        <div className='mt-2 mb-3'>
-                         <h6 className='underline text-md  relative ms-8 mb-2  me-8 cursor-pointer mt-1 text-primary-700'>Forgot password?</h6>
+                         <h6 onClick={()=>navigate('/forgotpassword')} className='underline text-md  relative ms-8 mb-2  me-8 cursor-pointer mt-1 text-primary-700'>Forgot password?</h6>
                        </div>
                             <div className='flex justify-center mb-3'>
                                 <button type="submit" className='bg-black text-white w-80 rounded-md h-9'>Log In</button>
