@@ -39,6 +39,14 @@ const VideoChat: React.FC<{ role: string }> = ({ role }) => {
     }
 
   }, []);
+  const sendAnswer = async (offers: any) => {
+    if (role === 'candidate') {
+      const answer = await Peer.getAnswer(offers)
+      console.log(answer);
+
+      socket.emit('answer', ({ answer, roomId: id }))
+    }
+  }
 
   const handleOfferRecieved = useCallback(async (offer: any) => {
     console.log(offer);
@@ -141,14 +149,7 @@ const VideoChat: React.FC<{ role: string }> = ({ role }) => {
   }, [])
 
 
-  const sendAnswer = async (offers: any) => {
-    if (role === 'candidate') {
-      const answer = await Peer.getAnswer(offers)
-      console.log(answer);
-
-      socket.emit('answer', ({ answer, roomId: id }))
-    }
-  }
+  
 
   useEffect(() => {
     Peer.peer.addEventListener("track", async (ev: any) => {
