@@ -174,7 +174,7 @@ const VideoChat: React.FC<{ role: string }> = ({ role }) => {
 
       }
     }
-  }, [])
+  }, [socket])
 
   const callEnd = () => {
 
