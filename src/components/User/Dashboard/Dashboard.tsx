@@ -26,7 +26,7 @@ function Dashboard() {
     if(data?.saved?.count) setsaved(data.saved.count)
     if(data?.LAS?.totalMarks) setLAS(data.LAS.totalMarks)
     if(data.applied) setApply(data.applied)
-    if(data) setIsLoading(false)
+    setIsLoading(false)
    }
    fetch()
   }, [])
