@@ -35,12 +35,13 @@ export const updateBasicInfo=async(firstname:string,lastname:string,phone:string
 export const updateProfileInfo=async(father:string,mother:string,dob:string,nationality:string,permanent:string,present:string,marital:string,gender:string,skills:string[],projects:ProjectType[],user:string)=>{
 
     const {data}=await api.post(`/profile-update/${user}`,{father,mother,dob,nationality,permanent,present,marital,gender,skills,projects},{withCredentials:true})
-
+    return data
 }
 
 export const updateEducationalInfo=async(education:string,result:string,institute:string,starting:string,ending:string,user:string)=>{
     try {
         const {data}=await api.put(`/education-update/${user}`,{education,result,institute,starting,ending},{withCredentials:true})
+        return data
     } catch (error) {
         console.log(error);
         
@@ -51,6 +52,7 @@ export const updateEducationalInfo=async(education:string,result:string,institut
 export const updateProfessionalInfo=async(company:string,designation:string,experience:string,userId:string)=>{
     try {
         const {data}=await api.put(`/professional-update/${userId}`,{company,designation,experience},{withCredentials:true})
+        return data
     } catch (error) {
         
     }

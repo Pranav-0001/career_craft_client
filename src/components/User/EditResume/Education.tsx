@@ -4,10 +4,12 @@ import { educationDataValidation } from '../../../utils/user/eduDataVali'
 import { useSelector } from 'react-redux'
 import { fetchUserData, updateEducationalInfo } from '../../../services/candidate/profile'
 import Loader from '../../Loader/Loader'
+import SubmitBtnLoader from '../../Loader/SubmitBtnLoader'
 
 function Education() {
     const [edu,setEdu]=useState<EducationType>()
     const [err,setErr]=useState<EducationType>()
+    const [isBtnLoading,setIsBtnLoading]=useState(false)
     const { userId } = useSelector((state:any) => state.user);
     const [isLoading,setIsLoading]=useState(false)
 
@@ -17,14 +19,17 @@ function Education() {
         educationDataValidation(name,value,err,setErr)
         
     }
-    const handleSubmit=(e:React.FormEvent)=>{
+    const handleSubmit=async(e:React.FormEvent)=>{
         e.preventDefault()
+        setIsBtnLoading(true)
         if(err?.education===''&&err?.result===''&&err.institute===''&&err.starting===''&&err.ending===''){
             if(edu?.education&&edu.result&&edu.institute&&edu.starting&&edu.ending){
                 const {education,result,institute,starting,ending} = edu
-                updateEducationalInfo(education,result,institute,starting,ending,userId)
+                await updateEducationalInfo(education,result,institute,starting,ending,userId)
+
             }
         }
+        setIsBtnLoading(false)
     }
     useEffect(() => {
         const fetchData=async()=>{
@@ -83,7 +88,7 @@ function Education() {
                             <p className='text-xs text-red-700'>{err?.ending}</p>
                         </div>
                         <div className='mt-4 ms-1'>
-                            <button className='bg-primary-1000 text-white px-4 py-2 rounded-md'>Update Change</button>
+                            {isBtnLoading?<button className='bg-primary-1000 text-white px-4 py-2 rounded-md' disabled><SubmitBtnLoader/></button>:<button className='bg-primary-1000 text-white px-4 py-2 rounded-md'>Update Change</button>}
                         </div>
                     </form>}
                 </div>

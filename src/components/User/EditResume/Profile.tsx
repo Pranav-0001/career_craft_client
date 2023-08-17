@@ -7,6 +7,7 @@ import { profileFormValid } from '../../../utils/user/profileDataVali';
 import { fetchUserData, updateProfileInfo } from '../../../services/candidate/profile';
 import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 import Loader from '../../Loader/Loader';
+import SubmitBtnLoader from '../../Loader/SubmitBtnLoader';
 
 function Profile() {
   const { userId } = useSelector((state:any) => state.user);
@@ -21,6 +22,7 @@ function Profile() {
   const [projectErr,setProjectErr]=useState<ProjectType>()
   const [isProjectModal,setisProjectModal]=useState(false)
   const [isLoading,setIsLoading]=useState(false)
+  const [isBtnLoading,setIsBtnLoading]=useState(false)
 
   useEffect(() => {
     const fetchData=async()=>{
@@ -123,7 +125,7 @@ function Profile() {
   const handleSubmit=(e:React.FormEvent)=>{
     e.preventDefault()
    
-   
+   setIsBtnLoading(true)
     if(profile?.father&&profile.mother&&profile.dob&&profile.gender&&profile.marital&&profile.nationality&&profile.permanent&&profile.present){
       
        
@@ -140,6 +142,7 @@ function Profile() {
             
         }
     }
+    setIsBtnLoading(false)
   }
 
   const deleteProject=(obj:ProjectType)=>{
@@ -257,7 +260,7 @@ function Profile() {
                             </div>)}
                         </div>
                         <div className='mt-4 ms-1'>
-                            <button className='bg-primary-1000 text-white px-4 py-2 rounded-md '>Update Change</button>
+                        {isBtnLoading?<button className='bg-primary-1000 text-white px-4 py-2 rounded-md' disabled><SubmitBtnLoader/></button>:<button className='bg-primary-1000 text-white px-4 py-2 rounded-md'>Update Change</button>}
                         </div>
                     </form>
                 </div>

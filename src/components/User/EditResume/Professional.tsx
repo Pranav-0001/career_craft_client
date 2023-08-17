@@ -4,12 +4,14 @@ import { profValidate } from '../../../utils/user/profVali'
 import { fetchUserData, updateProfessionalInfo } from '../../../services/candidate/profile'
 import { useSelector } from 'react-redux'
 import Loader from '../../Loader/Loader'
+import SubmitBtnLoader from '../../Loader/SubmitBtnLoader'
 
 function Professional() {
     const [prof,setProf]=useState<ProfessionalType>({experience:"1"})
     const [err,setErr]=useState<ProfessionalType>()
     const { userId } = useSelector((state:any) => state.user);
     const [isLoading,setIsLoading]=useState(false)
+    const [isBtnLoading,setIsBtnLoading]=useState(false)
 
 
     const profForm=(e:React.ChangeEvent<HTMLInputElement | HTMLSelectElement>)=>{
@@ -20,12 +22,15 @@ function Professional() {
 
     const handleSubmit=(e:React.FormEvent)=>{
         e.preventDefault()
+        setIsBtnLoading(true)
         if(err?.company===''&& err?.designation===''){
             const {company,designation,experience} = prof
             if(company&&designation&&experience){
                 updateProfessionalInfo(company,designation,experience,userId)
             }
         }
+        setIsBtnLoading(true)
+
         
     }
 
@@ -77,7 +82,8 @@ function Professional() {
                         </div>
                         <div></div>
                         <div>
-                        <button className='bg-primary-1000 text-white px-4 py-2 rounded-md'>Update Change</button>
+                        {isBtnLoading?<button className='bg-primary-1000 text-white px-4 py-2 rounded-md' disabled><SubmitBtnLoader/></button>:<button className='bg-primary-1000 text-white px-4 py-2 rounded-md'>Update Change</button>}
+                        
 
                         </div>
                     </form>}
