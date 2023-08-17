@@ -76,7 +76,7 @@ function Basic() {
           
           const {firstname,lastname,phone,qualification,objective,about} =basic
           const res=await updateBasicInfo(firstname,lastname,phone,qualification,objective,about,imgurl,userId)
-          console.log(res);
+          toast.success('Change updated')
           setIsBtnLoading(false)
         }
       }

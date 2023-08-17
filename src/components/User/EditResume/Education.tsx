@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 import { fetchUserData, updateEducationalInfo } from '../../../services/candidate/profile'
 import Loader from '../../Loader/Loader'
 import SubmitBtnLoader from '../../Loader/SubmitBtnLoader'
+import { ToastContainer, toast } from 'react-toastify'
 
 function Education() {
     const [edu,setEdu]=useState<EducationType>()
@@ -26,6 +27,7 @@ function Education() {
             if(edu?.education&&edu.result&&edu.institute&&edu.starting&&edu.ending){
                 const {education,result,institute,starting,ending} = edu
                 await updateEducationalInfo(education,result,institute,starting,ending,userId)
+                toast.success('Change updated')
 
             }
         }
@@ -93,6 +95,7 @@ function Education() {
                     </form>}
                 </div>
             </div>
+            <ToastContainer/>
         </>
     )
 }

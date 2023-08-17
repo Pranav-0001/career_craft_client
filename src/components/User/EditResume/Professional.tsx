@@ -5,6 +5,7 @@ import { fetchUserData, updateProfessionalInfo } from '../../../services/candida
 import { useSelector } from 'react-redux'
 import Loader from '../../Loader/Loader'
 import SubmitBtnLoader from '../../Loader/SubmitBtnLoader'
+import { ToastContainer, toast } from 'react-toastify'
 
 function Professional() {
     const [prof,setProf]=useState<ProfessionalType>({experience:"1"})
@@ -20,13 +21,14 @@ function Professional() {
         profValidate(name,value,err,setErr)
     }
 
-    const handleSubmit=(e:React.FormEvent)=>{
+    const handleSubmit=async(e:React.FormEvent)=>{
         e.preventDefault()
         setIsBtnLoading(true)
         if(err?.company===''&& err?.designation===''){
             const {company,designation,experience} = prof
             if(company&&designation&&experience){
-                updateProfessionalInfo(company,designation,experience,userId)
+                await updateProfessionalInfo(company,designation,experience,userId)
+                toast.success('Chnage updated')
             }
         }
         setIsBtnLoading(true)
@@ -89,6 +91,7 @@ function Professional() {
                     </form>}
                 </div>
             </div>
+            <ToastContainer/>
         </>
     )
 }

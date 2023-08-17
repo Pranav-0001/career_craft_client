@@ -8,6 +8,7 @@ import { fetchUserData, updateProfileInfo } from '../../../services/candidate/pr
 import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 import Loader from '../../Loader/Loader';
 import SubmitBtnLoader from '../../Loader/SubmitBtnLoader';
+import { ToastContainer, toast } from 'react-toastify';
 
 function Profile() {
   const { userId } = useSelector((state:any) => state.user);
@@ -122,7 +123,7 @@ function Profile() {
   }
 
 
-  const handleSubmit=(e:React.FormEvent)=>{
+  const handleSubmit=async(e:React.FormEvent)=>{
     e.preventDefault()
    
    setIsBtnLoading(true)
@@ -137,7 +138,8 @@ function Profile() {
             else if(skills.length<2) setSkillErr('Atleast 2 Skills required')
             else {
                 const {father,mother,dob,nationality,permanent,present,marital,gender}=profile
-                updateProfileInfo(father,mother,dob,nationality,permanent,present,marital,gender,skills,projects,userId)
+                await updateProfileInfo(father,mother,dob,nationality,permanent,present,marital,gender,skills,projects,userId)
+                toast.success('Chnage updated')
             }
             
         }
@@ -289,6 +291,7 @@ function Profile() {
                 </form>
 
             </div>}
+            <ToastContainer/>
         </>
     )
 }
