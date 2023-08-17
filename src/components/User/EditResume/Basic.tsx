@@ -70,10 +70,10 @@ function Basic() {
     if(imgurl){
       
       if(basic?.firstname&&basic.lastname&&basic.phone&&basic.qualification&&basic.objective&&basic.about){
-        console.log(err);
+        
         
         if(err?.about===''&&err?.firstname===''&&err.lastname===''&&err.phone===''&&err.objective===''&& err.qualification===''){
-          console.log(basic);
+          
           const {firstname,lastname,phone,qualification,objective,about} =basic
           const res=await updateBasicInfo(firstname,lastname,phone,qualification,objective,about,imgurl,userId)
           console.log(res);
