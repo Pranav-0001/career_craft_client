@@ -31,7 +31,7 @@ function Professional() {
                 toast.success('Chnage updated')
             }
         }
-        setIsBtnLoading(true)
+        setIsBtnLoading(false)
 
         
     }
