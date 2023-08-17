@@ -9,10 +9,12 @@ import { basicDataValidation } from '../../../utils/user/basicDataVali'
 import { ToastContainer, toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
 import Loader from '../../Loader/Loader'
+import SubmitBtnLoader from '../../Loader/SubmitBtnLoader'
 
 function Basic() {
   const [imgurl, setImgUrl] = useState<string>()
   const [isLoading,setIsLoading]=useState(false)
+  const [isBtnLoading,setIsBtnLoading]=useState(false)
   const [imgUp,setImgUp]=useState(false)
   const [basic,setBasic] = useState<BasicType>()
   const [err,setErr] = useState<BasicType>()
@@ -62,9 +64,9 @@ function Basic() {
     basicDataValidation(name,value,err,setErr)
 
   }
-  const handleSubmit=(e:FormEvent)=>{
+  const handleSubmit=async(e:FormEvent)=>{
     
-    
+    setIsBtnLoading(true)
     e.preventDefault()
     if(imgurl){
       
@@ -74,7 +76,8 @@ function Basic() {
         if(err?.about===''&&err?.firstname===''&&err.lastname===''&&err.phone===''&&err.objective===''&& err.qualification===''){
           console.log(basic);
           const {firstname,lastname,phone,qualification,objective,about} =basic
-          updateBasicInfo(firstname,lastname,phone,qualification,objective,about,imgurl,userId)
+          await updateBasicInfo(firstname,lastname,phone,qualification,objective,about,imgurl,userId)
+          setIsBtnLoading(false)
 
         }
       }
@@ -210,7 +213,7 @@ function Basic() {
 
             </div>
             <div className="col-span-2 mx-2">
-              <button className='bg-primary-800 text-white px-4 rounded-md py-1'>Update</button>
+              {isBtnLoading ? <button className='bg-primary-800 text-white px-4 rounded-md py-1' disabled><SubmitBtnLoader/></button> :<button className='bg-primary-800 text-white px-4 rounded-md py-1'>Update</button>}
             </div>
 
           </form>
