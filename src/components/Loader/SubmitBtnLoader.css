@@ -1,30 +1,16 @@
 .loaderBtn {
-    border: 4px solid rgba(0, 0, 0, .1);
-    border-left-color: transparent;
+    width: 4rem;
+    height: 4rem;
     border-radius: 50%;
+    box-sizing: border-box;
+    border-top: 8px solid #fff;
+    border-left: 8px solid #fff;
+    border-right: 8px solid #ff00;
+    animation: loaderBtn .7s infinite linear;
   }
   
-  .loaderBtn {
-    border: 4px solid rgba(0, 0, 0, .1);
-    border-left-color: transparent;
-    width: 36px;
-    height: 36px;
-  }
-  
-  .loaderBtn {
-    border: 4px solid rgba(0, 0, 0, .1);
-    border-left-color: transparent;
-    width: 36px;
-    height: 36px;
-    animation: spin89345 1s linear infinite;
-  }
-  
-  @keyframes spin89345 {
-    0% {
-      transform: rotate(0deg);
-    }
-  
-    100% {
+  @keyframes loaderBtn {
+    to {
       transform: rotate(360deg);
     }
   }

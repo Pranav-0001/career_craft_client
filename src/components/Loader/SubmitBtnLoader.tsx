@@ -3,7 +3,7 @@ import './SubmitBtnLoader.css'
 const SubmitBtnLoader = () => {
   return (
     <div>
-      <div className="loaderBtn bg-white"></div>
+      <div className="loaderBtn"></div>
     </div>
   )
 }
