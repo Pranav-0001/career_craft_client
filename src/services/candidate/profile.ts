@@ -29,6 +29,7 @@ export const handleImgUrl=async(img:File)=>{
 export const updateBasicInfo=async(firstname:string,lastname:string,phone:string,qualification:string,objective:string,about:string,imageURL:string,user:string)=>{
 
     const {data}=await api.post(`/basic-update/${user}`,{firstname,lastname,phone,qualification,objective,about,imageURL},{withCredentials:true})
+    return data
 }
 
 export const updateProfileInfo=async(father:string,mother:string,dob:string,nationality:string,permanent:string,present:string,marital:string,gender:string,skills:string[],projects:ProjectType[],user:string)=>{
