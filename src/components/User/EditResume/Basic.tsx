@@ -65,7 +65,6 @@ function Basic() {
 
   }
   const handleSubmit=async(e:FormEvent)=>{
-    
     setIsBtnLoading(true)
     e.preventDefault()
     if(imgurl){
@@ -76,15 +75,15 @@ function Basic() {
         if(err?.about===''&&err?.firstname===''&&err.lastname===''&&err.phone===''&&err.objective===''&& err.qualification===''){
           console.log(basic);
           const {firstname,lastname,phone,qualification,objective,about} =basic
-          await updateBasicInfo(firstname,lastname,phone,qualification,objective,about,imgurl,userId)
-          
-
+          const res=await updateBasicInfo(firstname,lastname,phone,qualification,objective,about,imgurl,userId)
+          console.log(res);
+          setIsBtnLoading(false)
         }
       }
     }else{
       toast.error("Upload Image")
     }
-    setIsBtnLoading(false)
+    
 
   }
   
