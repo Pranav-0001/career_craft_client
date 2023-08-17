@@ -77,13 +77,14 @@ function Basic() {
           console.log(basic);
           const {firstname,lastname,phone,qualification,objective,about} =basic
           await updateBasicInfo(firstname,lastname,phone,qualification,objective,about,imgurl,userId)
-          setIsBtnLoading(false)
+          
 
         }
       }
     }else{
       toast.error("Upload Image")
     }
+    setIsBtnLoading(false)
 
   }
   
