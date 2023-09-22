@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import { fetchApplicationByEmp, fetchApplicationCountByEmp } from '../../../services/Employer/applications'
 import { appliedJobsByEmp } from '../../../models/applicationModel'
 import { useNavigate } from 'react-router-dom'
-import { acceptUserApplication } from '../../../services/Employer/fetJobs'
+import { acceptUserApplication, rejectUserApplication } from '../../../services/Employer/fetJobs'
 import Loader from '../../Loader/Loader'
 
 function EmpApplied() {
@@ -25,6 +25,21 @@ function EmpApplied() {
       const newArray=applications?.map(obj=>{
         if(obj._id===applicationId){
           obj.status="Accepted"
+          return obj
+        }else{
+          return obj
+        }
+      })
+      setApplications(newArray)
+    }
+  }
+
+  const rejectApplication=async(userId:string,applicationId:string)=>{
+    const status=await rejectUserApplication(userId,EmployerId,applicationId)
+    if(status){
+      const newArray=applications?.map(obj=>{
+        if(obj._id===applicationId){
+          obj.status="Rejected"
           return obj
         }else{
           return obj
@@ -90,7 +105,7 @@ function EmpApplied() {
                 {obj.status==="Accepted" ? 
                 <h1 className='py-1'><span  className='bg-green-500 px-2 py-1 rounded-md text-white cursor-pointer'><FontAwesomeIcon icon={faPaperPlane} /> Go To Chat</span></h1>
                 :obj.status==="Rejected" ? '' :<><h1 className='py-1'><span onClick={()=>acceptApplication(obj.user[0]._id , obj._id)} className='bg-green-500 px-2 py-1 rounded-md text-white cursor-pointer'><FontAwesomeIcon icon={faThumbsUp} /> Accept</span></h1>
-                {/* <h1 className='py-1'><span className='bg-red-500 px-2 py-1 rounded-md text-white cursor-pointer'><FontAwesomeIcon icon={faXmarkCircle} /> Reject</span></h1> */}
+                <h1 className='py-1'><span className='bg-red-500 px-2 py-1 rounded-md text-white cursor-pointer' onClick={()=>rejectApplication(obj.user[0]._id,obj._id)}><FontAwesomeIcon icon={faXmarkCircle}  /> Reject</span></h1>
                 </>}
 
               </td>
@@ -119,7 +134,7 @@ function EmpApplied() {
           <div className='flex items-center gap-4 mt-2'>
             <h1 className='py-1'> <span onClick={()=>navigate(`/employer/view-resume?user=${obj.user[0]._id}`)}  className='bg-blue-500 px-2 py-1 rounded-md text-white cursor-pointer'><FontAwesomeIcon icon={faEye} /> View resume</span></h1>
             <h1 className='py-1'><span className='bg-green-500 px-2 py-1 rounded-md text-white cursor-pointer'><FontAwesomeIcon icon={faThumbsUp} /> Accept</span></h1>
-            <h1 className='py-1'><span className='bg-red-500 px-2 py-1 rounded-md text-white cursor-pointer'><FontAwesomeIcon icon={faXmarkCircle} /> Reject</span></h1>
+            <h1 className='py-1' onClick={()=>rejectApplication(obj.user[0]._id,obj._id)}><span className='bg-red-500 px-2 py-1 rounded-md text-white cursor-pointer'><FontAwesomeIcon icon={faXmarkCircle} /> Reject</span></h1>
 
           </div>
         </div>)}

@@ -29,6 +29,15 @@ export const acceptUserApplication=async(userId:string,empId:string,applicationI
     }
 }
 
+export const rejectUserApplication=async(userId:string,empId:string,applicationId:string)=>{
+    try {
+        const {data}=await api.post('/employer/reject-application',{userId,empId,applicationId})
+        return data.update
+    } catch (error) {
+        
+    }
+}
+
 export const fetchJobById=async(id:string|undefined)=>{
     try {
         const {data} =await  api.get(`/employer/job/${id}`)

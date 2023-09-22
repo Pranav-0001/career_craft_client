@@ -124,7 +124,6 @@ const VideoChat: React.FC<{ role: string }> = ({ role }) => {
   const sendOffer = async () => {
 
     const offer = await Peer.getOffer()
-    console.log(offer);
     socket.emit('offer', ({ offer, roomId: id }))
     // setStart(false)
 
