@@ -30,8 +30,6 @@ const Chat: React.FC<role> = ({ role }) => {
         setselectedUser(user)
         
     }
-
-
     useEffect(() => {
         const fetch = async () => {
             setIsLoading(true)

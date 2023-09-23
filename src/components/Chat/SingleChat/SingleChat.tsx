@@ -126,8 +126,10 @@ const SingleChat: React.FC<selectedUser> = ({ user, currentUserId ,setLastMessag
 
   }
 
-  const handleEnterCanVideoChat=(content:string)=>{
-    
+  const handleEnterCanVideoChat=async(content:string)=>{
+    const res = await sendMessage('Joined the video', user._id, currentUserId, false, false)
+    socket?.emit('new message', res.msg)
+    setMessages([...messages, res.msg])
     navigate(`/videochat/${content}`)
   }
 
