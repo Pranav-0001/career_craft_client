@@ -12,9 +12,11 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import EmployerCard from './EmployerCard'
 import Loader from '../../Loader/Loader'
+import ButtonLoader from '../../Loader/ButtonLoader'
 
 function JobDetails() {
     const [isLoading,setIsLoading]=useState(false)
+    const [isApplying,setIsApplying]=useState(false)
     const navigate=useNavigate()
     const [jobData, setJobData] = useState<jobData >()
     const { id } = useParams<{ id: string }>()
@@ -61,6 +63,7 @@ function JobDetails() {
     }
 
     const applyNow=async () =>{
+        setIsApplying(true)
         if (jobData?._id) {
             const jobId = jobData._id
             const empId=jobData.Employer[0]._id
@@ -97,6 +100,7 @@ function JobDetails() {
                
             }
         }
+        setIsApplying(false)
     }
 
 
@@ -131,7 +135,7 @@ function JobDetails() {
 
                     </div>
                     <div>
-                        {jobData&& jobData.appliedBy && jobData?.appliedBy.includes(userId) ? <div className='flex gap-2 items-center'><button  className='bg-yellow-200 font-bold text-yellow-800 px-2 py-1 rounded-md hidden lg:block '>Applied</button> <p onClick={()=>navigate('/my-applications')} className='cursor-pointer text-sm font-exo hover:underline hover:text-blue-500'>Go to Applied</p> </div>: <button onClick={applyNow} className='font-exo bg-primary-800 text-white px-3 py-2 rounded-md'>Apply Now</button>}  
+                        {jobData&& jobData.appliedBy && jobData?.appliedBy.includes(userId) ? <div className='flex gap-2 items-center'><button  className='bg-yellow-200 font-bold text-yellow-800 px-2 py-1 rounded-md hidden lg:block '>Applied</button> <p onClick={()=>navigate('/my-applications')} className='cursor-pointer text-sm font-exo hover:underline hover:text-blue-500'>Go to Applied</p> </div>: isApplying?<ButtonLoader/>:<button onClick={applyNow} className='font-exo bg-primary-800 text-white px-3 py-2 rounded-md'>Apply Now</button>}  
                     </div>
                 </div>
 
