@@ -34,6 +34,7 @@ const Premium = () => {
       setIsLoading(true)
       const {highscore,mockTests,user}=await premiumPageData(userId)
       setUser(user)
+      console.log(mockTests);
       
       setHighscore(highscore)
       setmockTests(mockTests)
@@ -63,8 +64,8 @@ const Premium = () => {
           <div className='bg-primary-400 border-2 border-primary-900 ps-4 pe-10 py-4 font-exo text-lg'>
             <h1 className='border-t-2 border-primary-900'>Highest Score : {highscore}</h1>
             <h1 className='border-t-2 border-primary-900'>Correct Answers : {score} </h1>
-            <h1 className='border-t-2 border-primary-900'>Total Exams Attended : {mockTests.length}</h1>
-            <h1 className='border-t-2 border-primary-900'>Total QUestions Attended :  {(mockTests.length) * 10} </h1>
+            <h1 className='border-t-2 border-primary-900'>Total Exams Attended : {mockTests.length||0}</h1>
+            <h1 className='border-t-2 border-primary-900'>Total QUestions Attended :  {(mockTests.length||0) * 10} </h1>
           </div>
           <div className=' h-60'>
 
