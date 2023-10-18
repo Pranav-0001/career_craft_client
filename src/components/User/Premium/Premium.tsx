@@ -49,7 +49,7 @@ const Premium = () => {
     labels: ['Wrong', 'Correct'],
     datasets: [
       {
-        data: [(mockTests.length*10)-score, score],
+        data: [(mockTests.length||1*10)-score, score],
         backgroundColor: ['#FF6384', '#36A2EB'],
         hoverBackgroundColor: ['#FF6384', '#36A2EB'],
       },
